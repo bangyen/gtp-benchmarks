@@ -27,6 +27,7 @@
    ))
 
 ;; tests for max
+;; (define (max x y) (if (>= x y) x y))
 (define max-test-suite
   (test-suite
    "Test for max function"
