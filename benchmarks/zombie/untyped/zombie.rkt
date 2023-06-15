@@ -327,3 +327,30 @@
     (new-zombie (new-posn 200 200))
     (new-mt-zombies)))))
 
+
+;; =============================================================================
+;; testing submodule
+(module* test #f
+  (provide make-fake-object-type*
+           ;; exporting new-posn and all associated posn functions
+           new-posn
+           posn-x
+           posn-y
+           posn-posn
+           posn-move-toward/speed
+           posn-move
+           posn-draw-on/image
+           posn-dist
+           ;; exporting new-zombie and all associated zombie functions
+           new-zombie
+           ;; exporting new-horde and all associated horde functions
+           new-horde
+           ;; exporting new-mt-zombies,new-cons-zombies and all associated
+           ;; zombies functions
+           new-mt-zombies
+           new-cons-zombies
+           ;; exporting new-player and all associated player functions
+           new-player
+           ;; exporting new-world and all associated world functions
+           new-world
+           ))
