@@ -1,7 +1,9 @@
 #lang racket
 (require rackunit
          rackunit/text-ui
-         "../untyped/image.rkt") ; "image.rkt"
+         "image.rkt"
+         ;"../untyped/image.rkt"
+         )
 
 #|
 (define (empty-scene w h)
