@@ -2,15 +2,38 @@
 
 (require rackunit
          rackunit/text-ui
-         (submod "zombie.rkt" test)
-         "image.rkt")
+         (submod "../untyped/zombie.rkt" test)
+         ;(submod "zombie.rkt" test)
+         "../untyped/image.rkt"
+         ;"image.rkt"
+         )
 
+; (posn? (lambda () (new-posn 0 1)) 0 1) -> test-suite
+(define (posn? posn-fxn x y)
+  (define result (posn-fxn))
+  (test-suite
+   "posn?"
+   ;; posn-x
+   (check-eq? ((posn-x result)) x)
+   ;; posn-y
+   (check-eq? ((posn-y result)) y)
+   ;; posn-posn
+   (check-eq? ((posn-x ((posn-posn result)))) x)
+   (check-eq? ((posn-y ((posn-posn result)))) y)
+   ;; move
+   (check-eq? ((posn-x ((posn-move result) 50 20)))
+              (+ x 50))
+   (check-eq? ((posn-y ((posn-move result) 50 20)))
+              (+ y 20))
+   ))
 
 
 ;; tests for new-posn
 (define new-posn-test-suite
   (test-suite
    "test for new-posn"
+   ; testing my helper fxn - amy
+   (posn? (lambda () (new-posn 1 2)) 1 2)
    ;; (0,0)
    ;; posn-x
    (check-eq? ((posn-x (new-posn 0 0))) 0)

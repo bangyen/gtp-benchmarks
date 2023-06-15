@@ -351,6 +351,9 @@
            new-cons-zombies
            ;; exporting new-player and all associated player functions
            new-player
+           player-posn
+           player-draw-on
+           player-move-toward
            ;; exporting new-world and all associated world functions
            new-world
            ))
