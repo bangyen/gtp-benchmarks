@@ -61,25 +61,42 @@
        (= ((posn-y posn-1))
           ((posn-y posn-2))))
   )
+#|
+(test-player (lambda () (new-player (new-posn 1 2)))
+             (lambda () (new-posn 1 2))
+             "test")
+|#
 
 ;; test-player: (-> player) (-> posn) string -> test-suite
 ;; returns a test suite with name msg with many checks that test whether
 ;; player-fxn is a valid player.
 ;; we will assume posn-fxn is a valid posn
-(define (test-player player-fxn posn-fxn x y msg)
-  
-  
+(define (test-player player-fxn posn-fxn msg)
+  (define player (player-fxn))
+  (define posn (posn-fxn))
+  (define x ((posn-x posn)))
+  (define y ((posn-y posn)))
   (test-suite
    msg
    (test-suite
     "player-posn"
-    ; check posn-fxn is a valid posn
-    (test-posn posn-fxn 
-    (check < 4 5)
+    (check-true (procedure? (player-posn player)))
+    (check-equal? (procedure-arity (player-posn player)) 0)
+    (test-posn (lambda () ((player-posn player)))
+               x y "player-posn is expected")
     )
    (test-suite
     "move-toward"
-    (check < 1 2)
+    (check-true (procedure? (player-posn player)))
+    (check-equal? (procedure-arity (player-posn player)) 1)
+    
+    #|
+ ; (player-move-toward player)
+    (cons 'move-toward
+     (lambda (q)
+     (new-player ((posn-move-toward/speed p) q PLAYER-SPEED))))]
+    
+    |#
     )
    (test-suite
     "draw-on"
@@ -104,20 +121,11 @@
     (check-exn exn:fail? (lambda () (new-player 10 10)))
     )   
    (test-suite
-    "player-posn"
-    (check < 3 4)
-    )
-   (test-suite
-    "move-toward"
-    (check < 1 2)
-    )
-   (test-suite
-    "draw-on"
-    (check < 1 2)
-    )
-   (test-suite
-    "other msgs"
-    (check < 1 2)
+    "valid instances"
+    (test-player (lambda () (new-player (new-posn 5 0)))
+                 (lambda () (new-posn 5 0))
+                 "player at (5,0)")
+    
     )
    ))
 

@@ -1,11 +1,12 @@
 #lang racket
 (require rackunit
          rackunit/text-ui
-         "image.rkt"
-         ;"../untyped/image.rkt"
+         ;"image.rkt"
+         "../untyped/image.rkt"
          )
 
-(provide place-image-check)
+(provide place-image-check
+         test-image-equal)
 
 
 #|
@@ -97,7 +98,35 @@
                        "cat" 'dog 42 '(4 6 7)
                        "place-image different types of inputs")
    )
-   ))
+   (test-suite
+    "test-image-equal"
+    (test-image-equal (circle 4 "solid" "red")
+                      (circle 4 "solid" "red"))
+    (test-image-equal (empty-scene 4 10)
+                      (empty-scene 4 10))
+    (test-image-equal (image '(20 "transparent" 30))
+                      (image '(20 "transparent" 30)))
+    (test-image-equal (image '((circle 4 "solid" "pink")
+                               100
+                               150
+                               (empty-scene 100 150)))
+                      (image '((circle 4 "solid" "pink")
+                               100
+                               150
+                               (empty-scene 100 150))))
+    (test-image-equal (image '((circle 4 "solid" "pink")
+                               100
+                               150
+                               (image '((circle 10 "solid" "blue")
+                                        3 6
+                                        (empty-scene 100 150)))))
+                      (image '((circle 4 "solid" "pink")
+                               100
+                               150
+                               (image '((circle 10 "solid" "blue")
+                                        3 6
+                                        (empty-scene 100 150))))))
+   )))
 
 #|
 (define (circle radius style color)
@@ -139,6 +168,49 @@
                   "funky input types")
     )
 ))
+
+;; checks equality of images
+;; image-impl is a cons or list
+;; assumes img2 and img2 are images
+;; returns a test suite or fail
+(define (test-image-equal img1 img2)
+  (unless (image? img1)
+    (fail "img1 not an image"))
+  (unless (image? img1)
+    (fail "img2 not an image"))
+  (cond
+    ; both cons
+    [(and (cons? (image-impl img1))
+          (cons? (image-impl img2)))
+     (test-suite
+      "both cons"
+      (check-equal? (car (image-impl img1))
+                    (car (image-impl img2)))
+      (check-equal? (cdr (image-impl img1))
+                    (cdr (image-impl img2)))
+      )]
+    ; both lists
+    [(and (list? (image-impl img1))
+          (list? (image-impl img2)))
+     (cond
+       ; equal length
+       [(= (length image-impl img1)
+           (length image-impl img2))
+        (define l (length image-impl img1))
+        (test-suite
+         "both lists of equal length"
+         (for ([a (in-list (image-impl img1))]
+               [b (in-list (image-impl img2))])
+           (if (and (image? a) (image? b))
+               (test-image-equal a b)
+               (if (and (not (image? a))
+                        (not (image? b)))
+                   (check-equal? a b)
+                   (fail "not both images")))))]
+       [else (fail "lists are not equal length")]
+       )]
+    [else (fail "image-impl not both cons or not both lists")]
+  ))
 
 
 (run-tests empty-scene-tests)
