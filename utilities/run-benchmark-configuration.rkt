@@ -12,6 +12,9 @@
 
 ;; benchmarks-path: path of the benchmarks directory in gtp-benchmarks
 (define-runtime-path benchmarks-path "../benchmarks")
+(define-runtime-path config-path "tests-configuration.rkt")
+(require bex/configurables/configurables)
+(install-configuration! config-path)
 
 ;; run-benchmark-tests: string config
 ;; copy pastes all the necessary benchmark modules and associated tests according to 
@@ -33,16 +36,20 @@
                                 test-env)
 
     ;; copy all files in "both"
-    (copy-files-in-a-directory (build-path bench-path "both")
-                                test-env)
+    ;; don't need this because it's in the bench-config
+    ;; (copy-files-in-a-directory (build-path bench-path "both")
+    ;;                             test-env)
 
     ;; benchmark->mutable-modules
     ;; properly create the hash map
-    ;; copy all files in untyped and typed according to the config
-    (delete-directory/files test-env))
+    ;; copy all files in the config
+
+    ;; (delete-directory/files test-env)
+    )
 
 (define (copy-files-in-a-directory src-dir dest-dir)
-    (for ([src-file (directory-list src-dir)])
+    (for ([src-file (directory-list src-dir)]
+            #:when (file-exists? (build-path src-dir src-file)))
         (copy-file (build-path src-dir src-file) 
                     (build-path dest-dir src-file))))
 
