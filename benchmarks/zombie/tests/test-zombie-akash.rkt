@@ -9,6 +9,8 @@
          ; "test-image.rkt"
          )
 
+(provide test-posn)
+
 ; posn-1 and posn-2 must be the function type returned by (new-posn ...)
 (define (posn-equal? posn-1 posn-2)
   (and (= ((posn-x posn-1))
@@ -20,16 +22,11 @@
 (define (test-posn posn-fxn x y msg)
   (define result (posn-fxn))
   (define test-posn-1 (new-posn 0 0))
-  ; (define test-posn-2 (new-posn 20 50))
   
   (define test-move-toward-1 ((posn-move-toward/speed result)
                               test-posn-1 1))
   (define test-move-toward-2 ((posn-move-toward/speed result)
                               test-posn-1 (+ (abs x) (abs y))))
-  ; (define test-move-toward-3 ((posn-move-toward/speed result)
-  ;                             test-posn-2 1))
-  ; (define test-move-toward-4 ((posn-move-toward/speed result)
-  ;                             test-posn-2 10000))
 
   (test-suite
    msg
@@ -41,22 +38,6 @@
    (check-eq? ((posn-x ((posn-posn result)))) x)
    (check-eq? ((posn-y ((posn-posn result)))) y)
    ;; move-toward/speed
-   ; (check-eq? ((posn-x test-move-toward-1))
-   ;            (+ x 1))
-   ; (check-eq? ((posn-y test-move-toward-1))
-   ;            y)
-   ; (check-eq? ((posn-x test-move-toward-2))
-   ;            50)
-   ; (check-eq? ((posn-y test-move-toward-2))
-   ;            y)
-   ; (check-eq? ((posn-x test-move-toward-3))
-   ;            x)
-   ; (check-eq? ((posn-y test-move-toward-3))
-   ;            (+ y 1))
-   ; (check-eq? ((posn-x test-move-toward-4))
-   ;            x)
-   ; (check-eq? ((posn-y test-move-toward-4))
-   ;            50)
    (check-eq? ((posn-x test-move-toward-1))
               (if (> (abs x) (abs y))
                   (* (/ x (abs x)) (- (abs x) 1))
@@ -92,7 +73,6 @@
 
 ;; tests for test-posn
 (define testing-test-posn
-  ; testing my helper fxn - amy
   (test-posn (lambda () (new-posn 1 2)) 1 2 "testing test-posn"))
 
 (run-tests testing-test-posn)
