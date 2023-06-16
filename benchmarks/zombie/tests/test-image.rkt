@@ -5,6 +5,9 @@
          ;"../untyped/image.rkt"
          )
 
+(provide place-image-check)
+
+
 #|
 (define (empty-scene w h)
   (when (or (negative? w) (negative? h))
