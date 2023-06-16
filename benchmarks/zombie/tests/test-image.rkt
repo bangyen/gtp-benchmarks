@@ -125,7 +125,7 @@
                                150
                                (image '((circle 10 "solid" "blue")
                                         3 6
-                                        (empty-scene 100 150))))))
+                                        (empty-scene 100 150)))))) 
    )))
 
 #|

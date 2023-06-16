@@ -7,44 +7,12 @@
          "test-zombie-akash.rkt" ; contains test-posn
          )
 
+(provide algo-player-move-toward
+         test-player
+         )
+
 ;; -----------------------------------------
 ;; test new-player
-#|
-(new-posn x y)
-- posn-x
-- posn-y
-- posn-posn
-- posn-move-toward/speed
-- posn-move
-- posn-draw-on/image
-- posn-dist
-|#
-; (new-player posn)
-#|
-(define (new-player p)
-  (lambda (msg)
-   (cond
-    [(equal? msg 'posn)
-     
-     ; (player-posn player)
-     (cons 'posn (lambda () p))]
-    
-    [(equal? msg 'move-toward)
-     
-     ; (player-move-toward player)
-    (cons 'move-toward
-     (lambda (q)
-     (new-player ((posn-move-toward/speed p) q PLAYER-SPEED))))]
-    
-    [(equal? msg 'draw-on)
-     
-     ; (player-draw-on player)
-    (cons 'draw-on
-     (lambda (scn)
-     ((posn-draw-on/image p) PLAYER-IMG scn)))]
-    
-    [else (error 'player "unknown message")])))
-|#
 
 ; placeholder - checks that a posn is a posn
 (define (test-posn posn-fxn x y msg)
@@ -61,12 +29,29 @@
        (= ((posn-y posn-1))
           ((posn-y posn-2))))
   )
-#|
-(test-player (lambda () (new-player (new-posn 1 2)))
-             (lambda () (new-posn 1 2))
-             "test")
-|#
 
+; returns new posn with the new location of player
+(define (algo-player-move-toward x1 y1 x2 y2)
+  ; x1 y1 is current location
+  ; x2 y2 is where move towards
+  (define xmove (- x2 x1))
+  (define ymove (- y2 y1))
+  (println xmove)
+  (println ymove)
+  (define dist (min PLAYER-SPEED
+                    (max (abs xmove)
+                         (abs ymove))))
+  (println dist)
+  (if (< (abs xmove) (abs ymove))
+      (new-posn x1
+                (if (positive? ymove)
+                    (+ y1 dist)
+                    (- y1 dist)))
+      (new-posn (if (positive? xmove)
+                    (+ x1 dist)
+                    (- x1 dist))
+                y1))
+  )
 ;; test-player: (-> player) (-> posn) string -> test-suite
 ;; returns a test suite with name msg with many checks that test whether
 ;; player-fxn is a valid player.
@@ -76,6 +61,7 @@
   (define posn (posn-fxn))
   (define x ((posn-x posn)))
   (define y ((posn-y posn)))
+  
   (test-suite
    msg
    (test-suite
@@ -87,16 +73,21 @@
     )
    (test-suite
     "move-toward"
-    (check-true (procedure? (player-posn player)))
-    (check-equal? (procedure-arity (player-posn player)) 1)
-    
-    #|
- ; (player-move-toward player)
-    (cons 'move-toward
-     (lambda (q)
-     (new-player ((posn-move-toward/speed p) q PLAYER-SPEED))))]
-    
-    |#
+    (check-true (procedure? (player-move-toward player)))
+    (check-equal? (procedure-arity (player-move-toward player)) 1)
+    ; check posn of returned player is correct
+    (check-true (posn-equal? (algo-player-move-toward x y 1 2) ;expected
+                             ((player-posn ((player-move-toward player) (new-posn 1 2)))))) ; actual
+    (check-true (posn-equal? (algo-player-move-toward x y 0 0)
+                             ((player-posn ((player-move-toward player) (new-posn 0 0))))))
+    (check-true (posn-equal? (algo-player-move-toward x y 100 150)
+                             ((player-posn ((player-move-toward player) (new-posn 100 150))))))
+    (check-true (posn-equal? (algo-player-move-toward x y -5 20)
+                             ((player-posn ((player-move-toward player) (new-posn -5 20))))))
+    (check-true (posn-equal? (algo-player-move-toward x y 25 16)
+                             ((player-posn ((player-move-toward player) (new-posn 25 16))))))
+    (check-true (posn-equal? (algo-player-move-toward x y -5 -5)
+                             ((player-posn ((player-move-toward player) (new-posn -5 -5))))))
     )
    (test-suite
     "draw-on"
@@ -139,6 +130,10 @@
 
 (posn-equal? t-posn
              ((player-posn t-player)))
+
+((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2))
+((posn-x ((player-posn ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2))))))
+((posn-x (algo-player-move-toward 5 0 1 2)))
 
 ;(player-move-toward test-player)
 ;(player-draw-on test-player)

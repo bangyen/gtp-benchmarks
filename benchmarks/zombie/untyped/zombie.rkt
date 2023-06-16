@@ -354,6 +354,7 @@
            player-posn
            player-draw-on
            player-move-toward
+           PLAYER-SPEED
            ;; exporting new-world and all associated world functions
            new-world
            ))
