@@ -6,13 +6,33 @@
          ;(submod "zombie.rkt" test)
          "../untyped/image.rkt"
          ;"image.rkt"
+         ; "test-image.rkt"
          )
 
-; (posn? (lambda () (new-posn 0 1)) 0 1) -> test-suite
-(define (posn? posn-fxn x y)
+; posn-1 and posn-2 must be the function type returned by (new-posn ...)
+(define (posn-equal? posn-1 posn-2)
+  (and (= ((posn-x posn-1))
+          ((posn-x posn-2)))
+       (= ((posn-y posn-1))
+          ((posn-y posn-2)))))
+
+; (test-posn (lambda () (new-posn 0 1)) 0 1) -> test-suite
+(define (test-posn posn-fxn x y msg)
   (define result (posn-fxn))
+  (define test-posn-1 (new-posn 0 0))
+  ; (define test-posn-2 (new-posn 20 50))
+  
+  (define test-move-toward-1 ((posn-move-toward/speed result)
+                              test-posn-1 1))
+  (define test-move-toward-2 ((posn-move-toward/speed result)
+                              test-posn-1 (+ (abs x) (abs y))))
+  ; (define test-move-toward-3 ((posn-move-toward/speed result)
+  ;                             test-posn-2 1))
+  ; (define test-move-toward-4 ((posn-move-toward/speed result)
+  ;                             test-posn-2 10000))
+
   (test-suite
-   "posn?"
+   msg
    ;; posn-x
    (check-eq? ((posn-x result)) x)
    ;; posn-y
@@ -20,108 +40,82 @@
    ;; posn-posn
    (check-eq? ((posn-x ((posn-posn result)))) x)
    (check-eq? ((posn-y ((posn-posn result)))) y)
+   ;; move-toward/speed
+   ; (check-eq? ((posn-x test-move-toward-1))
+   ;            (+ x 1))
+   ; (check-eq? ((posn-y test-move-toward-1))
+   ;            y)
+   ; (check-eq? ((posn-x test-move-toward-2))
+   ;            50)
+   ; (check-eq? ((posn-y test-move-toward-2))
+   ;            y)
+   ; (check-eq? ((posn-x test-move-toward-3))
+   ;            x)
+   ; (check-eq? ((posn-y test-move-toward-3))
+   ;            (+ y 1))
+   ; (check-eq? ((posn-x test-move-toward-4))
+   ;            x)
+   ; (check-eq? ((posn-y test-move-toward-4))
+   ;            50)
+   (check-eq? ((posn-x test-move-toward-1))
+              (if (> (abs x) (abs y))
+                  (* (/ x (abs x)) (- (abs x) 1))
+                  x))
+   (check-eq? ((posn-y test-move-toward-1))
+              (if (> (abs y) (abs x))
+                  (* (/ y (abs y)) (- (abs y) 1))
+                  y))
+   (check-eq? ((posn-x test-move-toward-2))
+              (if (> (abs x) (abs y))
+                  0
+                  x))
+   (check-eq? ((posn-y test-move-toward-2))
+              (if (> (abs y) (abs x))
+                  0
+                  y))
    ;; move
    (check-eq? ((posn-x ((posn-move result) 50 20)))
               (+ x 50))
    (check-eq? ((posn-y ((posn-move result) 50 20)))
               (+ y 20))
+   ;; draw-on/image
+   (check-true (image?
+                ((posn-draw-on/image result)
+                 (circle 1 "solid" "green")
+                 (empty-scene 200 200))))
+   ;; dist
+   (check-within ((posn-dist result) (new-posn 0 0))
+                 (sqrt (+ (* x x) (* y y)))
+                 0.0001)
    ))
+
+
+;; tests for test-posn
+(define testing-test-posn
+  ; testing my helper fxn - amy
+  (test-posn (lambda () (new-posn 1 2)) 1 2 "testing test-posn"))
+
+(run-tests testing-test-posn)
+
 
 
 ;; tests for new-posn
 (define new-posn-test-suite
   (test-suite
    "test for new-posn"
-   ; testing my helper fxn - amy
-   (posn? (lambda () (new-posn 1 2)) 1 2)
    ;; (0,0)
    ;; posn-x
-   (check-eq? ((posn-x (new-posn 0 0))) 0)
-   ;; posn-y
-   (check-eq? ((posn-y (new-posn 0 0))) 0)
-   ;; posn-posn
-   (check-eq? ((posn-x ((posn-posn (new-posn 0 0))))) 0)
-   (check-eq? ((posn-y ((posn-posn (new-posn 0 0))))) 0)
-   ;; move-toward/speed
-   ;;; move the position towards a point (500, 400) with speed 5
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 500 400) 5)))
-              5)
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 500 400) 5)))
-              0)
-   ;; toward (400, 500)
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 400 500) 5)))
-              0)
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 400 500) 5)))
-              5)
-   ;;; move the position towards a point (1, 5) with speed 100000
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 1 5) 100000)))
-              5)
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 1 5) 100000)))
-              0)
-   ;; move the position towards a point (5, 1) with speed 100000
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 5 1) 100000)))
-              5)
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 0 0))
-                        (new-posn 5 1) 100000)))
-              0)
-   ;; move
-   ;;; move the position by (50, 20)
-   (check-eq? ((posn-x ((posn-move (new-posn 0 0)) 50 20)))
-              50)
-   (check-eq? ((posn-y ((posn-move (new-posn 0 0)) 50 20)))
-              20)
-   ;; draw-on/image
-   (check-true (image? ((posn-draw-on/image (new-posn 0 0))
-                        (circle 5 "solid" "green") (empty-scene 50 50))))
-   ;; dist between 0,0 and 5000, -100
-   (check-within ((posn-dist (new-posn 0 0)) (new-posn 5000 -100))
-                 5000.99990002
-                 0.0001)
+   (test-posn (lambda () (new-posn 0 0)) 0 0 "origin")
    ;; (400, 500)
-   ;; posn-x
-   (check-eq? ((posn-x (new-posn 400 500))) 400)
-   ;; posn-y
-   (check-eq? ((posn-y (new-posn 400 500))) 500)
-   ;; posn-posn
-   (check-eq? ((posn-x ((posn-posn (new-posn 400 500))))) 400)
-   (check-eq? ((posn-y ((posn-posn (new-posn 400 500))))) 500)
-   ;; move-toward/speed
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 400 500))
-                        (new-posn 1000 400) 5)))
-              405)
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 400 500))
-                        (new-posn 1000 400) 5)))
-              500)
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 400 500))
-                        (new-posn -400 1500) 5)))
-              400)
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 400 500))
-                        (new-posn -400 1500) 5)))
-              505)
-   (check-eq? ((posn-x ((posn-move-toward/speed (new-posn 400 500))
-                        (new-posn 1 5) 100000)))
-              400)
-   (check-eq? ((posn-y ((posn-move-toward/speed (new-posn 400 500))
-                        (new-posn 1 5) 100000)))
-              5)
-   ;; move
-   (check-eq? ((posn-x ((posn-move (new-posn 0 0)) 50 20)))
-              50)
-   (check-eq? ((posn-y ((posn-move (new-posn 0 0)) 50 20)))
-              20)
-   ;; draw-on/image (unnecessary)
-   ;; dist
-   (check-within ((posn-dist (new-posn 400 500)) (new-posn 5000 -100))
-                 4638.9654018973
-                 0.0001)
-   
+   (test-posn (lambda () (new-posn 400 500)) 400 500 "")
+   ;; (500, 400)
+   (test-posn (lambda () (new-posn 500 400)) 500 400 "")
+   ;; (-500, 400)
+   (test-posn (lambda () (new-posn -500 400)) -500 400 "")
+   ;; (500, -400)
+   (test-posn (lambda () (new-posn 500 -400)) 500 -400 "")
+   ;; (-1, -1)
+   (test-posn (lambda () (new-posn -100 -300)) -100 -300 "")
    ;; wrong inputs
    ;; -> error when doing move/toward
    (check-exn exn:fail? (lambda () ((posn-move (new-posn "" "") 50 50))))
@@ -134,7 +128,7 @@
    (check-exn exn:fail?
               (lambda ()
                 ((posn-dist (new-posn "" "")
-                                         (new-posn 500 500)))))
+                            (new-posn 500 500)))))
    ;; error when using the wrong accessor
    (check-exn exn:fail? (lambda () ((new-posn 0 0) "unknown accessor")))
    ))
