@@ -8,28 +8,31 @@
          "test-zombie-akash.rkt"
          "test-image.rkt"
          )
-;;;; test-zombie-akash
-; (posn-equal? posn-1 posn-2)
-;     - posn-1 and posn-2 are posns returned by (new-posn ...)
-;     - returns T if equal, F if not
-; (test-posn posn-fxn x y msg)
-;     - posn-fxn is a lambda fxn that runs (new-posn... )
-;     - x and y are the x and y used in call to (new-posn... )
-;     - returns test suite
-; (algo-move-toward from-posn to-posn speed)
-; from-posn and to-posn are posns returned by (new-posn ...)
-; runs a copy of the posn-move-toward/speed algo with from-posn moving towards to-posn.
-; returns a posn created by (new-posn ...) with the new location of from-posn
 
-;;;; test-image
-;; (test-image-equal img1 img2)
-;; checks equality of images
-;; image-impl is a cons or list
-;; assumes img2 and img2 are images
-;; returns a test suite or fail
+(provide test-player-draw-on
+         test-player
+         )
 
-;; -----------------------------------------
-;; test new-player
+;; ---------------------------------------------
+;; HELPERS
+
+;; (test-player-draw-on player img)
+;      - player is a player returned by (new-player ...)
+;      - img is an image?
+; returns test suite that checks behavior of player-draw-on
+(define (test-player-draw-on player img msg)
+  (define x ((posn-x ((player-posn player)))))
+  (define y ((posn-y ((player-posn player)))))
+  
+  (test-suite
+   msg
+   (place-image-check (lambda () ((player-draw-on player) img))
+                      PLAYER-IMG ;i1
+                      x ;i2
+                      y ;i3
+                      img ;i4
+                      "place-image-check")
+   ))
 
 ;; test-player: (-> player) (-> posn) string -> test-suite
 ;; (test-player player-fxn posn-fxn msg)
@@ -44,7 +47,6 @@
   (define posn (posn-fxn))
   (define x ((posn-x posn)))
   (define y ((posn-y posn)))
-  (define empty-image (empty-scene 200 300))
   ;; TEST SUITE
   (test-suite
    msg
@@ -78,22 +80,23 @@
     )
    (test-suite
     "draw-on"
-    (check-true (image? ((player-draw-on player) empty-image)))
-    (check-true (list? (image-impl ((player-draw-on player) empty-image))))
-    (check-equal? 4
-                  (length (image-impl ((player-draw-on player) empty-image))))
-    (test-image-equal PLAYER-IMG
-                      (first (image-impl ((player-draw-on player) empty-image))))
-    
-    (check < 1 2)
+    (check-true (procedure? (player-draw-on player)))
+    (check-equal? (procedure-arity (player-draw-on player)) 1)
+    (test-player-draw-on player (empty-scene 200 300) "player on empty scene")
+    (test-player-draw-on player (image '(PLAYER-IMG 5 6 (empty-scene 10 20))) "player on img w player")
+    (test-player-draw-on player (image '(ZOMBIE-IMG 5 6 (empty-scene 10 20))) "player on img w zombie")
+    (test-player-draw-on player (image '(ZOMBIE-IMG 10 20 (image '(PLAYER-IMG 5 6 (empty-scene 10 20))))) "player on img w zombie and player")
+    (test-player-draw-on player (circle 200 "big" "blue") "player on circle")
+    (test-player-draw-on player (place-image (circle 20 "small" "pink") 2 1 (empty-scene 5 500))
+                         "player on place-image")
     )
-   (test-suite
-    "other msgs"
-    (check < 1 2)
-    )
+   ; Note: cannot test "else" case ("unknown message") because code won't compile
    ))
 
-;(new-player posn)
+;; ------------------------------------------------
+;; TESTS
+
+; test new-player
 (define new-player-tests
   (test-suite
    "new-player-test"
@@ -104,38 +107,34 @@
     (check-exn exn:fail? (lambda () (new-player)))
     (check-exn exn:fail? (lambda () (new-player 2 3 4)))
     (check-exn exn:fail? (lambda () (new-player 10 10)))
-    )   
+    (check-equal? (procedure-arity new-player) 1)
+    )
+   (test-suite
+    "arg must be a valid posn"
+    (check-exn exn:fail? (lambda () (test-player (new-player "cat"))))
+    (check-exn exn:fail? (lambda () (test-player (new-player 'fish))))
+    (check-exn exn:fail? (lambda () (test-player (new-player (new-posn 3)))))
+    (check-exn exn:fail? (lambda () (test-player (new-player (list 3 4 5)))))
+    )
    (test-suite
     "valid instances"
     (test-player (lambda () (new-player (new-posn 5 0)))
                  (lambda () (new-posn 5 0))
                  "player at (5,0)")
-    
+    (test-player (lambda () (new-player (new-posn 0 0)))
+                 (lambda () (new-posn 0 0))
+                 "player at (0,0)")
+    (test-player (lambda () (new-player (new-posn 50 90)))
+                 (lambda () (new-posn 50 90))
+                 "player at (50,90)")
+    (test-player (lambda () (new-player (new-posn -1 -300)))
+                 (lambda () (new-posn -1 -300))
+                 "player at (-1,-300)")
+    (test-player (lambda () (new-player (new-posn 80 -10)))
+                 (lambda () (new-posn 80 -10))
+                 "player at (80,-10)")
     )
    ))
-
-(define t-posn (new-posn 3 4))
-(define t-player (new-player t-posn))
-(player-posn t-player) ; fxn that gives the posn
-((player-posn t-player)) ; fxn that IS the posn
-(posn-x ((player-posn t-player)))
-((posn-x ((player-posn t-player))))
-((posn-x t-posn))
-
-(posn-equal? t-posn
-             ((player-posn t-player)))
-
-((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2))
-((posn-x ((player-posn ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2))))))
-((posn-x (algo-move-toward (new-posn 5 0) (new-posn 1 2) PLAYER-SPEED)))
-(posn-equal? (algo-move-toward (new-posn 5 0) (new-posn 1 2) PLAYER-SPEED)
-             ((player-posn ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2)))))
-
-(define t-image (empty-scene 5 6))
-(player-draw-on t-player)
-((player-draw-on t-player) t-image)
-
-;(player-draw-on test-player)
 
 (run-tests new-player-tests)
 

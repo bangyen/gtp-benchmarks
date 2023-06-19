@@ -56,8 +56,6 @@
     ))
    ))
 
-; helper takes a lambda fxn that makes a call to place-image and the inputs to the fxn call
-; checks the result of call to place-image
 ;; (place-image-check fxn i1 i2 i3 i4 msg)
 ;      - fxn is a lambda call to place-image
 ;      - i1, i2, i3, i4 are the args passed to the place-image call in order
@@ -97,16 +95,34 @@
     (check-exn exn:fail? (lambda () (place-image 1 2 3 4 5 6 7 8 9 10)))
     )
    (test-suite
+    "invalid inputs"
+    (check-exn exn:fail? (lambda () (place-image-check (place-image 5 6 7 (empty-scene 12 10))
+                                                       5 6 7 (empty-scene 12 10)
+                                                       "i1 not image")))
+    (check-exn exn:fail? (lambda () (place-image-check (place-image (circle 10 "s" "p") 6 7 10)
+                                                       (circle 10 "s" "p") 6 7 10
+                                                       "i4 not image")))
+    (check-exn exn:fail? (lambda () (place-image-check (place-image (circle 10 "s" "p") 6 7 'dog)
+                                                       (circle 10 "s" "p") 6 7 'dog
+                                                       "i4 not image")))
+    (check-exn exn:fail? (lambda () (place-image-check (place-image (circle 10 "s" "p") 6 "monkey" (empty-scene 50 50))
+                                                       (circle 10 "s" "p") 6 "monkey" (empty-scene 50 50)
+                                                       "i3 not real")))
+    (check-exn exn:fail? (lambda () (place-image-check (place-image (circle 10 "s" "p") 'ghost 8 (empty-scene 50 50))
+                                                       (circle 10 "s" "p") 'ghost 8 (empty-scene 50 50)
+                                                       "i2 not real")))
+    )
+   (test-suite
     "expected results"
-    (place-image-check (lambda () (place-image 3 300 500 47))
-                       3 300 500 47
-                       "(place-image 3 300 500 47)")
-    (place-image-check (lambda () (place-image -1 -1 0 1))
-                       -1 -1 0 1
-                       "(place-image -1 -1 0 1)")
-    (place-image-check (lambda () (place-image "cat" 'dog 42 '(4 6 7)))
-                       "cat" 'dog 42 '(4 6 7)
-                       "place-image different types of inputs")
+    (place-image-check (lambda () (place-image (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)))
+                       (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)
+                       "place-image 1")
+    (place-image-check (lambda () (place-image (circle -10 "solid" "pink") -1 0 (empty-scene 300 500)))
+                       (circle -10 "solid" "pink") -1 0 (empty-scene 300 500)
+                       "place-image neg nums")
+    (place-image-check (lambda () (place-image (empty-scene 50 50) -4 -100 (empty-scene 20 30)))
+                       (empty-scene 50 50) -4 -100 (empty-scene 20 30)
+                       "place-image two empty scenes, both negative coords")
    )
    (test-suite
     "test-image-equal"
