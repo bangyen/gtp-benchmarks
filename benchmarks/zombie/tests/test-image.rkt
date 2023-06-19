@@ -1,8 +1,8 @@
 #lang racket
 (require rackunit
          rackunit/text-ui
-         "image.rkt"
-         ;"../untyped/image.rkt"
+         ;"image.rkt"
+         "../untyped/image.rkt"
          )
 
 (provide place-image-check
@@ -56,12 +56,14 @@
     ))
    ))
 
-#|
-(define (place-image i1 w h i2)
-  (image (list i1 w h i2)))
-|#
 ; helper takes a lambda fxn that makes a call to place-image and the inputs to the fxn call
 ; checks the result of call to place-image
+;; (place-image-check fxn i1 i2 i3 i4 msg)
+;      - fxn is a lambda call to place-image
+;      - i1, i2, i3, i4 are the args passed to the place-image call in order
+;      - i1 and i4 are images
+;      - i2 and i3 are Real numbers
+; returns a test suite that checks if the result of place-image is correct.
 (define (place-image-check fxn i1 i2 i3 i4 msg)
   (define result (fxn))
   (test-suite
@@ -69,10 +71,18 @@
    (check-true (image? result))
    (check-true (list? (image-impl result)))
    (check-equal? (length (image-impl result)) 4)
-   (check-equal? i1 (first (image-impl result)))
+   ; first: image
+   (check-true (image? (first (image-impl result))))
+   (test-image-equal i1 (first (image-impl result)))
+   ; second: real
+   (check-true (real? (second (image-impl result))))
    (check-equal? i2 (second (image-impl result)))
+   ; third: real
+   (check-true (real? (third (image-impl result))))
    (check-equal? i3 (third (image-impl result)))
-   (check-equal? i4 (fourth (image-impl result)))
+   ; fourth: iamge
+   (check-true (image? (fourth (image-impl result))))
+   (test-image-equal i4 (fourth (image-impl result)))
   ))
 (define place-image-tests
   (test-suite
@@ -169,6 +179,7 @@
     )
 ))
 
+;; (test-image-equal img1 img2)
 ;; checks equality of images
 ;; image-impl is a cons or list
 ;; assumes img2 and img2 are images

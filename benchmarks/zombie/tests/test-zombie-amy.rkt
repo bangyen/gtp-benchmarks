@@ -4,9 +4,11 @@
          rackunit/text-ui
          ;(submod "zombie.rkt" test)
          (submod "../untyped/zombie.rkt" test)
-         "test-zombie-akash.rkt" ; contains test-posn
+         "../untyped/image.rkt"
+         "test-zombie-akash.rkt"
+         "test-image.rkt"
          )
-; test-zombie-akash
+;;;; test-zombie-akash
 ; (posn-equal? posn-1 posn-2)
 ;     - posn-1 and posn-2 are posns returned by (new-posn ...)
 ;     - returns T if equal, F if not
@@ -19,6 +21,13 @@
 ; runs a copy of the posn-move-toward/speed algo with from-posn moving towards to-posn.
 ; returns a posn created by (new-posn ...) with the new location of from-posn
 
+;;;; test-image
+;; (test-image-equal img1 img2)
+;; checks equality of images
+;; image-impl is a cons or list
+;; assumes img2 and img2 are images
+;; returns a test suite or fail
+
 ;; -----------------------------------------
 ;; test new-player
 
@@ -29,12 +38,13 @@
 ;  the posn passed as posn-fxn must be the posn that the player is initialized with.
 ;; returns a test suite with name msg
 (define (test-player player-fxn posn-fxn msg)
-  ; assume posn-fxn gives us a valid posn. we will not run (test-posn ...) on it.
   ;; SETUP
+  ; assume posn-fxn gives us a valid posn. we will not run (test-posn ...) on it.
   (define player (player-fxn))
   (define posn (posn-fxn))
   (define x ((posn-x posn)))
   (define y ((posn-y posn)))
+  (define empty-image (empty-scene 200 300))
   ;; TEST SUITE
   (test-suite
    msg
@@ -68,6 +78,13 @@
     )
    (test-suite
     "draw-on"
+    (check-true (image? ((player-draw-on player) empty-image)))
+    (check-true (list? (image-impl ((player-draw-on player) empty-image))))
+    (check-equal? 4
+                  (length (image-impl ((player-draw-on player) empty-image))))
+    (test-image-equal PLAYER-IMG
+                      (first (image-impl ((player-draw-on player) empty-image))))
+    
     (check < 1 2)
     )
    (test-suite
@@ -114,7 +131,10 @@
 (posn-equal? (algo-move-toward (new-posn 5 0) (new-posn 1 2) PLAYER-SPEED)
              ((player-posn ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2)))))
 
-;(player-move-toward test-player)
+(define t-image (empty-scene 5 6))
+(player-draw-on t-player)
+((player-draw-on t-player) t-image)
+
 ;(player-draw-on test-player)
 
 (run-tests new-player-tests)
