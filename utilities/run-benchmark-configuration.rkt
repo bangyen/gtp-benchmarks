@@ -83,7 +83,7 @@
                         (member test-env-file relative-paths-of-test-files)))
         (system* (whereis-system 'exec-file) (build-path test-env test-env-file)))
     ;; cleanup directory
-    ; (delete-directory/files test-env)
+    (delete-directory/files test-env)
     )
 
 (define (copy-files-in-a-directory src-dir dest-dir)
