@@ -349,6 +349,13 @@
            ;; zombies functions
            new-mt-zombies
            new-cons-zombies
+           zombie-posn
+           zombie-draw-on/color
+           zombie-move-toward
+           zombie-touching?
+           ZOMBIE-SPEED
+           ZOMBIE-RADIUS
+           MT-SCENE
            ;; exporting new-player and all associated player functions
            new-player
            player-posn

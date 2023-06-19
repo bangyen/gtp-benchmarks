@@ -6,7 +6,7 @@
          ;(submod "zombie.rkt" test)
          "../untyped/image.rkt"
          ;"image.rkt"
-         ; "test-image.rkt"
+         "test-image.rkt"
          )
 
 (provide test-posn
@@ -25,6 +25,21 @@
           ((posn-x posn-2)))
        (= ((posn-y posn-1))
           ((posn-y posn-2)))))
+
+(define (check-posn-dist posn-1 posn-2)
+  (check-within ((posn-dist posn-1) posn-2)
+                (sqrt (+ (* (- ((posn-x posn-1))
+                               ((posn-x posn-2)))
+                            (- ((posn-x posn-1))
+                               ((posn-x posn-2))))
+                         (* (- ((posn-y posn-1))
+                               ((posn-y posn-2)))
+                            (- ((posn-y posn-1))
+                               ((posn-y posn-2))))))
+                0.001))
+
+;; test check-posn-distance
+(check-posn-dist (new-posn 0 0) (new-posn 50 50))
 
 ; (algo-move-toward from-posn to-posn speed)
 ; from-posn and to-posn are posns returned by (new-posn ...)
@@ -107,18 +122,15 @@
                  (circle 1 "solid" "green")
                  (empty-scene 200 200))))
    ;; dist
-   (check-within ((posn-dist result) (new-posn 0 0))
-                 (sqrt (+ (* x x) (* y y)))
-                 0.0001)
+   (check-posn-dist (new-posn 0 0) result)
    ))
-
-;; TESTS
-
 ;; tests for test-posn
 (define testing-test-posn
   (test-posn (lambda () (new-posn 1 2)) 1 2 "testing test-posn"))
-
 (run-tests testing-test-posn)
+
+
+;; TESTS
 
 ;; tests for new-posn
 (define new-posn-test-suite
