@@ -9,16 +9,58 @@
          ; "test-image.rkt"
          )
 
-(provide test-posn)
+(provide test-posn
+         posn-equal?
+         algo-move-toward
+         )
 
-; posn-1 and posn-2 must be the function type returned by (new-posn ...)
+;; UTILITIES
+
+; (posn-equal? posn-1 posn-2)
+;      - posn-1 and posn-2 must be a posn returned by (new-posn ...)
+; checks if posn-1 and posn-2 have matching x and y values.
+; returns a boolean.
 (define (posn-equal? posn-1 posn-2)
   (and (= ((posn-x posn-1))
           ((posn-x posn-2)))
        (= ((posn-y posn-1))
           ((posn-y posn-2)))))
 
-; (test-posn (lambda () (new-posn 0 1)) 0 1) -> test-suite
+; (algo-move-toward from-posn to-posn speed)
+; from-posn and to-posn are posns returned by (new-posn ...)
+; runs a copy of the posn-move-toward/speed algo with from-posn moving towards to-posn.
+; returns a posn created by (new-posn ...) with the new location of from-posn
+(define (algo-move-toward from-posn to-posn speed)
+  ; x1 y1 is our current location
+  (define x1 ((posn-x from-posn)))
+  (define y1 ((posn-y from-posn)))
+  ; x2 y2 is where we move towards
+  (define x2 ((posn-x to-posn)))
+  (define y2 ((posn-y to-posn)))
+  ; xmove and ymove are the amounts we move in x and y directions
+  (define xmove (- x2 x1))
+  (define ymove (- y2 y1))
+  ; distance to move in either x or y direction
+  (define dist (min speed
+                    (max (abs xmove)
+                         (abs ymove))))
+  ; we move dist in the y direction if xmove < ymove, otherwise move in x direction
+  (if (< (abs xmove) (abs ymove))
+      (new-posn x1
+                (if (positive? ymove)
+                    (+ y1 dist)
+                    (- y1 dist)))
+      (new-posn (if (positive? xmove)
+                    (+ x1 dist)
+                    (- x1 dist))
+                y1))
+  )
+
+; (test-posn posn-fxn x y msg)
+;     - posn-fxn is a lambda call to (new-posn ...)
+;     - x and y are the vals passed to (new-posn ...), in order
+; returns a test suite that checks if posn-fxn gives a valid posn.
+; example usage: (test-posn (lambda () (new-posn 0 1)) 0 1)
 (define (test-posn posn-fxn x y msg)
   (define result (posn-fxn))
   (define test-posn-1 (new-posn 0 0))
@@ -70,14 +112,13 @@
                  0.0001)
    ))
 
+;; TESTS
 
 ;; tests for test-posn
 (define testing-test-posn
   (test-posn (lambda () (new-posn 1 2)) 1 2 "testing test-posn"))
 
 (run-tests testing-test-posn)
-
-
 
 ;; tests for new-posn
 (define new-posn-test-suite

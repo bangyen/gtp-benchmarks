@@ -6,62 +6,36 @@
          (submod "../untyped/zombie.rkt" test)
          "test-zombie-akash.rkt" ; contains test-posn
          )
-
-(provide algo-player-move-toward
-         test-player
-         )
+; test-zombie-akash
+; (posn-equal? posn-1 posn-2)
+;     - posn-1 and posn-2 are posns returned by (new-posn ...)
+;     - returns T if equal, F if not
+; (test-posn posn-fxn x y msg)
+;     - posn-fxn is a lambda fxn that runs (new-posn... )
+;     - x and y are the x and y used in call to (new-posn... )
+;     - returns test suite
+; (algo-move-toward from-posn to-posn speed)
+; from-posn and to-posn are posns returned by (new-posn ...)
+; runs a copy of the posn-move-toward/speed algo with from-posn moving towards to-posn.
+; returns a posn created by (new-posn ...) with the new location of from-posn
 
 ;; -----------------------------------------
 ;; test new-player
 
-; placeholder - checks that a posn is a posn
-(define (test-posn posn-fxn x y msg)
-  (test-suite
-   msg
-   (check < 2 3)
-  ))
-
-; placeholder - checks if two posns are equal
-; posn-1 and posn-2 must be the function type returned by (new-posn ...)
-(define (posn-equal? posn-1 posn-2)
-  (and (= ((posn-x posn-1))
-          ((posn-x posn-2)))
-       (= ((posn-y posn-1))
-          ((posn-y posn-2))))
-  )
-
-; returns new posn with the new location of player
-(define (algo-player-move-toward x1 y1 x2 y2)
-  ; x1 y1 is current location
-  ; x2 y2 is where move towards
-  (define xmove (- x2 x1))
-  (define ymove (- y2 y1))
-  (println xmove)
-  (println ymove)
-  (define dist (min PLAYER-SPEED
-                    (max (abs xmove)
-                         (abs ymove))))
-  (println dist)
-  (if (< (abs xmove) (abs ymove))
-      (new-posn x1
-                (if (positive? ymove)
-                    (+ y1 dist)
-                    (- y1 dist)))
-      (new-posn (if (positive? xmove)
-                    (+ x1 dist)
-                    (- x1 dist))
-                y1))
-  )
 ;; test-player: (-> player) (-> posn) string -> test-suite
-;; returns a test suite with name msg with many checks that test whether
-;; player-fxn is a valid player.
-;; we will assume posn-fxn is a valid posn
+;; (test-player player-fxn posn-fxn msg)
+;      - player-fxn is a lambda call to (new-player ...)
+;      - posn-fxn is a lambda call to (new-posn ...)
+;  the posn passed as posn-fxn must be the posn that the player is initialized with.
+;; returns a test suite with name msg
 (define (test-player player-fxn posn-fxn msg)
+  ; assume posn-fxn gives us a valid posn. we will not run (test-posn ...) on it.
+  ;; SETUP
   (define player (player-fxn))
   (define posn (posn-fxn))
   (define x ((posn-x posn)))
   (define y ((posn-y posn)))
-  
+  ;; TEST SUITE
   (test-suite
    msg
    (test-suite
@@ -76,17 +50,20 @@
     (check-true (procedure? (player-move-toward player)))
     (check-equal? (procedure-arity (player-move-toward player)) 1)
     ; check posn of returned player is correct
-    (check-true (posn-equal? (algo-player-move-toward x y 1 2) ;expected
-                             ((player-posn ((player-move-toward player) (new-posn 1 2)))))) ; actual
-    (check-true (posn-equal? (algo-player-move-toward x y 0 0)
+    (check-true (posn-equal?
+                 ; we use our algo-move-toward fxn to generated epected values
+                 (algo-move-toward ((player-posn player)) (new-posn 1 2) PLAYER-SPEED)
+                 ; we check if that's equal to actual values
+                 ((player-posn ((player-move-toward player) (new-posn 1 2))))))
+    (check-true (posn-equal? (algo-move-toward ((player-posn player)) (new-posn 0 0) PLAYER-SPEED)
                              ((player-posn ((player-move-toward player) (new-posn 0 0))))))
-    (check-true (posn-equal? (algo-player-move-toward x y 100 150)
+    (check-true (posn-equal? (algo-move-toward ((player-posn player)) (new-posn 100 150) PLAYER-SPEED)
                              ((player-posn ((player-move-toward player) (new-posn 100 150))))))
-    (check-true (posn-equal? (algo-player-move-toward x y -5 20)
+    (check-true (posn-equal? (algo-move-toward ((player-posn player)) (new-posn -5 20) PLAYER-SPEED)
                              ((player-posn ((player-move-toward player) (new-posn -5 20))))))
-    (check-true (posn-equal? (algo-player-move-toward x y 25 16)
+    (check-true (posn-equal? (algo-move-toward ((player-posn player)) (new-posn 25 16) PLAYER-SPEED)
                              ((player-posn ((player-move-toward player) (new-posn 25 16))))))
-    (check-true (posn-equal? (algo-player-move-toward x y -5 -5)
+    (check-true (posn-equal? (algo-move-toward ((player-posn player)) (new-posn -5 -5) PLAYER-SPEED)
                              ((player-posn ((player-move-toward player) (new-posn -5 -5))))))
     )
    (test-suite
@@ -133,7 +110,9 @@
 
 ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2))
 ((posn-x ((player-posn ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2))))))
-((posn-x (algo-player-move-toward 5 0 1 2)))
+((posn-x (algo-move-toward (new-posn 5 0) (new-posn 1 2) PLAYER-SPEED)))
+(posn-equal? (algo-move-toward (new-posn 5 0) (new-posn 1 2) PLAYER-SPEED)
+             ((player-posn ((player-move-toward (new-player (new-posn 5 0))) (new-posn 1 2)))))
 
 ;(player-move-toward test-player)
 ;(player-draw-on test-player)
