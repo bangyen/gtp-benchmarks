@@ -353,6 +353,10 @@
            zombie-draw-on/color
            zombie-move-toward
            zombie-touching?
+           zombies-draw-on/color
+           zombies-move-toward
+           zombies-kill-all
+           zombies-touching?
            ZOMBIE-SPEED
            ZOMBIE-RADIUS
            MT-SCENE
