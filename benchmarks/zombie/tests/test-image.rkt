@@ -197,8 +197,7 @@
 
 ;; (test-image-equal img1 img2)
 ;; checks equality of images
-;; image-impl is a cons or list
-;; assumes img2 and img2 are images
+;; image-impl is a cons (a list is a cons)
 ;; returns a test suite or fail
 (define (test-image-equal img1 img2)
   (unless (image? img1)
@@ -206,24 +205,14 @@
   (unless (image? img1)
     (fail "img2 not an image"))
   (cond
-    ; both cons
-    [(and (cons? (image-impl img1))
-          (cons? (image-impl img2)))
-     (test-suite
-      "both cons"
-      (check-equal? (car (image-impl img1))
-                    (car (image-impl img2)))
-      (check-equal? (cdr (image-impl img1))
-                    (cdr (image-impl img2)))
-      )]
     ; both lists
     [(and (list? (image-impl img1))
           (list? (image-impl img2)))
      (cond
        ; equal length
-       [(= (length image-impl img1)
-           (length image-impl img2))
-        (define l (length image-impl img1))
+       [(= (length (image-impl img1))
+           (length (image-impl img2)))
+        (define l (length (image-impl img1)))
         (test-suite
          "both lists of equal length"
          (for ([a (in-list (image-impl img1))]
@@ -234,8 +223,22 @@
                         (not (image? b)))
                    (check-equal? a b)
                    (fail "not both images")))))]
+       ; unequal length
        [else (fail "lists are not equal length")]
        )]
+    ; both cons and not lists
+    [(and (cons? (image-impl img1))
+          (cons? (image-impl img2))
+          (not (list? (image-impl img1)))
+          (not (list? (image-impl img2))))   
+     (test-suite
+      "both cons"
+      (check-equal? (car (image-impl img1))
+                    (car (image-impl img2)))
+      (check-equal? (cdr (image-impl img1))
+                    (cdr (image-impl img2)))
+      )]
+    ; not both cons or both lists
     [else (fail "image-impl not both cons or not both lists")]
   ))
 
