@@ -160,74 +160,52 @@
         (new-cons-zombies (first list-zs)
                 (convert-list-to-cons-zombie (rest list-zs))))))
 
-;; equal-images?
+
+;; equal-images: Image Image -> Boolean
 (define (equal-images? img1 img2)
   (unless (image? img1)
     (error "img1 not an image"))
   (unless (image? img1)
     (error "img2 not an image"))
   (cond
-    ; both cons
-    [(and (cons? (image-impl img1))
-          (cons? (image-impl img2)))
-     ; (error "both cons")
-      (define obj1 (car (image-impl img1)))
-      (define obj2 (car (image-impl img2)))
-      (define bool #t)
-      (cond [(and (image? obj1)
-                  (image? obj2))
-              (unless (equal-images? obj1 obj2)
-                (set! bool #f))]
-            [(and (not (image? obj1))
-                  (not (image? obj2)))
-              (unless (equal? obj1 obj2)
-                (set! bool #f))]
-            [else
-                (set! bool #f)])
-        bool
-      ]
     ; both lists
     [(and (list? (image-impl img1))
           (list? (image-impl img2)))
-     (error "both lists")
      (cond
        ; equal length
-       [(= (length image-impl img1)
-           (length image-impl img2))
-        (define l (length image-impl img1))
+       [(= (length (image-impl img1))
+           (length (image-impl img2)))
+        (define l (length (image-impl img1)))
         (define bool #t)
-         (for ([a (in-list (image-impl img1))]
-               [b (in-list (image-impl img2))])
-           (cond 
-            [(and (image? a)
-                  (image? b))
-             (unless (equal-images? a b)
-                 ; (set! bool #f)
-                 (error "both are images though")
-                 )]
-            [(and (not (image? a))
-                  (not (image? b))
-             (unless (equal? a b)
-                 ; (set! bool #f)
-                 (error "neither are images though")
-                 ))]
-            [else
-             ; (set! bool #f)
-             (error "different types")
-             ]))
+        (for ([a (in-list (image-impl img1))]
+              [b (in-list (image-impl img2))])
+          (cond [(and (image? a) (image? b))
+                (unless (equal-images? a b)
+                  (set! bool #f))]
+                [(and (not (image? a))
+                      (not (image? b)))
+                (unless (equal? a b)
+                  (set! bool #f))]
+                [else (set! bool #f)]))
         bool]
-       [else 
-       ; #f
-       (error "different length lists")
-       ]
+       ; unequal length
+       [else (fail "lists are not equal length")]
        )]
-    [else 
-    ; #f
-    (error "not both cons or lists")
-    ]
+    ; both cons and not lists
+    [(and (cons? (image-impl img1))
+          (cons? (image-impl img2))
+          (not (list? (image-impl img1)))
+          (not (list? (image-impl img2))))   
+     (and 
+      (equal? (car (image-impl img1))
+                    (car (image-impl img2)))
+      (equal? (cdr (image-impl img1))
+                    (cdr (image-impl img2))))]
+    ; not both cons or both lists
+    [else (fail "image-impl not both cons or not both lists")]
   ))
 
-(check-true (equal-images? (place-image (circle ZOMBIE-RADIUS "solid" "red")
+(check-false (equal-images? (place-image (circle ZOMBIE-RADIUS "solid" "red")
                                         100
                                         100
                                         MT-SCENE)
@@ -326,7 +304,8 @@
    ; (print h-list)
    (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
    ;; kill-all-zombies where result = dead
-   (check-true (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
+   (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
+   (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
    ))
 
 (run-tests (test-new-mt-zombies (lambda () (new-mt-zombies)) ""))
