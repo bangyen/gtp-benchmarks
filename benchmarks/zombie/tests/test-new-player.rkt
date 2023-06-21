@@ -5,7 +5,7 @@
          ;(submod "zombie.rkt" test)
          (submod "../untyped/zombie.rkt" test)
          "../untyped/image.rkt"
-         "test-zombie-akash.rkt"
+         "test-new-posn.rkt"
          "test-image.rkt"
          )
 
@@ -31,7 +31,7 @@
                       x ;i2
                       y ;i3
                       img ;i4
-                      "place-image-check")
+                      "player-draw-on place-image-check")
    ))
 
 ;; test-player: (-> player) (-> posn) string -> test-suite
@@ -111,6 +111,7 @@
     )
    (test-suite
     "arg must be a valid posn"
+    ;; these tests are totally wrong lol
     (check-exn exn:fail? (lambda () (test-player (new-player "cat"))))
     (check-exn exn:fail? (lambda () (test-player (new-player 'fish))))
     (check-exn exn:fail? (lambda () (test-player (new-player (new-posn 3)))))

@@ -365,4 +365,9 @@
            PLAYER-IMG
            ;; exporting new-world and all associated world functions
            new-world
+           world-on-mouse
+           world-on-tick
+           world-to-draw
+           world-stop-when
+           w0
            ))
