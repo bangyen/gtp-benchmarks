@@ -345,6 +345,10 @@
            new-zombie
            ;; exporting new-horde and all associated horde functions
            new-horde
+           horde-draw-on
+           horde-move-toward
+           horde-touching?
+           horde-eat-brains
            ;; exporting new-mt-zombies,new-cons-zombies and all associated
            ;; zombies functions
            new-mt-zombies
