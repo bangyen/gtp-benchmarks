@@ -357,6 +357,7 @@
            zombies-move-toward
            zombies-kill-all
            zombies-touching?
+           horde-draw-on
            ZOMBIE-SPEED
            ZOMBIE-RADIUS
            MT-SCENE
