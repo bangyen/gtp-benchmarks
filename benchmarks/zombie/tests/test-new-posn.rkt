@@ -2,10 +2,10 @@
 
 (require rackunit
          rackunit/text-ui
-         (submod "../untyped/zombie.rkt" test)
-         ;(submod "zombie.rkt" test)
-         "../untyped/image.rkt"
-         ;"image.rkt"
+         ; (submod "../untyped/zombie.rkt" test)
+         (submod "zombie.rkt" test)
+         ; "../untyped/image.rkt"
+         "image.rkt"
          "test-image.rkt"
          )
 

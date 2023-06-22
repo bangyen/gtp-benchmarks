@@ -2,8 +2,8 @@
 (require rackunit
          rackunit/text-ui
          
-         ;"image.rkt"
-         "../untyped/image.rkt"
+         "image.rkt"
+         ;"../untyped/image.rkt"
          )
 
 (provide place-image-check

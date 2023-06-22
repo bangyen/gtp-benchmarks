@@ -3,10 +3,10 @@
 (require rackunit
          rackunit/text-ui
          
-         ;(submod "zombie.rkt" test)
-         (submod "../untyped/zombie.rkt" test)
-         ;"image.rkt"
-         "../untyped/image.rkt"
+         (submod "zombie.rkt" test)
+         ; (submod "../untyped/zombie.rkt" test)
+         "image.rkt"
+         ; "../untyped/image.rkt"
 
          "test-new-posn.rkt"
          "test-image.rkt"

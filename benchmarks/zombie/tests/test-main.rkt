@@ -1,10 +1,14 @@
 #lang racket
 (require rackunit
          rackunit/text-ui
-         "../untyped/main.rkt"
-         "../untyped/zombie.rkt"
-         (submod "../untyped/zombie.rkt" test)
-         (submod "../untyped/main.rkt" test)
+         ; "../untyped/main.rkt"
+         "main.rkt"
+         ; "../untyped/zombie.rkt"
+         "zombie.rkt"
+         ; (submod "../untyped/zombie.rkt" test)
+         (submod "zombie.rkt" test)
+         ; (submod "../untyped/main.rkt" test)
+         (submod "main.rkt" test)
          )
 
 (define replay-test-suite
