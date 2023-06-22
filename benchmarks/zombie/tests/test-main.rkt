@@ -2,6 +2,7 @@
 (require rackunit
          rackunit/text-ui
          "../untyped/main.rkt"
+         (submod "../untyped/main.rkt" test)
          )
 
 (define replay-test-suite

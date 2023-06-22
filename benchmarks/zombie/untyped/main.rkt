@@ -50,3 +50,15 @@
     (error "bad input")]))
 
 (time (main DATA))
+
+
+;; =============================================================================
+;; testing submodule
+
+(module* test #f
+  (provide replay
+           real-real-string-list?
+           main
+           ))
+
+
