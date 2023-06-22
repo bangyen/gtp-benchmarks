@@ -230,13 +230,13 @@
 ;                             (new-cons-zombies (new-zombie (new-posn 0 0))
 ;                                               (new-mt-zombies))))
 ;; test convert-list-to-cons-zombie
-(define real-zombie-list 
-          (new-cons-zombies (new-zombie (new-posn 0 0))
-                            (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-                                              (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
-                                                                (new-mt-zombies)))))
-(define fake-zombie-list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-                             (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
+; (define real-zombie-list 
+;           (new-cons-zombies (new-zombie (new-posn 0 0))
+;                             (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
+;                                               (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
+;                                                                 (new-mt-zombies)))))
+; (define fake-zombie-list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
+;                              (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
 ; (check-true (equal-zombies? real-zombie-list
 ;                             (convert-list-to-cons-zombie fake-zombie-list)))
 
@@ -300,19 +300,71 @@
    (check-equal? (zombies-really-touching? '() (new-posn 0 0))
                    ((zombies-touching? result) (new-posn 0 0)))
    ;; kill-all
-   ;; kill-all-zombies where result = undead
-   ; (print h-list)
    (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
-   ;; kill-all-zombies where result = dead
    (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
    (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
    ))
 
-(run-tests (test-new-mt-zombies (lambda () (new-mt-zombies)) ""))
+;; algo-move-toward-for-zombies: (listof zombie) -> (listof zombie)
+(define (algo-move-toward-for-zombies zs p)
+  (if (empty? zs)
+      empty
+      (cons (algo-move-toward-for-zombie (first zs) p)
+            (algo-move-toward-for-zombies (rest zs) p))))
 
-   
+;; test-new-cons-zombies: z-fxn (listof zombie) -> test-suite
+(define (test-new-cons-zombies z-fxn zs msg)
+  ;; define result
+  (define result (z-fxn))
+  ;; define important local variables
+  ;; test suite
+  (define real-zombie-list 
+          (new-cons-zombies (new-zombie (new-posn 0 0))
+                            (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
+                                              (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
+                                                                (new-mt-zombies)))))
+  (define fake-zombie-list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
+                             (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
+  (define h-list (kill-all-zombies zs fake-zombie-list))
+  (define h (new-horde (convert-list-to-cons-zombie (first h-list))
+                      (convert-list-to-cons-zombie (second h-list))))
+  (define h2-list (kill-all-zombies fake-zombie-list zs))
+  (define h2 (new-horde (convert-list-to-cons-zombie (first h2-list))
+                        (convert-list-to-cons-zombie (second h2-list))))
+  (test-suite
+   msg
+   ;; test move-toward
+   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 0 0))
+                               (convert-list-to-cons-zombie 
+                                (algo-move-toward-for-zombies zs (new-posn 0 0)))))
+   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn -500 -500))
+                               (convert-list-to-cons-zombie 
+                                (algo-move-toward-for-zombies zs (new-posn -500 -500)))))
+   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 100 1400))
+                               (convert-list-to-cons-zombie 
+                                (algo-move-toward-for-zombies zs (new-posn 100 1400)))))
+   ;; test draw-on-color
+   (place-zombies-image-check result zs "red" MT-SCENE)
+   ;; test touching?
+   (check-equal? (zombies-really-touching? zs (new-posn 0 0))
+                 ((zombies-touching? result) (new-posn 0 0)))
+   (check-equal? (zombies-really-touching? zs (new-posn -500 -500))
+                 ((zombies-touching? result) (new-posn -500 -500)))
+   (check-equal? (zombies-really-touching? zs (new-posn 300 300))
+                 ((zombies-touching? result) (new-posn 300 300)))
+   ;; test kill-all
+   (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
+   (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
+   (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
+   ))
 
 ;; test-new-cons-zombies
+(run-tests (test-new-cons-zombies (lambda ()
+                          (new-cons-zombies (new-zombie (new-posn 0 0))
+                                            (new-cons-zombies (new-zombie (new-posn 300 300))
+                                                              (new-mt-zombies))))
+                       (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
+                       ""))
 
 ;; test-new-horde
 
@@ -335,8 +387,57 @@
     (check-exn exn:fail? (lambda () ((zombie-draw-on/color "red") "red" 5)))
     (check-exn exn:fail? (lambda () ((zombie-touching? (new-posn 5 5)))))
     (check-exn exn:fail? (lambda () ((zombie-move-toward (new-zombie (new-posn 0 0))))))
-    ;; wrong message
+    ))
+
+(define new-cons-zombies-test-suite
+  (test-suite "test for new-cons-zombies"
+   ;; tests using test-new-cons-zombies
+   (test-new-cons-zombies (lambda ()
+                          (new-cons-zombies (new-zombie (new-posn 0 0))
+                                            (new-cons-zombies (new-zombie (new-posn 300 300))
+                                                              (new-mt-zombies))))
+                       (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
+                       "")
+                       
+    (test-new-cons-zombies (lambda ()
+                          (new-cons-zombies (new-zombie (new-posn -1000 -100))
+                                            (new-cons-zombies (new-zombie (new-posn 300 300))
+                                                              (new-mt-zombies))))
+                       (list (new-zombie (new-posn -1000 -100)) (new-zombie (new-posn 300 300)))
+                       "")
+    (test-new-cons-zombies (lambda ()
+                          (new-cons-zombies (new-zombie (new-posn -1000 -100))
+                                            (new-mt-zombies)))
+                       (list (new-zombie (new-posn -1000 -100)))
+                       "")
+    (test-new-cons-zombies (lambda ()
+                              (new-cons-zombies (new-zombie (new-posn -1000 -100))
+                                            (new-mt-zombies)))
+                             (list (new-zombie (new-posn -1000 -100)))
+                       "")
+    (test-new-cons-zombies (lambda ()
+                              (new-cons-zombies (new-zombie (new-posn 0 0))
+                                            (new-mt-zombies)))
+                             (list (new-zombie (new-posn 0 0)))
+                       "")
+    (test-new-cons-zombies (lambda ()
+                              (new-cons-zombies (new-zombie (new-posn 0 0))
+                                            (new-cons-zombies (new-zombie (new-posn 3000 -300))
+                                                              (new-cons-zombies (new-zombie (new-posn 3000 -300))
+                                                                                (new-mt-zombies)))))
+                             (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 3000 -300)) (new-zombie (new-posn 3000 -300)))
+                       "")
+    ;; test for wrong inputs
+    (check-exn exn:fail? (lambda () ((new-cons-zombies ""))))
+    ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
+    (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
+    (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
+    (check-exn exn:fail? (lambda () ((zombies-draw-on/color "red") "red" 5)))
+    (check-exn exn:fail? (lambda () ((zombies-touching? (new-posn 5 5)))))
+    (check-exn exn:fail? (lambda () ((zombies-move-toward (new-zombie (new-posn 0 0))))))
     ))
 
 ;; run test suites
-; (run-tests new-zombie-test-suite)
+(run-tests new-zombie-test-suite)
+(run-tests (test-new-mt-zombies (lambda () (new-mt-zombies)) ""))
+(run-tests new-cons-zombies-test-suite)
