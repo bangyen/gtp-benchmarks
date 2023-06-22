@@ -13,7 +13,11 @@
 ;; =============================================================================
 
 (struct image (
- [impl : Any]
+ ; Original: [impl : Any]
+ [impl : (U (Pair Real Real)
+            (List Real String String)
+            (List image Real Real image)
+            )]
 ))
 (define-type Image image)
 

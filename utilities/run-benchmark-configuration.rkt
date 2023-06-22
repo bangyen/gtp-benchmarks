@@ -61,11 +61,14 @@
     
     ;; copy main
     (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
+    ; (create-test-module (build-path test-env "main.rkt"))
     
     ;; copy others
     (for ([src-file (benchmark-configuration-others bench-config)])
         (copy-file src-file
-                    (build-path test-env (file-name-from-path src-file))))
+                    (build-path test-env (file-name-from-path src-file)))
+        ; (create-test-module (build-path test-env (file-name-from-path src-file)))
+        )
     
     ;; copy all files in "tests" and add their names to a list
     (define test-dir (build-path bench-path "tests"))
@@ -91,6 +94,12 @@
             #:when (file-exists? (build-path src-dir src-file)))
         (copy-file (build-path src-dir src-file) 
                     (build-path dest-dir src-file))))
+
+; (define (create-test-module filepath)
+;     (define out (open-output-file filepath
+;                           #:exists 'append))
+;     (displayln "(module+ test (provide (all-defined-out)))" out)
+;     (close-output-port out))
 
 (run-benchmark-tests (first parser)
                      (second parser))

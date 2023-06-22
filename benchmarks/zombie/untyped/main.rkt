@@ -55,7 +55,7 @@
 ;; =============================================================================
 ;; testing submodule
 
-(module* test #f
+(module+ test
   (provide replay
            real-real-string-list?
            main

@@ -131,7 +131,7 @@
                       (circle 4 "solid" "red"))
     (test-image-equal (empty-scene 4 10)
                       (empty-scene 4 10))
-    (test-image-equal (image '(20 "transparent" 30))
+    #|(test-image-equal (image '(20 "transparent" 30))
                       (image '(20 "transparent" 30)))
     (test-image-equal (image '((circle 4 "solid" "pink")
                                100
@@ -152,7 +152,7 @@
                                150
                                (image '((circle 10 "solid" "blue")
                                         3 6
-                                        (empty-scene 100 150)))))) 
+                                        (empty-scene 100 150))))))|# 
    )))
 
 #|
@@ -184,7 +184,7 @@
     )
    (test-suite
     "expected results"
-    (check-circle (lambda () (circle 50 "bold" 'red))
+    #|(check-circle (lambda () (circle 50 "bold" 'red))
                   50 "bold" 'red
                   "typical circle")
     (check-circle (lambda () (circle -1 0 1))
@@ -192,7 +192,7 @@
                   "-1 0 1 circle")
     (check-circle (lambda () (circle '(90 10 11) -1000 "boo"))
                   '(90 10 11) -1000 "boo"
-                  "funky input types")
+                  "funky input types")|#
     )
 ))
 

@@ -4,7 +4,7 @@
          ; "../untyped/main.rkt"
          "main.rkt"
          ; "../untyped/zombie.rkt"
-         "zombie.rkt"
+         ; "zombie.rkt"
          ; (submod "../untyped/zombie.rkt" test)
          (submod "zombie.rkt" test)
          ; (submod "../untyped/main.rkt" test)

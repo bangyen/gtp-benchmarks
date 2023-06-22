@@ -331,3 +331,62 @@
     (new-zombie (new-posn 200 200))
     (new-mt-zombies)))))
 
+;; TEST ---------------------------------------------------------------------------
+;; testing submodule
+(module* test #f
+  (provide make-fake-object-type*
+           ;; exporting new-posn and all associated posn functions
+           new-posn
+           posn-x
+           posn-y
+           posn-posn
+           posn-move-toward/speed
+           posn-move
+           posn-draw-on/image
+           posn-dist
+           ;; exporting new-zombie and all associated zombie functions
+           new-zombie
+           ;; exporting new-horde and all associated horde functions
+           new-horde
+           horde-draw-on
+           horde-move-toward
+           horde-touching?
+           horde-eat-brains
+           ;; exporting new-mt-zombies,new-cons-zombies and all associated
+           ;; zombies functions
+           new-mt-zombies
+           new-cons-zombies
+           zombie-posn
+           zombie-draw-on/color
+           zombie-move-toward
+           zombie-touching?
+           zombies-draw-on/color
+           zombies-move-toward
+           zombies-kill-all
+           zombies-touching?
+           horde-dead
+           horde-undead
+           horde-draw-on
+           horde-touching?
+           horde-move-toward
+           horde-eat-brains
+           ZOMBIE-SPEED
+           ZOMBIE-RADIUS
+           MT-SCENE
+           ;; exporting new-player and all associated player functions
+           new-player
+           player-posn
+           player-draw-on
+           player-move-toward
+           PLAYER-SPEED
+           PLAYER-IMG
+           ;; exporting new-world and all associated world functions
+           new-world
+           world-on-mouse
+           world-on-tick
+           world-to-draw
+           world-stop-when
+           w0
+           ))
+
+

@@ -61,3 +61,10 @@
     (error "bad input")]))
 
 (time (main DATA))
+
+; =====================================================================================
+(module+ test
+  (provide replay
+           real-real-string-list?
+           main
+           ))
