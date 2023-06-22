@@ -361,7 +361,12 @@
            zombies-move-toward
            zombies-kill-all
            zombies-touching?
+           horde-dead
+           horde-undead
            horde-draw-on
+           horde-touching?
+           horde-move-toward
+           horde-eat-brains
            ZOMBIE-SPEED
            ZOMBIE-RADIUS
            MT-SCENE

@@ -240,7 +240,7 @@
 ; (check-true (equal-zombies? real-zombie-list
 ;                             (convert-list-to-cons-zombie fake-zombie-list)))
 
-;; kill-all-zombies-list: (listof zombie) (listof zombie) -> (listof (listof zombie))
+;; kill-all-zombies: (listof zombie) (listof zombie) -> (listof (listof zombie))
 ;; kills all the zombies in undead-zombies if they
 ;; come in contact with dead-zombies without using 
 ;; higher-order recursive functions to test zombie 
@@ -366,7 +366,70 @@
                        (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
                        ""))
 
-;; test-new-horde
+
+;; algo-horde-move-toward: (listof (listof zombie)) Posn -> (listof (listof zombie))
+;; h: '(undead dead)
+;; pos: posn
+;; undead zombies in the horde h are moving towards posn pos
+(define (algo-horde-move-toward h pos)
+  (list (algo-move-toward-for-zombies (first h) pos) 
+        (second h)))
+
+;; test-new-horde: lambda (listof (listof zombie)) string -> test-suite
+;; h-fxn: function that creates a new horde
+;; h-list: '(dead undead)
+;; msg: test-suite message
+(define (test-new-horde h-fxn h-list msg)
+  (define result (h-fxn))
+  (define expected-dead-scene (place-images-recursively (second h-list)
+                                                        (lambda (z)
+                                                          (circle ZOMBIE-RADIUS "solid" "black"))
+                                                        (lambda (z)
+                                                          ((posn-x ((zombie-posn z)))))
+                                                        (lambda (z)
+                                                          ((posn-y ((zombie-posn z)))))
+                                                        MT-SCENE))
+
+  (define move-toward-1 (algo-horde-move-toward h-list (new-posn 0 0)))
+  (define move-toward-2 (algo-horde-move-toward h-list (new-posn 450 -100000)))
+  (define kill-all-1 (kill-all-zombies (first h-list) (second h-list)))
+  (test-suite
+   msg
+   ;; tests
+   ;; dead
+   (check-true (equal-zombies? ((horde-dead result))
+                               (convert-list-to-cons-zombie (second h-list))))
+   ;; undead
+   (check-true (equal-zombies? ((horde-undead result))
+                               (convert-list-to-cons-zombie (first h-list))))
+   ;; draw-on
+   (check-true (equal-images? 
+          ;; result image
+          ((horde-draw-on result) MT-SCENE)
+          ;; h-list image
+          (place-images-recursively (first h-list)
+                                    (lambda (z)
+                                      (circle ZOMBIE-RADIUS "solid" "yellow"))
+                                    (lambda (z)
+                                      ((posn-x ((zombie-posn z)))))
+                                    (lambda (z)
+                                      ((posn-y ((zombie-posn z)))))
+                                    expected-dead-scene)
+          ))
+   ;; move-toward
+   (check-true (equal-hordes? ((horde-move-toward result) (new-posn 0 0))
+                              (new-horde (convert-list-to-cons-zombie (first move-toward-1))
+                                          (convert-list-to-cons-zombie (second move-toward-1)))))
+                  
+   (check-true (equal-hordes? ((horde-move-toward result) (new-posn 450 -100000))
+                 (new-horde (convert-list-to-cons-zombie (first move-toward-2))
+                            (convert-list-to-cons-zombie (second move-toward-2)))))
+   ;; kill-all
+   (check-true (equal-hordes? ((horde-eat-brains result))
+                              (new-horde (convert-list-to-cons-zombie (first kill-all-1))
+                                         (convert-list-to-cons-zombie (second kill-all-1)))))
+                  ))
+
 
 ;; TESTS
 ;; tests for new-zombie
@@ -437,7 +500,72 @@
     (check-exn exn:fail? (lambda () ((zombies-move-toward (new-zombie (new-posn 0 0))))))
     ))
 
+(define new-horde-test-suite
+  (test-suite
+   "tests for new-horde"
+   ;; tests
+   ;; horde with empty undead, filled dead
+   (test-new-horde (lambda ()
+                 (new-horde (new-mt-zombies)
+                            (new-cons-zombies (new-zombie (new-posn 0 0))
+                                              (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                (new-mt-zombies)))))
+               (list (list)
+                     (list (new-zombie (new-posn 0 0))
+                           (new-zombie (new-posn 100 5000))))
+               "")
+   
+   ;; horde with filled undead, empty dead
+   (test-new-horde (lambda ()
+                    (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                  (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                    (new-mt-zombies)))
+                                (new-mt-zombies)))
+                  (list (list (new-zombie (new-posn 0 0))
+                              (new-zombie (new-posn 100 5000)))
+                        (list))
+               "")
+   ;; horde with empty, empty
+   (test-new-horde (lambda ()
+                    (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                  (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                    (new-mt-zombies)))
+                                (new-mt-zombies)))
+                  (list (list (new-zombie (new-posn 0 0))
+                              (new-zombie (new-posn 100 5000)))
+                        (list))
+               "")
+   ;; horde with dead overlapping
+   (test-new-horde (lambda ()
+                      (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                    (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                      (new-mt-zombies)))
+                                 (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                   (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                                     (new-mt-zombies)))))
+                   (list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 100 5000)))
+                         (list (new-zombie (new-posn -1000 -1000)) (new-zombie (new-posn -1000 -1000))))
+                   "")
+  ;  ;; horde with undead overlapping
+  (test-new-horde (lambda ()
+                      (new-horde (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                   (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                                     (new-mt-zombies)))
+                                 (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                    (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                      (new-mt-zombies)))))
+                   (list (list (new-zombie (new-posn -1000 -1000)) (new-zombie (new-posn -1000 -1000)))
+                         (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 100 5000))))
+                   "")
+   ;; wrong input: None of these raise errors.
+   ; (check-exn exn:fail? (lambda () (new-horde "" "")))
+   ; (check-exn exn:fail? (lambda () ((horde-draw-on (new-horde (new-mt-zombies) (new-mt-zombies))) "")))
+   ; (check-exn exn:fail? (lambda () ((horde-touching? (new-horde (new-mt-zombies) (new-mt-zombies))) "")))
+   ; (check-exn exn:fail? (lambda () ((horde-move-toward (new-horde (new-mt-zombies) (new-mt-zombies))) "")))
+   ))
+
 ;; run test suites
 (run-tests new-zombie-test-suite)
 (run-tests (test-new-mt-zombies (lambda () (new-mt-zombies)) ""))
 (run-tests new-cons-zombies-test-suite)
+(run-tests new-horde-test-suite)
