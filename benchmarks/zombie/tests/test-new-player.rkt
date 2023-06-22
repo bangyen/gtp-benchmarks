@@ -2,9 +2,12 @@
 
 (require rackunit
          rackunit/text-ui
+         
          ;(submod "zombie.rkt" test)
          (submod "../untyped/zombie.rkt" test)
+         ;"image.rkt"
          "../untyped/image.rkt"
+
          "test-new-posn.rkt"
          "test-image.rkt"
          )
@@ -111,7 +114,7 @@
     )
    (test-suite
     "arg must be a valid posn"
-    ;; these tests are totally wrong lol
+    ;; TODO these tests are totally wrong lol
     (check-exn exn:fail? (lambda () (test-player (new-player "cat"))))
     (check-exn exn:fail? (lambda () (test-player (new-player 'fish))))
     (check-exn exn:fail? (lambda () (test-player (new-player (new-posn 3)))))

@@ -1,6 +1,7 @@
 #lang racket
 (require rackunit
          rackunit/text-ui
+         
          ;"image.rkt"
          "../untyped/image.rkt"
          )
