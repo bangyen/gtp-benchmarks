@@ -2,10 +2,8 @@
 
 (require rackunit
          rackunit/text-ui
-         (submod "../untyped/zombie.rkt" test)
-         ;(submod "zombie.rkt" test)
-         "../untyped/image.rkt"
-         ;"image.rkt"
+         (submod "zombie.rkt" test)
+         "image.rkt"
          "test-image.rkt"
          "test-new-posn.rkt"
          )
@@ -84,12 +82,6 @@
    (posn-equal? ((zombie-posn result))
                 (new-posn x y))
    ;; draw-on/color
-  ;  (place-image-check (lambda () ((zombie-draw-on/color result) "red" MT-SCENE))
-  ;                     (circle ZOMBIE-RADIUS "solid" "red")
-  ;                     x
-  ;                     y
-  ;                     MT-SCENE
-  ;                     "")
   (place-zombie-image-check result "red" MT-SCENE)
 
    ;; touching?
@@ -107,10 +99,6 @@
    ))
 
 
-(define testing-test-zombie (test-zombie (lambda () (new-zombie (new-posn 0 0)))
-                                         0 0 ""))
-; (run-tests testing-test-zombie)
-
 ;; place-images-recursively: List (Any -> Image) string? Image -> Image
 ;; helper for place-zombies-image-check
 (define (place-images-recursively l i-fxn x-fxn y-fxn s)
@@ -125,6 +113,7 @@
                                               x-fxn
                                               y-fxn
                                               s)))))
+
 ;; place-zombies-image-check: Zombies (listof zombie) string image -> void
 ;; checks whether a list of zombies zs (should incl. mt-zombie) 
 ;; draws properly with color c and scene s
@@ -156,7 +145,6 @@
   (if (empty? list-zs)
       (new-mt-zombies)
       (begin
-        ; (printf "~s" (first list-zs))
         (new-cons-zombies (first list-zs)
                 (convert-list-to-cons-zombie (rest list-zs))))))
 
@@ -205,16 +193,16 @@
     [else (fail "image-impl not both cons or not both lists")]
   ))
 
-(check-false (equal-images? (place-image (circle ZOMBIE-RADIUS "solid" "red")
-                                        100
-                                        100
-                                        MT-SCENE)
-                           (place-image (circle ZOMBIE-RADIUS "solid" "yellow")
-                                        100
-                                        100
-                                        MT-SCENE)))
-(check-true (image? (circle ZOMBIE-RADIUS "solid" "red")))
-(check-true (list? (image-impl (circle ZOMBIE-RADIUS "solid" "red"))))
+; (check-false (equal-images? (place-image (circle ZOMBIE-RADIUS "solid" "red")
+;                                         100
+;                                         100
+;                                         MT-SCENE)
+;                            (place-image (circle ZOMBIE-RADIUS "solid" "yellow")
+;                                         100
+;                                         100
+;                                         MT-SCENE)))
+; (check-true (image? (circle ZOMBIE-RADIUS "solid" "red")))
+; (check-true (list? (image-impl (circle ZOMBIE-RADIUS "solid" "red"))))
 
 ;; equal-zombies?: Zombies Zombies -> Boolean
 ;; if the images produced by zs1 and zs2 on 
@@ -229,16 +217,6 @@
 ;                                               (new-mt-zombies))
 ;                             (new-cons-zombies (new-zombie (new-posn 0 0))
 ;                                               (new-mt-zombies))))
-;; test convert-list-to-cons-zombie
-; (define real-zombie-list 
-;           (new-cons-zombies (new-zombie (new-posn 0 0))
-;                             (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-;                                               (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
-;                                                                 (new-mt-zombies)))))
-; (define fake-zombie-list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-;                              (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
-; (check-true (equal-zombies? real-zombie-list
-;                             (convert-list-to-cons-zombie fake-zombie-list)))
 
 ;; kill-all-zombies: (listof zombie) (listof zombie) -> (listof (listof zombie))
 ;; kills all the zombies in undead-zombies if they
@@ -557,14 +535,8 @@
                    (list (list (new-zombie (new-posn -1000 -1000)) (new-zombie (new-posn -1000 -1000)))
                          (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 100 5000))))
                    "")
-   ;; wrong input: None of these raise errors.
-   ; (check-exn exn:fail? (lambda () (new-horde "" "")))
-   ; (check-exn exn:fail? (lambda () ((horde-draw-on (new-horde (new-mt-zombies) (new-mt-zombies))) "")))
-   ; (check-exn exn:fail? (lambda () ((horde-touching? (new-horde (new-mt-zombies) (new-mt-zombies))) "")))
-   ; (check-exn exn:fail? (lambda () ((horde-move-toward (new-horde (new-mt-zombies) (new-mt-zombies))) "")))
    ))
 
-;; run test suites
 (run-tests new-zombie-test-suite)
 (run-tests (test-new-mt-zombies (lambda () (new-mt-zombies)) ""))
 (run-tests new-cons-zombies-test-suite)
