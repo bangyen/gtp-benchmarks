@@ -84,6 +84,7 @@
             #:when (and (file-exists? (build-path test-env test-env-file))
                         (path-has-extension? (build-path test-env test-env-file) ".rkt")
                         (member test-env-file relative-paths-of-test-files)))
+        (current-directory test-env)
         (system* (whereis-system 'exec-file) (build-path test-env test-env-file)))
     ;; cleanup directory
     (delete-directory/files test-env)
