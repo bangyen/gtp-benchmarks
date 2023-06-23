@@ -24,20 +24,43 @@
  (define alt
    (build max dub))
 
- (for ([n max])
+ (define (ref x y [f #f])
+   (define pos
+     (vector x y))
+   (define alt
+     (if f (f pos) pos))
+
+   (grid-ref vec alt))
+
+ (for ([n (grid-height vec)])
    (vector-set! vec n
                 (make-vector dub))
    (vector-set! res n
                 (list->vector
                  (range n (+ n dub))))
 
-   (for ([k dub])
+   (for ([k (grid-width vec)])
      (array-set! vec
                  (vector n k)
                  (+ n k))
-     (check-eq? (grid-ref vec
-                          (vector n k))
+     (check-eq? (ref n k)
                 (+ n k))))
+
+ (check-false (ref -1 0))
+ (check-false (ref 0 -1))
+ (check-false (ref (grid-height vec) 0))
+ (check-false (ref 0  (grid-width vec)))
+
+ (check-eq? (ref 0 0 up)   (ref 0 0))
+ (check-eq? (ref 0 0 left) (ref 0 0))
+ (check-false
+   (ref (sub1 (grid-height vec))
+        (sub1 (grid-width  vec))
+        right))
+ (check-false
+   (ref (sub1 (grid-height vec))
+        (sub1 (grid-width  vec))
+        down))
 
  (check-equal? vec res)
  (check-equal? vec alt)
@@ -47,19 +70,21 @@
 (test-begin
  (define vec (build max dub))
 
- (for ([n max])
-   (for ([k dub])
+ (for ([n (grid-height vec)])
+   (for ([k (grid-width vec)])
      (define pos (vector n k))
      (define sum (+ n k))
 
      (check-eq? (grid-ref vec (up    pos))
                 (if (= n 0) sum (- sum 1)))
      (check-eq? (grid-ref vec (down  pos))
-                (if (= (+ n 1) max) #f (+ sum 1)))
+                (if (= (+ n 1) (grid-height vec))
+                    #f (+ sum 1)))
      (check-eq? (grid-ref vec (left  pos))
                 (if (= k 0) sum (- sum 1)))
      (check-eq? (grid-ref vec (right pos))
-                (if (= (+ k 1) dub) #f (+ sum 1))))))
+                (if (= (+ k 1) (grid-width vec))
+                    #f (+ sum 1))))))
 
 ; cell tests
 (test-begin
