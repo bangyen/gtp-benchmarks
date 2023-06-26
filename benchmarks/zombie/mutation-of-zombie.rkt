@@ -12,7 +12,7 @@
    (define HEIGHT 400)
    (define MT-SCENE (empty-scene WIDTH HEIGHT))
    (define PLAYER-SPEED 4)
-   (define ZOMBIE-SPEED 2)
+   (define ZOMBIE-SPEED -2)
    (define ZOMBIE-RADIUS 20)
    (define PLAYER-RADIUS 20)
    (define PLAYER-IMG (circle PLAYER-RADIUS "solid" "green"))
@@ -249,7 +249,7 @@
        (new-cons-zombies
         (new-zombie (new-posn 100 300))
         (new-cons-zombies (new-zombie (new-posn 100 200)) (new-mt-zombies)))
-       (new-cons-zombies (new-zombie (new-posn 200 -200)) (new-mt-zombies)))))
+       (new-cons-zombies (new-zombie (new-posn 200 200)) (new-mt-zombies)))))
    (module*
     test
     #f

@@ -114,22 +114,53 @@
                     (build-path test-env test-file))
         (set! test-file-names (cons test-file test-file-names)))
 
+    ;; copy the module files again
+    (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
+    ;; copy others
+    (for ([src-file (benchmark-configuration-others bench-config)])
+        (copy-file src-file
+                    (build-path test-env (file-name-from-path src-file))))
+
     ; ;; loop: put a mutant on disk, run tests, delete the mutants, repeat
     ; ;; do this for ONE MUTANT FIRST
     ; ;; write-mutant-to-disk: hash string number path-string? -> void
     ; ;; (define (write-mutant-to-disk mutant-hash mod mutation-index dest)
-    (write-mutant-to-disk mutants "zombie.rkt" 5 (build-path test-env "zombie.rkt"))
-    (length (hash-ref mutants "zombie.rkt"))
+    ;; each mutatable module
+    (for ([mod mutatable-modules])
+        ; backup the module
+        ; ...
+        ; generate the mutants of mod, and run the tests on them
+        (for ([i (in-range (length (hash-ref mutants mod)))])
+            ; mutate the module
+            (define module-path (build-path test-env mod))
+            (delete-file module-path)
+            (write-mutant-to-disk mutants mod i module-path)
+            ; run tests
+            (for ([test-env-file (directory-list test-env)]
+                    #:when (and (file-exists? (build-path test-env test-env-file))
+                                (path-has-extension? (build-path test-env test-env-file) ".rkt")
+                                (member test-env-file test-file-names)))
+                    (current-directory test-env)
+                    (system* (whereis-system 'exec-file) (build-path test-env test-env-file)))
+            )
+        ; get the original module back
+        ; ...
+        )
+    
+    ;; single file test
+    ; (write-mutant-to-disk mutants "zombie.rkt" 5 (build-path test-env "zombie.rkt"))
+    ; (length (hash-ref mutants "zombie.rkt"))
 
-    (define out (open-output-file (build-path bench-path "mutation3-of-zombie.rkt")))
-    (pretty-write (list-ref (hash-ref mutants "zombie.rkt") 3) out)
-    (close-output-port out)
-    (set! out (open-output-file (build-path bench-path "mutation15-of-zombie.rkt")))
-    (pretty-write (list-ref (hash-ref mutants "zombie.rkt") 15) out)
-    (close-output-port out)
+    ; (define out (open-output-file (build-path bench-path "mutation3-of-zombie.rkt")))
+    ; (pretty-write (list-ref (hash-ref mutants "zombie.rkt") 3) out)
+    ; (close-output-port out)
+    ; (set! out (open-output-file (build-path bench-path "mutation15-of-zombie.rkt")))
+    ; (pretty-write (list-ref (hash-ref mutants "zombie.rkt") 15) out)
+    ; (close-output-port out)
 
     ;; clean up directory
-    (delete-directory/files test-env))
+    (delete-directory/files test-env)
+    )
 
 ;; COMMAND LINE PARSING & RUN SCRIPT
 ;; command line parsing
