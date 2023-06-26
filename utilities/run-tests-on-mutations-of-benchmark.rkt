@@ -12,22 +12,15 @@
          racket/stream
          "read-module.rkt")
 
-;; 1. generate the mutations
-;; 2. write first mutation to disk
-;; 3. run the tests
-;; 4. repeat steps 2-4 
-
 ;;; SETUP RUNTIME PATHS
 ;; benchmarks-path: path of the benchmarks directory in gtp-benchmarks
 (define-runtime-path benchmarks-path "../benchmarks")
 
-;; GENERATE BENCHMARK-CONFIGURATION
-
+;;; GENERATE BENCHMARK-CONFIGURATION
 ;; necessary to install the proper configuration
 ;; relies on requiring the package bex/configurables/configurables
 (define-runtime-path config-path "tests-configuration.rkt")
 (install-configuration! config-path)
-
 ;; create-benchmark-configuration: path-string? string -> benchmark-configuration
 (define (create-benchmark-configuration bench config-string)
     ;; generate a config
@@ -50,8 +43,6 @@
    #:streaming
    #:module-mutator
    ))
-
-
 ;; get-mutant-hash: (listof string?) -> hash (string -> (listof syntax-object)) 
 (define (get-mutant-hash program-path-strings)
     (define programs-to-mutate 
@@ -66,7 +57,6 @@
     mutants)
 
 ;;; WRITE MUTATIONS TO DISK
-
 ;; write-mutant-to-disk: hash string number path-string? -> void
 (define (write-mutant-to-disk mutant-hash mod mutation-index dest)
     (define out (open-output-file dest))
@@ -89,22 +79,17 @@
     (current-directory test-env)
     ;; get strings of mutatable-modules
     (define mutatable-modules (benchmark->mutatable-modules bench))
-
-
     ;; copy all the modules into a new directory
     (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
     ;; copy others
     (for ([src-file (benchmark-configuration-others bench-config)])
         (copy-file src-file
                     (build-path test-env (file-name-from-path src-file))))
-
     ;; Generate program mutations: use get-mutant-hash
     (define mutants (get-mutant-hash mutatable-modules))
     ;; delete all the files
     (for ([file (directory-list test-env #:build? #t)])
         (delete-file file))
-    
-    ;;; COPY TEST FILES
     ;; copy all files in "tests" and add their names to a list
     (define test-dir (build-path bench-path "tests"))
     (define test-file-names '())
@@ -113,22 +98,16 @@
         (copy-file (build-path test-dir test-file) 
                     (build-path test-env test-file))
         (set! test-file-names (cons test-file test-file-names)))
-
     ;; copy the module files again
     (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
     ;; copy others
     (for ([src-file (benchmark-configuration-others bench-config)])
         (copy-file src-file
                     (build-path test-env (file-name-from-path src-file))))
-
-    ; ;; loop: put a mutant on disk, run tests, delete the mutants, repeat
-    ; ;; do this for ONE MUTANT FIRST
-    ; ;; write-mutant-to-disk: hash string number path-string? -> void
-    ; ;; (define (write-mutant-to-disk mutant-hash mod mutation-index dest)
-    ;; each mutatable module
+    ;; the loop loads a mutant in test-env, runs the tests, deletes the mutants, and repeats.
     (for ([mod mutatable-modules])
         ; backup the module
-        ; ...
+        (copy-file (build-path test-env mod) (build-path test-env (string-join (list "--" mod))))
         ; generate the mutants of mod, and run the tests on them
         (for ([i (in-range (length (hash-ref mutants mod)))])
             ; mutate the module
@@ -141,36 +120,22 @@
                                 (path-has-extension? (build-path test-env test-env-file) ".rkt")
                                 (member test-env-file test-file-names)))
                     (current-directory test-env)
-                    (system* (whereis-system 'exec-file) (build-path test-env test-env-file)))
-            )
+                    (system* (whereis-system 'exec-file) (build-path test-env test-env-file))))
         ; get the original module back
-        ; ...
-        )
-    
-    ;; single file test
-    ; (write-mutant-to-disk mutants "zombie.rkt" 5 (build-path test-env "zombie.rkt"))
-    ; (length (hash-ref mutants "zombie.rkt"))
-
-    ; (define out (open-output-file (build-path bench-path "mutation3-of-zombie.rkt")))
-    ; (pretty-write (list-ref (hash-ref mutants "zombie.rkt") 3) out)
-    ; (close-output-port out)
-    ; (set! out (open-output-file (build-path bench-path "mutation15-of-zombie.rkt")))
-    ; (pretty-write (list-ref (hash-ref mutants "zombie.rkt") 15) out)
-    ; (close-output-port out)
-
+        (delete-file (build-path test-env mod))
+        (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))
+        (delete-file (build-path test-env (string-join (list "--" mod)))))
     ;; clean up directory
-    (delete-directory/files test-env)
-    )
+    (delete-directory/files test-env))
 
-;; COMMAND LINE PARSING & RUN SCRIPT
-;; command line parsing
-;; it parses the command line and returns a list of format:
-;; string config
+;; COMMAND LINE PARSING & RUNNING THE SCRIPT
+;; parser: parses the command line and returns a list of format: string string
+;; the first string is the benchmark, like "zombie"
+;; the second string in the nonnegative integer that represents the config, like "1100"
 (define parser
     (command-line
      #:program "run-benchmark-tests"
      #:args(benchmark-string benchmark-config)
      (list benchmark-string benchmark-config)))
-
 (run-tests-on-mutations (first parser)
                         (second parser))
