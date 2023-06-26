@@ -16,8 +16,6 @@
 ;; In binary, 0 is untyped. 1 is typed. If you wanted to leave every module untyped except for zombie,
 ;; the number 0001 would generate that configuration.
 
-;; TODO: I have yet to test this thoroughly
-
 (require bex/configurations/config
          bex/configurations/configure-benchmark
          racket/runtime-path
