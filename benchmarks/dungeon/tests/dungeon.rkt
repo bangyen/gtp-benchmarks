@@ -11,6 +11,7 @@
                 (parse-grid))
 
 ; test parameters
+(define fnc +)
 (define max 5)
 (define dub (* max 2))
 
@@ -20,6 +21,17 @@
                (lambda (p) (+ (vector-ref p 0)
                               (vector-ref p 1)))))
 
+; wrapper for grid-ref
+(define (wrap vec)
+  (define (ref x y [f #f])
+    (define pos
+      (vector x y))
+    (define alt
+      (if f (f pos) pos))
+
+    (grid-ref vec alt))
+  ref)
+
 ; grid build/set tests
 (test-begin
  (define vec
@@ -28,14 +40,7 @@
    (make-vector max))
  (define alt
    (build max dub))
-
- (define (ref x y [f #f])
-   (define pos
-     (vector x y))
-   (define alt
-     (if f (f pos) pos))
-
-   (grid-ref vec alt))
+ (define ref (wrap vec))
 
  (for ([n (grid-height vec)])
    (vector-set! vec n
@@ -51,45 +56,49 @@
      (check-eq? (ref n k)
                 (+ n k))))
 
- (check-false (ref -1 0))
- (check-false (ref 0 -1))
- (check-false (ref (grid-height vec) 0))
- (check-false (ref 0  (grid-width vec)))
-
- (check-eq? (ref 0 0 up)   (ref 0 0))
- (check-eq? (ref 0 0 left) (ref 0 0))
- (check-false
-   (ref (sub1 (grid-height vec))
-        (sub1 (grid-width  vec))
-        right))
- (check-false
-   (ref (sub1 (grid-height vec))
-        (sub1 (grid-width  vec))
-        down))
-
  (check-equal? vec res)
  (check-equal? vec alt)
  (check-equal? res alt))
 
+(test-begin
+ (define vec (build max dub))
+ (define ref (wrap vec))
+
+ (check-false (ref -1 0))
+ (check-false (ref 0 -1))
+ (check-false (ref (grid-height vec) 0))
+ (check-false (ref 0 (grid-width vec))))
+
 ; direction tests
 (test-begin
  (define vec (build max dub))
+ (define ref (wrap vec))
 
  (for ([n (grid-height vec)])
    (for ([k (grid-width vec)])
-     (define pos (vector n k))
      (define sum (+ n k))
 
-     (check-eq? (grid-ref vec (up    pos))
+     (check-eq? (ref n k up)
                 (if (= n 0) sum (- sum 1)))
-     (check-eq? (grid-ref vec (down  pos))
+     (check-eq? (ref n k down)
                 (if (= (+ n 1) (grid-height vec))
                     #f (+ sum 1)))
-     (check-eq? (grid-ref vec (left  pos))
+     (check-eq? (ref n k left)
                 (if (= k 0) sum (- sum 1)))
-     (check-eq? (grid-ref vec (right pos))
+     (check-eq? (ref n k right)
                 (if (= (+ k 1) (grid-width vec))
-                    #f (+ sum 1))))))
+                    #f (+ sum 1)))))
+
+ (check-eq? (ref 0 0 up)   (ref 0 0))
+ (check-eq? (ref 0 0 left) (ref 0 0))
+ (check-false
+  (ref (sub1 (grid-height vec))
+       (sub1 (grid-width  vec))
+       right))
+ (check-false
+  (ref (sub1 (grid-height vec))
+       (sub1 (grid-width  vec))
+       down)))
 
 ; cell tests
 (test-begin
@@ -129,8 +138,8 @@
  (define (pred type . grid)
    (define res (parse-grid grid))
    (check-pred (λ (c) (is-a? c type))
-             (grid-ref (smooth-walls res)
-                       (vector 1 1))))
+               (grid-ref (smooth-walls res)
+                         (vector 1 1))))
 
  (define cells (list (cons (vector 1 1)
                            wall%)))
