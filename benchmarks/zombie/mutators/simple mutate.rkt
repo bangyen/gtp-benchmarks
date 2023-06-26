@@ -4,7 +4,8 @@
          mutate ; provides both mutate/define and mutate/quick
          "simple.rkt"
          "read-module.rkt"
-         racket/stream)
+         racket/stream
+         racket/runtime-path)
  
 (define program-mutations
   (build-mutation-engine
@@ -17,7 +18,10 @@
    #:syntax-only
    #:streaming
    #:module-mutator))
- 
+
+(define-runtime-path actual-working-dir "simple mutate.rkt/../")
+(current-directory actual-working-dir)
+
 (define program-to-mutate
   (read-module "simple.rkt"))
 
