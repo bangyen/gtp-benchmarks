@@ -5,6 +5,11 @@
 (require "../untyped/main.rkt")
 (require rackunit)
 
+(require/expose "../untyped/main.rkt"
+                (smooth-walls room commit-room))
+(require/expose "../untyped/grid.rkt"
+                (parse-grid))
+
 ; test parameters
 (define max 5)
 (define dub (* max 2))
@@ -120,7 +125,7 @@
  (check-equal? (dict-set lst 1 '(3))
                res))
 
-#; (test-begin
+(test-begin
  (define (pred type . grid)
    (define res (parse-grid grid))
    (check-pred (λ (c) (is-a? c type))
