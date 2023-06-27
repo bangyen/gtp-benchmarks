@@ -1,5 +1,27 @@
 #lang at-exp racket
 
+;; INSTRUCTIONS: 
+;; In command line: "racket run-tests-on-mutations-of-benchark <benchmark-name> <bench-config>"
+;; <benchmark-name>: what it sounds like ("zombie", "dungeon", etc.)
+;; <bench-config>: a binary integer that represents the configuration of typed and untyped modules.
+;; - Imagine the modules in a benchmark are sorted lexicographically. Take Zombie for instance.
+;; - The first module is "image.rkt." The second is "main.rkt." The third is "math.rkt". The fourth,
+;; "zombie.rkt."
+;; - <bench-config> is a representation of whether you want to leave each module typed, or untyped. 
+;; In binary, 0 is untyped. 1 is typed. If you wanted to leave every module untyped except for zombie,
+;; the number 0001 would generate that configuration.
+;;
+;; PREREQUISITES:
+;; 1. Clone Lukas's "blame-evaluation-gt" repo
+;; 2. Install...
+;; - "bex" - it's a directory inside blame-evaluation-gt
+;; - "whereis" - a package that tells you where things are
+;; 
+;; POTENTIAL CHANGES:
+;; 1. Refine our set of mutators (include mutators from 2020, ICFP 2021, ICFP 2023)
+;; 2. Calculate a mutation score for the test suite for a benchmark, or compute other data
+
+
 (require syntax/parse
          bex/configurations/config
          bex/configurations/configure-benchmark
