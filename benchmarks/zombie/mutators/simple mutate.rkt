@@ -6,6 +6,7 @@
          "read-module.rkt"
          racket/stream
          racket/runtime-path
+         mutate/mutators/code
          whereis)
  
 (define program-mutations
@@ -16,6 +17,23 @@
      #'(if cond e t))
    (define-constant-mutator (constant-swap v)
      [(? number?) #:-> (- v)])
+   arithmetic-op-swap
+   boolean-op-swap
+   comparison-op-swap
+   negate-conditionals
+   force-conditionals
+   replace-constants/type-level
+   replace-constants/similar
+   swap-arguments
+   delete-begin-result-expr
+   begin-drop
+   data-accessor-swap
+   nested-list-construction-swap
+   class-method-publicity-swap
+   delete-super-new
+   add-extra-class-method
+   replace-class-parent
+   swap-class-initializers
    #:syntax-only
    #:streaming
    #:module-mutator))
