@@ -60,6 +60,8 @@
 (define cur-out #f)
 ;variable storing total number of mutants successfully identifed
 (define test-fail 0)
+; make the directory storing the passing mutants
+; (make-directory "passing-mutants")
 (for ([i x])
   (display (string-append "Running Mutant" (number->string (+ i 1)) "\n"))
   ;get current mutant to work on
@@ -70,7 +72,9 @@
   ;run test on mutant, increment test-fail if test gives error or fail.
   (if (parameterize ([current-output-port (open-output-nowhere)]
                      [current-error-port (open-output-nowhere)]) (system* (whereis-system 'exec-file) (whereis-raco "test") "tests/test-math.rkt"))
-      (display (string-append "Mutant " (number->string (+ i 1)) " not identified, " (number->string test-fail) " in total\n"))
+      ; (begin (copy-file "curmutant.rkt" (build-path "passing-mutants" (string-append "mutant" (number->string (+ i 1)) ".rkt")))
+             (display (string-append "Mutant " (number->string (+ i 1)) " not identified, " (number->string test-fail) " in total\n"))
+             ; )
       (begin (set! test-fail (+ test-fail 1))
              (display (string-append "Mutant " (number->string (+ i 1)) " identified, " (number->string test-fail) " in total\n"))))
   ;delete and clean for next round
