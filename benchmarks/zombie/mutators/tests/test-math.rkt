@@ -61,6 +61,8 @@
    (check-eq? (abs 5.450450) 5.450450)
    (check-eq? (abs -5000) 5000)
    (check-eq? (abs 0.0) 0.0)
+   (check-eq? (abs 0.5) 0.5)
+   (check-equal? (abs -0.5) 0.5)
    ; wrong input
    (check-exn exn:fail? (lambda () (abs "")))
    ))
