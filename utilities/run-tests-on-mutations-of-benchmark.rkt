@@ -63,21 +63,21 @@
    #:mutators
    arithmetic-op-swap
    boolean-op-swap
-   comparison-op-swap
-   negate-conditionals
-   force-conditionals
-   replace-constants/type-level
-   replace-constants/similar
-   swap-arguments
-   delete-begin-result-expr
-   begin-drop
-   data-accessor-swap
-   nested-list-construction-swap
-   class-method-publicity-swap
-   delete-super-new
-   add-extra-class-method
-   replace-class-parent
-   swap-class-initializers
+;    comparison-op-swap
+;    negate-conditionals
+;    force-conditionals
+;    replace-constants/type-level
+;    replace-constants/similar
+;    swap-arguments
+;    delete-begin-result-expr
+;    begin-drop
+;    data-accessor-swap
+;    nested-list-construction-swap
+;    class-method-publicity-swap
+;    delete-super-new
+;    add-extra-class-method
+;    replace-class-parent
+;    swap-class-initializers
    #:top-level-selector
    selector
    #:syntax-only
@@ -130,8 +130,7 @@
     (define mutants (get-mutant-hash mutatable-modules))
     ;; get the number of mutants to compute mutation score later
     (define number-of-mutants 0)
-    (for ([mod mutatable-modules])
-        (set! number-of-mutants (+ number-of-mutants (length (hash-ref mutants mod)))))
+
     ;; delete all the files
     (for ([file (directory-list test-env #:build? #t)])
         (delete-file file))
@@ -167,15 +166,15 @@
                                 (path-has-extension? (build-path test-env test-env-file) ".rkt")
                                 (member test-env-file test-file-names)))
                     (current-directory test-env)
+                    (set! number-of-mutants (+ number-of-mutants 1))
                     (if (parameterize ([current-output-port (open-output-nowhere)]
                                        [current-error-port (open-output-nowhere)])
-                            (system* (whereis-system 'exec-file) (whereis-raco "test") (build-path test-env test-env-file))))
+                            (system* (whereis-system 'exec-file) (whereis-raco "test") (build-path test-env test-env-file)))
                         ;; then, mutant not identified
-                        (display "Mutant not identified")
+                        (displayln "Mutant not identified")
                         ;; else, mutant identified
                         (begin (set! mutants-killed (+ mutants-killed 1))
-                               (display "Mutant identified"))
-                    ))
+                               (displayln "Mutant identified")))))
         ; get the original module back
         (delete-file (build-path test-env mod))
         (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))
@@ -184,7 +183,7 @@
     (delete-directory/files test-env)
     ;; display mutation score
     (define res (exact->inexact (/ mutants-killed number-of-mutants)))
-    (display (string-append (number->string mutants-killed) " mutants identified out of " (number->string number-of-mutants) ", mutation score of " (number->string res))))
+    (displayln (string-append (number->string mutants-killed) " mutants identified out of " (number->string number-of-mutants) ", mutation score of " (number->string res))))
 
 ;; COMMAND LINE PARSING & RUNNING THE SCRIPT
 ;; parser: parses the command line and returns a list of format: string string
