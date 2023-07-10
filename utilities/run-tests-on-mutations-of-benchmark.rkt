@@ -56,28 +56,47 @@
   (syntax-parse stx
     [({~datum :} _ ...) #f]
     [other (list (list #'other) 'tmp first)]))
+
+
 ;; program-mutations: mutation-engine
 ;; add mutators to create more or different mutators per module
 (define program-mutations
   (build-mutation-engine
    #:mutators
-   arithmetic-op-swap
-   boolean-op-swap
-;    comparison-op-swap
-;    negate-conditionals
-;    force-conditionals
-;    replace-constants/type-level
-;    replace-constants/similar
-;    swap-arguments
-;    delete-begin-result-expr
-;    begin-drop
-;    data-accessor-swap
-;    nested-list-construction-swap
-;    class-method-publicity-swap
-;    delete-super-new
-;    add-extra-class-method
-;    replace-class-parent
-;    swap-class-initializers
+   ; Lukas's ICFP 2021 Paper: Type-Level Mutators
+   ; constant
+   replace-constants/type-level
+   ; deletion
+   ; delete-begin-result-expr
+   ; position
+   swap-arguments
+   ; list
+   nested-list-construction-swap
+   ; top-level-id 
+   ; make-top-level-id-swap-mutator (not a mutator/c, a function that produces a mutator/c)
+   ; imported-id
+   ;; not in Racket Mutate docs (but present in Lukas's blame-evaluation-gt repo)
+   ; method-id
+   ; make-method-id-swap-mutator (not a mutator/c, a function that produces a mutator/c)
+   ; field-id
+   ; make-field-id-swap-mutator (not a mutator/c, a function that produces a mutator/c)
+   ; class:init
+   ; swap-class-initializers
+   ; class:parent
+   ; replace-class-parent
+   ; class:public
+   ; class-method-publicity-swap
+   ; class:super
+   ; delete-super-new
+   ; arithmetic
+   ; arithmetic-op-swap
+   ; boolean
+   ; boolean-op-swap
+   ; negate-cond
+   ; negate-conditionals
+   ; force-cond
+   ; force-conditionals
+   
    #:top-level-selector
    selector
    #:syntax-only
