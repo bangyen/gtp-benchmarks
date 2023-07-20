@@ -2,12 +2,34 @@
 
 (require (prefix-in rackunit: rackunit)
          rackunit/private/check-info
+         rackunit/log
+         racket/provide
          syntax/parse/define
          syntax/parse
          syntax/location
-         rackunit/log
-         (for-syntax racket/syntax)
-         )
+         (for-syntax racket/syntax))
+
+;; HOW TO USE
+;; Merely replace your requirement of rackunit with "macro-for-tests.rkt" in a file, 
+;; and bang, you now have a bunch of tests that log raw data. 
+;; Note: you must strip all of your "helper" test functions of test suites to use. 
+
+;; IMPROVEMENTS: 
+;; 1. Logging. Instead of printing stuff to stream, send everything to a log.
+;; 2. Parameters (that are accessible from macros). 
+;; --- current-module: string
+;; --- current-mutant: string
+
+;; FORMAT
+;; module: RESPONSIBILITY OF TEST RUNNER
+;; mutant: RESPONSIBILITY OF TEST RUNNER
+;; time: number RESPONSIBILITY OF TEST RUNNER
+;; passed?: "yes" or "no"
+;; identifier:
+;; expression:
+;; location:
+;; fail-reason: ["N/A" "test" "type-checker"]
+
 
 ;; Creates a parameter that initializes to ""
 ;; This parameter changes for when a test is run in this program
@@ -130,8 +152,7 @@
 (define-wrapped-rackunit-checks
  check-exn
  check-true
- check-equal?
-)
+ check-equal?)
 
 ;; OTHERS
 #|
@@ -139,14 +160,6 @@
 -> (parameterize ([test-id ...])
        (test-posn ...))
 |#
-
-; (define-syntax-parse-rule (define-parameterizing-test-id (tester-name args ...) body ...)
-;        (begin
-;         (define (impl args ...)
-;               body ...)
-;         (define-syntax-parse-rule (tester-name args ...)
-;               (parameterize ([test-id (string-append (test-id) (path->string filename) ":" (number->string linenumber) ";")])
-;                      (impl args ...)))))
 
 (define-syntax (define-parameterizing-test-id stx)
   (syntax-parse stx
@@ -164,9 +177,15 @@
     [(_ id expr)
      #'(define id expr)]))
 
-
 (provide (all-defined-out)
-         (all-from-out rackunit)
+         (rename-out [define-parameterizing-test-id define])
+         (filtered-out
+          (lambda (name)
+            (substring name 9))
+          (except-out (all-from-out rackunit)
+                      rackunit:check-exn
+                      rackunit:check-true
+                      rackunit:check-equal?))
          (all-from-out syntax/location)
          (all-from-out rackunit/private/check-info)
          (all-from-out rackunit/log))

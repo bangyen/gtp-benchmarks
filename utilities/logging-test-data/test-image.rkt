@@ -2,9 +2,7 @@
 (require rackunit/text-ui
          "image.rkt"
          ;"../untyped/image.rkt"
-         (rename-in "macro-for-tests.rkt" [define-parameterizing-test-id define])
-         ; "macro-for-tests.rkt"
-         )
+         "macro-for-tests.rkt")
 
 (provide place-image-check
          test-image-equal)
@@ -17,18 +15,18 @@
   (image (cons w h)))
 |#
 (define empty-scene-tests
-  (rackunit:test-suite
+  (test-suite
    "empty-scene-tests"
   ;  #:before (lambda () (display "START empty-scene-tests\n"))
   ;  #:after  (lambda () (display "FINISH empty-scene-tests\n"))
-   (rackunit:test-suite
+   (test-suite
     "not enough args"
     ;(check-exn-h (empty-scene))
     (check-exn exn:fail? (lambda () (empty-scene)))
     (check-exn exn:fail? (lambda () (empty-scene 1 2 23 5 6)))
     (check-exn exn:fail? (lambda () (empty-scene 10)))
     )
-   (rackunit:test-suite
+   (test-suite
     "invalid w h"
     (check-exn exn:fail? (lambda () (empty-scene 'dog "cat")))
     (check-exn exn:fail? (lambda () (empty-scene "dog" 'cat)))
@@ -39,16 +37,16 @@
     (check-exn exn:fail? (lambda () (empty-scene -1 -1)))
     (check-exn exn:fail? (lambda () (empty-scene -1 1)))
     )
-   (rackunit:test-suite
+   (test-suite
     "correct results"
-    (rackunit:test-suite
+    (test-suite
      "(empty-scene 1 3)"
      (check-true (image? (empty-scene 1 3)))
      (check-true (cons? (image-impl (empty-scene 1 3))))
      (check-equal? 1 (car (image-impl (empty-scene 1 3))))
      (check-equal? 3 (cdr (image-impl (empty-scene 1 3))))
     )
-    (rackunit:test-suite
+    (test-suite
      "(empty-scene 1111 999)"
      (check-true (image? (empty-scene 1111 999)))
      (check-true (cons? (image-impl (empty-scene 1111 999))))
@@ -83,18 +81,18 @@
    (test-image-equal i4 (fourth (image-impl result)))
   )
 (define place-image-tests
-  (rackunit:test-suite
+  (test-suite
    "place-image-tests"
   ;  #:before (lambda () (display "START place-image-tests\n"))
   ;  #:after  (lambda () (display "FINISH place-image-tests\n"))
-   (rackunit:test-suite
+   (test-suite
     "not enough args"
     (check-exn exn:fail? (lambda () (place-image 1 2)))
     (check-exn exn:fail? (lambda () (place-image)))
     (check-exn exn:fail? (lambda () (place-image 1 2 3 4 5)))
     (check-exn exn:fail? (lambda () (place-image 1 2 3 4 5 6 7 8 9 10)))
     )
-   (rackunit:test-suite
+   (test-suite
     "invalid inputs"
     (check-exn exn:fail? (lambda () (place-image-check (place-image 5 6 7 (empty-scene 12 10))
                                                        5 6 7 (empty-scene 12 10)
@@ -112,7 +110,7 @@
                                                        (circle 10 "s" "p") 'ghost 8 (empty-scene 50 50)
                                                        "i2 not real")))
     )
-   (rackunit:test-suite
+   (test-suite
     "expected results"
     (place-image-check (lambda () (place-image (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)))
                        (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)
@@ -124,7 +122,7 @@
                        (empty-scene 50 50) -4 -100 (empty-scene 20 30)
                        "place-image two empty scenes, both negative coords")
    )
-   (rackunit:test-suite
+   (test-suite
     "test-image-equal"
     (test-image-equal (circle 4 "solid" "red")
                       (circle 4 "solid" "red"))
@@ -168,18 +166,18 @@
    (check-equal? (third (image-impl result)) i3)
    )
 (define circle-tests
-  (rackunit:test-suite
+  (test-suite
    "circle-tests"
   ;  #:before (lambda () (display "START circle-tests\n"))
   ;  #:after  (lambda () (display "FINISH circle-tests\n"))
-   (rackunit:test-suite
+   (test-suite
     "not enough args"
     (check-exn exn:fail? (lambda () (circle 1 2)))
     (check-exn exn:fail? (lambda () (circle)))
     (check-exn exn:fail? (lambda () (circle 1 2 3 4)))
     (check-exn exn:fail? (lambda () (circle 1 2 3 4 5 6 7 8 9 10)))
     )
-   (rackunit:test-suite
+   (test-suite
     "expected results"
     #|(check-circle (lambda () (circle 50 "bold" 'red))
                   50 "bold" 'red
@@ -199,9 +197,9 @@
 ;; returns a test suite or fail
 (define (test-image-equal img1 img2)
   (unless (image? img1)
-    (rackunit:fail "img1 not an image"))
+    (fail "img1 not an image"))
   (unless (image? img1)
-    (rackunit:fail "img2 not an image"))
+    (fail "img2 not an image"))
   (cond
     ; both lists
     [(and (list? (image-impl img1))
@@ -218,9 +216,9 @@
                (if (and (not (image? a))
                         (not (image? b)))
                    (check-equal? a b)
-                   (rackunit:fail "not both images"))))]
+                   (fail "not both images"))))]
        ; unequal length
-       [else (rackunit:fail "lists are not equal length")]
+       [else (fail "lists are not equal length")]
        )]
     ; both cons and not lists
     [(and (cons? (image-impl img1))
@@ -233,10 +231,21 @@
                     (cdr (image-impl img2)))
       ]
     ; not both cons or both lists
-    [else (rackunit:fail "image-impl not both cons or not both lists")]
+    [else (fail "image-impl not both cons or not both lists")]
   ))
 
 
 (run-tests empty-scene-tests)
 (run-tests place-image-tests)
 (run-tests circle-tests)
+
+
+;; testing define-parameterizing-id
+(define (dummy-fun arg)
+  arg)
+
+(check-true (equal? (dummy-fun 5) 60))
+
+(check-equal? (dummy-fun 5) 5)
+
+(test-image-equal (dummy-fun (empty-scene 500 500)) (empty-scene 500 500))

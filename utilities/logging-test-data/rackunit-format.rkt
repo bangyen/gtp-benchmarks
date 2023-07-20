@@ -8,11 +8,6 @@
 
 (provide format-tests)
 
-;; TBD: 
-;;; - Test what we have so far for code coverage of the three cases
-;;; - Change test-case-around
-;;; - Test this thoroughly for test-cases, test-suites, and all rackunit functionality
-
 ; FORMAT: 
 ;; module: RESPONSIBILITY OF TEST RUNNER
 ;; mutant: RESPONSIBILITY OF TEST RUNNER
