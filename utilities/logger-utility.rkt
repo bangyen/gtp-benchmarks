@@ -8,7 +8,8 @@
          parameter-for-current-module
          parameter-for-current-mutant
          log-test-data-debug
-         (struct-out test-info))
+         (struct-out test-info)
+         logging-test-data-file)
 
 (struct test-info (mtnt mod test-expr test-loc test-id fail-reason))
 
@@ -21,11 +22,11 @@
 
 ;; print-error: (-> check-info string -> void)
 (define (print-error tst-inf out)
-  (fprintf out "mutant: ")
-  (fprintf out "~a~n" (test-info-mtnt tst-inf))
+  ;; (fprintf out "mutant: ")
+  ;; (fprintf out "~a~n" (test-info-mtnt tst-inf))
 
-  (fprintf out "module: ")
-  (fprintf out "~a~n" (test-info-mod tst-inf))
+  ;; (fprintf out "module: ")
+  ;; (fprintf out "~a~n" (test-info-mod tst-inf))
   
   (fprintf out "passed: no~n")
   ;; test-message
@@ -43,11 +44,11 @@
 
 ;; pass-handler (-> Exn void)
 (define (print-pass tst-inf out)
-  (fprintf out "mutant: ")
-  (fprintf out "~a~n" (test-info-mtnt tst-inf))
+  ;; (fprintf out "mutant: ")
+  ;; (fprintf out "~a~n" (test-info-mtnt tst-inf))
 
-  (fprintf out "module: ")
-  (fprintf out "~a~n" (test-info-mod tst-inf))
+  ;; (fprintf out "module: ")
+  ;; (fprintf out "~a~n" (test-info-mod tst-inf))
   
   (fprintf out "passed: yes~n")
   (fprintf out "identifier: ~a~n" (test-info-test-id tst-inf))

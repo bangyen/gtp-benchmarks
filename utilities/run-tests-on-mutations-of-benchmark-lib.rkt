@@ -132,6 +132,12 @@
   (pretty-write (list-ref (hash-ref mutant-hash mod) mutation-index) out)
   (close-output-port out))
 
+(define (writeln-to-test-out str)
+  (define test-out (open-output-file logging-test-data-file
+                                     #:exists 'append))
+  (fprintf test-out (string-append str "~n"))
+  (close-output-port test-out))
+
 ;;; RUN TESTS
 ;; run-tests-on-mutations: string string -> void
 (define (run-tests-on-mutations bench-string config-string)
@@ -158,7 +164,6 @@
   (define mutants (get-mutant-hash mutatable-modules))
   ;; get the number of mutants to compute mutation score later
   (define number-of-mutants 0)
-
   ;; delete all the files
   (for ([file (directory-list test-env #:build? #t)])
     (delete-file file))
@@ -184,11 +189,10 @@
 
   ;; the loop loads a mutant in test-env, runs the tests, deletes the mutants, and repeats.
   (for ([mod mutatable-modules])
-    (when (equal? mod "image.rkt")
       ; backup the module
       (copy-file (build-path test-env mod) (build-path test-env (string-join (list "--" mod))))
       ; current module
-      (parameterize ([parameter-for-current-module mod])
+      ;; (parameterize ([parameter-for-current-module mod])
         ; generate the mutants of mod, and run the tests on them
         (for ([i (in-range (length (hash-ref mutants mod)))])
           ; mutate the module
@@ -197,8 +201,12 @@
           (write-mutant-to-disk mutants mod i module-path)
           ; put it in results folder
           (write-mutant-to-disk mutants mod i (build-path results-path (string-append "mutant-" mod "-" (number->string i) ".rkt")))
+          ; print module and mutant
+          (writeln-to-test-out (string-append "MODULE: " mod))
+          (writeln-to-test-out (string-append "MUTANT: " (number->string i)))
+          (writeln-to-test-out "")
           ; run tests
-          (parameterize ([parameter-for-current-mutant i])
+          ;; (parameterize ([parameter-for-current-mutant i])
             (define identified? #f)
             (for ([test-env-file (directory-list test-env)]
                   #:when (and (file-exists? (build-path test-env test-env-file))
@@ -206,21 +214,19 @@
                               (member test-env-file test-file-names)))
               (current-directory test-env)
 
-              (when (parameterize ( [current-output-port (open-output-nowhere)]
-                                    ;[current-error-port (open-output-nowhere)]
-                                    )
+              (when (parameterize ([current-output-port (open-output-nowhere)])
                       (system* (whereis-system 'exec-file) (whereis-raco "test") (build-path test-env test-env-file)))
                 (set! identified? #t)))
             (set! number-of-mutants (+ number-of-mutants 1))
             (if identified?
                 (begin (set! mutants-killed (+ mutants-killed 1))
                        (displayln "Mutant identified"))
-                (displayln "Mutant not identified"))
-            )))
+                (displayln "Mutant not identified")))
+        ;; ))
       ; get the original module back
       (delete-file (build-path test-env mod))
       (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))
-      (delete-file (build-path test-env (string-join (list "--" mod))))))
+      (delete-file (build-path test-env (string-join (list "--" mod)))))
   ;; clean up directory
   (delete-directory/files test-env)
   ;; display mutation score
