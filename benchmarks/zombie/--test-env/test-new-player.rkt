@@ -10,7 +10,8 @@
 
          "test-new-posn.rkt"
          "test-image.rkt"
-         syntax/location)
+         syntax/location
+         )
 
 (provide test-player-draw-on
          test-player

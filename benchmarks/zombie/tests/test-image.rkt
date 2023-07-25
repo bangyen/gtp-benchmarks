@@ -1,14 +1,12 @@
 #lang racket
-(require rackunit
-         rackunit/text-ui
-         
+(require rackunit/text-ui
          "image.rkt"
          ;"../untyped/image.rkt"
-         )
+         "../../../utilities/macro-for-tests.rkt")
 
 (provide place-image-check
-         test-image-equal)
-
+         test-image-equal
+         )
 
 #|
 (define (empty-scene w h)
@@ -19,8 +17,8 @@
 (define empty-scene-tests
   (test-suite
    "empty-scene-tests"
-   #:before (lambda () (display "START empty-scene-tests\n"))
-   #:after  (lambda () (display "FINISH empty-scene-tests\n"))
+  ;  #:before (lambda () (display "START empty-scene-tests\n"))
+  ;  #:after  (lambda () (display "FINISH empty-scene-tests\n"))
    (test-suite
     "not enough args"
     ;(check-exn-h (empty-scene))
@@ -65,8 +63,7 @@
 ; returns a test suite that checks if the result of place-image is correct.
 (define (place-image-check fxn i1 i2 i3 i4 msg)
   (define result (fxn))
-  (test-suite
-   msg
+  
    (check-true (image? result))
    (check-true (list? (image-impl result)))
    (check-equal? (length (image-impl result)) 4)
@@ -82,12 +79,12 @@
    ; fourth: iamge
    (check-true (image? (fourth (image-impl result))))
    (test-image-equal i4 (fourth (image-impl result)))
-  ))
+  )
 (define place-image-tests
   (test-suite
    "place-image-tests"
-   #:before (lambda () (display "START place-image-tests\n"))
-   #:after  (lambda () (display "FINISH place-image-tests\n"))
+  ;  #:before (lambda () (display "START place-image-tests\n"))
+  ;  #:after  (lambda () (display "FINISH place-image-tests\n"))
    (test-suite
     "not enough args"
     (check-exn exn:fail? (lambda () (place-image 1 2)))
@@ -161,20 +158,18 @@
 |#
 (define (check-circle fxn i1 i2 i3 msg)
   (define result (fxn))
-  (test-suite
-   msg
    (check-true (image? result))
    (check-true (list? (image-impl result)))
    (check-equal? (length (image-impl result)) 3)
    (check-equal? (first (image-impl result)) i1)
    (check-equal? (second (image-impl result)) i2)
    (check-equal? (third (image-impl result)) i3)
-   ))
+   )
 (define circle-tests
   (test-suite
    "circle-tests"
-   #:before (lambda () (display "START circle-tests\n"))
-   #:after  (lambda () (display "FINISH circle-tests\n"))
+  ;  #:before (lambda () (display "START circle-tests\n"))
+  ;  #:after  (lambda () (display "FINISH circle-tests\n"))
    (test-suite
     "not enough args"
     (check-exn exn:fail? (lambda () (circle 1 2)))
@@ -214,8 +209,6 @@
        [(= (length (image-impl img1))
            (length (image-impl img2)))
         (define l (length (image-impl img1)))
-        (test-suite
-         "both lists of equal length"
          (for ([a (in-list (image-impl img1))]
                [b (in-list (image-impl img2))])
            (if (and (image? a) (image? b))
@@ -223,7 +216,7 @@
                (if (and (not (image? a))
                         (not (image? b)))
                    (check-equal? a b)
-                   (fail "not both images")))))]
+                   (fail "not both images"))))]
        ; unequal length
        [else (fail "lists are not equal length")]
        )]
@@ -232,13 +225,11 @@
           (cons? (image-impl img2))
           (not (list? (image-impl img1)))
           (not (list? (image-impl img2))))   
-     (test-suite
-      "both cons"
       (check-equal? (car (image-impl img1))
                     (car (image-impl img2)))
       (check-equal? (cdr (image-impl img1))
                     (cdr (image-impl img2)))
-      )]
+      ]
     ; not both cons or both lists
     [else (fail "image-impl not both cons or not both lists")]
   ))
@@ -247,3 +238,16 @@
 (run-tests empty-scene-tests)
 (run-tests place-image-tests)
 (run-tests circle-tests)
+
+
+;; testing define-parameterizing-id
+;; (define (dummy-fun arg)
+;;   arg)
+
+;; (check-true (equal? (dummy-fun 5) 60))
+
+;; (check-equal? (dummy-fun 5) 5)
+
+;; (test-image-equal (dummy-fun (empty-scene 500 500)) (empty-scene 500 500))
+
+;; (map (lambda (tst-info) (test-info-identifier tst-info)) test-data-list)

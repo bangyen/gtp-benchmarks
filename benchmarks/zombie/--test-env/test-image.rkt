@@ -2,11 +2,11 @@
 (require rackunit/text-ui
          "image.rkt"
          ;"../untyped/image.rkt"
-         "macro-for-tests.rkt")
+         "../../../utilities/macro-for-tests.rkt"
+         (submod "zombie.rkt" test))
 
 (provide place-image-check
          test-image-equal)
-
 
 #|
 (define (empty-scene w h)
@@ -239,7 +239,6 @@
 (run-tests place-image-tests)
 (run-tests circle-tests)
 
-
 ;; testing define-parameterizing-id
 (define (dummy-fun arg)
   arg)
@@ -249,3 +248,7 @@
 (check-equal? (dummy-fun 5) 5)
 
 (test-image-equal (dummy-fun (empty-scene 500 500)) (empty-scene 500 500))
+
+;; (map (lambda (tst-info) (test-info-identifier tst-info)) test-data-list)
+
+

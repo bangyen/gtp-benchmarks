@@ -6,7 +6,7 @@
          "image.rkt"
          "test-image.rkt"
          "test-new-posn.rkt"
-         )
+         syntax/location)
 
 (provide test-posn
          posn-equal?

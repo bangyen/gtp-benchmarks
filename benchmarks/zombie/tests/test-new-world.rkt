@@ -11,7 +11,7 @@
          "test-new-posn.rkt"
          "test-new-player.rkt"
          "test-image.rkt"
-         )
+         syntax/location)
 
 (provide test-world/args
          test-world/no-args
