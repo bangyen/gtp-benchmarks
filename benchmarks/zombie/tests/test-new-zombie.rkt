@@ -2,11 +2,11 @@
 
 (require rackunit
          rackunit/text-ui
-         (submod "zombie.rkt" test)
-         "image.rkt"
+         (submod "../untyped/zombie.rkt" test)
+         "../untyped/image.rkt"
          "test-image.rkt"
          "test-new-posn.rkt"
-         syntax/location)
+         )
 
 (provide test-posn
          posn-equal?
@@ -75,14 +75,14 @@
   (define result (z-fxn))
   (define posn-touching-z ((posn-move ((zombie-posn result))) ZOMBIE-RADIUS 0))
   (define posn-not-touching-z ((posn-move ((zombie-posn result))) ZOMBIE-RADIUS ZOMBIE-RADIUS))
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ;; tests
    ;; posn
    (posn-equal? ((zombie-posn result))
                 (new-posn x y))
    ;; draw-on/color
-  (place-zombie-image-check result "red" MT-SCENE)
+   (place-zombie-image-check result "red" MT-SCENE)
 
    ;; touching?
    (check-eq? (is-zombie-really-touching? result posn-touching-z)
@@ -96,7 +96,8 @@
                               ((zombie-move-toward result) (new-posn -300000 -40000))))
    (check-true (zombie-equal? (algo-move-toward-for-zombie result (new-posn 30000 30000))
                               ((zombie-move-toward result) (new-posn 30000 30000))))
-   ))
+   ;; )
+)
 
 
 ;; place-images-recursively: List (Any -> Image) string? Image -> Image
@@ -268,8 +269,8 @@
   (define h2-list (kill-all-zombies fake-zombie-list '()))
   (define h2 (new-horde (convert-list-to-cons-zombie (first h2-list))
                         (convert-list-to-cons-zombie (second h2-list))))
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ;; move-toward check
    (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 0 0)) (new-mt-zombies)))
    ;; draw-on/color check
@@ -281,7 +282,8 @@
    (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
    (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
    (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
-   ))
+   ;; )
+)
 
 ;; algo-move-toward-for-zombies: (listof zombie) -> (listof zombie)
 (define (algo-move-toward-for-zombies zs p)
@@ -537,7 +539,12 @@
                    "")
    ))
 
+(define new-mt-zombies-test-suite
+  (test-suite
+   ""
+   (test-new-mt-zombies (lambda () (new-mt-zombies)) "")))
+
 (run-tests new-zombie-test-suite)
-(run-tests (test-new-mt-zombies (lambda () (new-mt-zombies)) ""))
+(run-tests new-mt-zombies-test-suite)
 (run-tests new-cons-zombies-test-suite)
 (run-tests new-horde-test-suite)

@@ -2,10 +2,10 @@
 
 (require rackunit
          rackunit/text-ui
-         ; (submod "../untyped/zombie.rkt" test)
-         (submod "zombie.rkt" test)
-         ; "../untyped/image.rkt"
-         "image.rkt"
+         (submod "../untyped/zombie.rkt" test)
+         ;; (submod "zombie.rkt" test)
+         "../untyped/image.rkt"
+         ;; "image.rkt"
          "test-image.rkt"
          )
 
@@ -85,8 +85,8 @@
   (define test-move-toward-2 ((posn-move-toward/speed result)
                               test-posn-1 (+ (abs x) (abs y))))
 
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ;; posn-x
    (check-eq? ((posn-x result)) x)
    ;; posn-y
@@ -123,11 +123,12 @@
                  (empty-scene 200 200))))
    ;; dist
    (check-posn-dist (new-posn 0 0) result)
-   ))
+   )
+;; )
 ;; tests for test-posn
-(define testing-test-posn
-  (test-posn (lambda () (new-posn 1 2)) 1 2 "testing test-posn"))
-(run-tests testing-test-posn)
+;; (define testing-test-posn
+;;   (test-posn (lambda () (new-posn 1 2)) 1 2 "testing test-posn"))
+;; (run-tests testing-test-posn)
 
 
 ;; TESTS

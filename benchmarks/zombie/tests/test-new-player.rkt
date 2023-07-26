@@ -3,14 +3,14 @@
 (require rackunit
          rackunit/text-ui
          
-         (submod "zombie.rkt" test)
-         ; (submod "../untyped/zombie.rkt" test)
-         "image.rkt"
-         ; "../untyped/image.rkt"
+         ;; (submod "zombie.rkt" test)
+         (submod "../untyped/zombie.rkt" test)
+         ;; "image.rkt"
+         "../untyped/image.rkt"
 
          "test-new-posn.rkt"
          "test-image.rkt"
-         syntax/location)
+         )
 
 (provide test-player-draw-on
          test-player
@@ -27,15 +27,16 @@
   (define x ((posn-x ((player-posn player)))))
   (define y ((posn-y ((player-posn player)))))
   
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    (place-image-check (lambda () ((player-draw-on player) img))
                       PLAYER-IMG ;i1
                       x ;i2
                       y ;i3
                       img ;i4
                       "player-draw-on place-image-check")
-   ))
+   )
+;; )
 
 ;; test-player: (-> player) (-> posn) string -> test-suite
 ;; (test-player player-fxn posn-fxn msg)
@@ -51,17 +52,17 @@
   (define x ((posn-x posn)))
   (define y ((posn-y posn)))
   ;; TEST SUITE
-  (test-suite
-   msg
-   (test-suite
-    "player-posn"
+  ;; (test-suite
+   ;; msg
+   ;; (test-suite
+    ;; "player-posn"
     (check-true (procedure? (player-posn player)))
     (check-equal? (procedure-arity (player-posn player)) 0)
     (test-posn (lambda () ((player-posn player)))
                x y "player-posn is expected")
-    )
-   (test-suite
-    "move-toward"
+    ;; )
+   ;; (test-suite
+    ;; "move-toward"
     (check-true (procedure? (player-move-toward player)))
     (check-equal? (procedure-arity (player-move-toward player)) 1)
     ; check posn of returned player is correct
@@ -80,9 +81,9 @@
                              ((player-posn ((player-move-toward player) (new-posn 25 16))))))
     (check-true (posn-equal? (algo-move-toward ((player-posn player)) (new-posn -5 -5) PLAYER-SPEED)
                              ((player-posn ((player-move-toward player) (new-posn -5 -5))))))
-    )
-   (test-suite
-    "draw-on"
+    ;; )
+   ;; (test-suite
+    ;; "draw-on"
     (check-true (procedure? (player-draw-on player)))
     (check-equal? (procedure-arity (player-draw-on player)) 1)
     (test-player-draw-on player (empty-scene 200 300) "player on empty scene")
@@ -92,9 +93,10 @@
     (test-player-draw-on player (circle 200 "big" "blue") "player on circle")
     (test-player-draw-on player (place-image (circle 20 "small" "pink") 2 1 (empty-scene 5 500))
                          "player on place-image")
-    )
+    ;; )
    ; Note: cannot test "else" case ("unknown message") because code won't compile
-   ))
+   ;; )
+)
 
 ;; ------------------------------------------------
 ;; TESTS

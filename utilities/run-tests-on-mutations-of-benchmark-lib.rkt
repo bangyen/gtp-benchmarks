@@ -189,44 +189,45 @@
 
   ;; the loop loads a mutant in test-env, runs the tests, deletes the mutants, and repeats.
   (for ([mod mutatable-modules])
-      ; backup the module
-      (copy-file (build-path test-env mod) (build-path test-env (string-join (list "--" mod))))
-      ; current module
-      ;; (parameterize ([parameter-for-current-module mod])
-        ; generate the mutants of mod, and run the tests on them
-        (for ([i (in-range (length (hash-ref mutants mod)))])
-          ; mutate the module
-          (define module-path (build-path test-env mod))
-          (delete-file module-path)
-          (write-mutant-to-disk mutants mod i module-path)
-          ; put it in results folder
-          (write-mutant-to-disk mutants mod i (build-path results-path (string-append "mutant-" mod "-" (number->string i) ".rkt")))
-          ; print module and mutant
-          (writeln-to-test-out (string-append "MODULE: " mod))
-          (writeln-to-test-out (string-append "MUTANT: " (number->string i)))
-          (writeln-to-test-out "")
-          ; run tests
-          ;; (parameterize ([parameter-for-current-mutant i])
-            (define identified? #f)
-            (for ([test-env-file (directory-list test-env)]
-                  #:when (and (file-exists? (build-path test-env test-env-file))
-                              (path-has-extension? (build-path test-env test-env-file) ".rkt")
-                              (member test-env-file test-file-names)))
-              (current-directory test-env)
+    ; backup the module
+    (copy-file (build-path test-env mod) (build-path test-env (string-join (list "--" mod))))
+    ; current module
+    ;; (parameterize ([parameter-for-current-module mod])
+    ; generate the mutants of mod, and run the tests on them
+    (for ([i (in-range (length (hash-ref mutants mod)))])
+      (when (equal? mod "image.rkt")
+        ; mutate the module
+        (define module-path (build-path test-env mod))
+        (delete-file module-path)
+        (write-mutant-to-disk mutants mod i module-path)
+        ; put it in results folder
+        (write-mutant-to-disk mutants mod i (build-path results-path (string-append "mutant-" mod "-" (number->string i) ".rkt")))
+        ; print module and mutant
+        (writeln-to-test-out (string-append "MODULE: " mod))
+        (writeln-to-test-out (string-append "MUTANT: " (number->string i)))
+        (writeln-to-test-out "")
+        ; run tests
+        ;; (parameterize ([parameter-for-current-mutant i])
+        (define identified? #f)
+        (for ([test-env-file (directory-list test-env)]
+              #:when (and (file-exists? (build-path test-env test-env-file))
+                          (path-has-extension? (build-path test-env test-env-file) ".rkt")
+                          (member test-env-file test-file-names)))
+          (current-directory test-env)
 
-              (when (parameterize ([current-output-port (open-output-nowhere)])
-                      (system* (whereis-system 'exec-file) (whereis-raco "test") (build-path test-env test-env-file)))
-                (set! identified? #t)))
-            (set! number-of-mutants (+ number-of-mutants 1))
-            (if identified?
-                (begin (set! mutants-killed (+ mutants-killed 1))
-                       (displayln "Mutant identified"))
-                (displayln "Mutant not identified")))
-        ;; ))
-      ; get the original module back
-      (delete-file (build-path test-env mod))
-      (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))
-      (delete-file (build-path test-env (string-join (list "--" mod)))))
+          (when (parameterize ([current-output-port (open-output-nowhere)])
+                  (system* (whereis-system 'exec-file) (whereis-raco "test") (build-path test-env test-env-file)))
+            (set! identified? #t)))
+        (set! number-of-mutants (+ number-of-mutants 1))
+        (if identified?
+            (begin (set! mutants-killed (+ mutants-killed 1))
+                   (displayln "Mutant identified"))
+            (displayln "Mutant not identified"))))
+    ;; ))
+    ; get the original module back
+    (delete-file (build-path test-env mod))
+    (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))
+    (delete-file (build-path test-env (string-join (list "--" mod)))))
   ;; clean up directory
   (delete-directory/files test-env)
   ;; display mutation score

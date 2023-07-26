@@ -3,15 +3,15 @@
 (require rackunit
          rackunit/text-ui
          
-         (submod "zombie.rkt" test)
-         ; (submod "../untyped/zombie.rkt" test)
-         "image.rkt"
-         ; "../untyped/image.rkt"
+         ;; (submod "zombie.rkt" test)
+         (submod "../untyped/zombie.rkt" test)
+         ;; "image.rkt"
+         "../untyped/image.rkt"
          
          "test-new-posn.rkt"
          "test-new-player.rkt"
          "test-image.rkt"
-         syntax/location)
+         )
 
 (provide test-world/args
          test-world/no-args
@@ -73,8 +73,8 @@
 ;    - mouse is the location of the mouse
 ; assumes world's on-tick fxn has correct arity and param types
 (define (test-world-on-tick world player horde mouse msg)
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ; world looks right
    (test-image-equal ((world-to-draw world))
                      ((player-draw-on player) ((horde-draw-on horde) MT-SCENE)))
@@ -94,7 +94,8 @@
    (test-image-equal ((world-to-draw (world-ticks world 10)))
                      ((player-draw-on (player-ticks player mouse 10))
                       ((horde-draw-on (horde-ticks horde player 10)) MT-SCENE)))
-   ))
+   )
+;; )
 
 ;; test-world-on-mouse: World Player Horde Number Number String String -> test-suite
 ;    - let world be any World returned by (new-world ...)
@@ -106,8 +107,8 @@
   (define mouse (if (equal? str "leave")
                     ((player-posn player))
                     (new-posn x y)))
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    (check-true (procedure? wom))
    (check-equal? (procedure-arity wom) 1)
    (check-true (procedure? (world-on-tick wom)))
@@ -115,7 +116,8 @@
    (check-true (procedure? (world-to-draw wom)))
    (check-equal? (procedure-arity (world-to-draw wom)) 0)
    (test-world-on-tick wom player horde mouse "test-world-on-mouse testing on-tick")
-   ))
+   )
+;; )
 
 ;; test-world/args : World Player Posn Horde String -> test-suite
 ; inputs are assumed to be valid:
@@ -126,29 +128,29 @@
 ; returns test-suite that checks if a World is a valid world
 ; based on the args passed as inputs when initializing this World.
 (define (test-world/args world player mouse horde msg)
-  (test-suite
-   msg
-   (test-suite
-    "a world is a procedure"
+  ;; (test-suite
+   ;; msg
+   ;; (test-suite
+    ;; "a world is a procedure"
     (check-true (procedure? world))
     (check-equal? (procedure-arity world) 1)
-    )
-   (test-suite
-    "world-to-draw"
+    ;; )
+   ;; (test-suite
+    ;; "world-to-draw"
     (check-true (procedure? (world-to-draw world)))
     (check-equal? (procedure-arity (world-to-draw world)) 0)
     (check-true (image? ((world-to-draw world))))
     (test-image-equal ((world-to-draw world));actual
                       ((player-draw-on player) ((horde-draw-on horde) MT-SCENE)));expected
-    )
-   (test-suite
-    "world-on-tick"
+    ;; )
+   ;; (test-suite
+    ;; "world-on-tick"
     (check-true (procedure? (world-on-tick world)))
     (check-equal? (procedure-arity (world-on-tick world)) 0)
     (test-world-on-tick world player horde mouse "test-world/args testing on-tick")
-    )
-   (test-suite
-    "world-on-mouse" ; Real Real String -> World
+    ;; )
+   ;; (test-suite
+    ;; "world-on-mouse" ; Real Real String -> World
     (check-true (procedure? (world-on-mouse world)))
     (check-equal? (procedure-arity (world-on-mouse world)) 3)
     (test-world-on-mouse ((world-on-mouse world) 6 10 "")
@@ -161,13 +163,13 @@
                          player horde 0 0 "leave" "wom-4")
     (test-world-on-mouse ((world-on-mouse world) 200 150 "leave")
                          player horde 200 150 "leave" "wom-5")
-    )
-   (test-suite
-    "world-stop-when"
+    ;; )
+   ;; (test-suite
+    ;; "world-stop-when"
     ; this is never used??? not gonna test it lol
-    (check < 6 7)
-    )
-   )
+    ;; (check < 6 7)
+    ;; )
+   ;; )
   )
 
 ;; test-world-on-mouse/noargs: World World Number Number String String -> test-suite
@@ -181,8 +183,8 @@
   (define mouse (if (equal? str "leave")
                     ((player-posn player))
                     (new-posn x y)))
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ; wom is a World type
    (check-true (procedure? wom))
    (check-equal? (procedure-arity wom) 1)
@@ -200,7 +202,8 @@
                      (fourth (image-impl ((world-to-draw wom)))))
    ; test ticks
    (test-world-on-tick/mouse wom mouse msg)
-   ))
+   ;; )
+)
 
 ;; test-world-on-tick/mouse: World Posn String -> test-suite
 ;    - world is a World returned by (new-world ...)
@@ -219,14 +222,15 @@
                   (third (image-impl ((world-to-draw world-n)))))
     (check-true (image? (fourth (image-impl ((world-to-draw world-n))))))
   )
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    (test-n-ticks 1)
    (test-n-ticks 2)
    (test-n-ticks 3)
    (test-n-ticks 6)
    (test-n-ticks 10)
-   ))
+   ;; )
+)
 
 ;; test-world/no-args : World -> test-suite
 ;      - world is a World returned by (new-world ...)
@@ -236,15 +240,15 @@
 ; this should only be used to check the validity of a World when you don't know
 ; what values were used to initalize the World.
 (define (test-world/no-args world msg)
-  (test-suite
-   msg
-   (test-suite
-    "a world is a procedure"
+  ;; (test-suite
+   ;; msg
+   ;; (test-suite
+    ;; "a world is a procedure"
     (check-true (procedure? world))
     (check-equal? (procedure-arity world) 1)
-    )
-   (test-suite
-    "world-to-draw"
+    ;; )
+   ;; (test-suite
+    ;; "world-to-draw"
     (check-true (procedure? (world-to-draw world)))
     (check-equal? (procedure-arity (world-to-draw world)) 0)
     (check-true (image? ((world-to-draw world))))
@@ -252,9 +256,9 @@
     (check-true (real? (second (image-impl ((world-to-draw world))))))
     (check-true (real? (third (image-impl ((world-to-draw world))))))
     (check-true (image? (fourth (image-impl ((world-to-draw world))))))
-    )
-   (test-suite
-    "world-on-tick"
+    ;; )
+   ;; (test-suite
+    ;; "world-on-tick"
     (check-true (procedure? (world-on-tick world)))
     (check-equal? (procedure-arity (world-on-tick world)) 0)
     ; world-on-tick produces a world, which is a procedure
@@ -265,9 +269,9 @@
     (check-true (real? (second (image-impl ((world-to-draw ((world-on-tick world))))))))
     (check-true (real? (third (image-impl ((world-to-draw ((world-on-tick world))))))))
     (check-true (image? (fourth (image-impl ((world-to-draw ((world-on-tick world))))))))
-    )
-   (test-suite
-    "world-on-mouse"
+    ;; )
+   ;; (test-suite
+    ;; "world-on-mouse"
     (check-true (procedure? (world-on-mouse world)))
     (check-equal? (procedure-arity (world-on-mouse world)) 3)
     ; world-on-mouse produces a world, which is a procedure
@@ -289,8 +293,8 @@
     (test-world-on-mouse/noargs world ((world-on-mouse world) -2 49 "leave")
                                 -2 49 "leave"
                                 "-2 49 leave")
-    )
-   )
+    ;; )
+   ;; )
   )
   
 

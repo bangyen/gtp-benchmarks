@@ -2,7 +2,8 @@
 
 (require rackunit
          rackunit/text-ui
-         "math.rkt"
+         "../untyped/math.rkt"
+         ;; "math.rkt"
          )
 
 ;; tests for min
