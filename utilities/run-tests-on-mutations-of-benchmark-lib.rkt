@@ -195,7 +195,6 @@
     ;; (parameterize ([parameter-for-current-module mod])
     ; generate the mutants of mod, and run the tests on them
     (for ([i (in-range (length (hash-ref mutants mod)))])
-      (when (equal? mod "image.rkt")
         ; mutate the module
         (define module-path (build-path test-env mod))
         (delete-file module-path)
@@ -222,7 +221,7 @@
         (if identified?
             (begin (set! mutants-killed (+ mutants-killed 1))
                    (displayln "Mutant identified"))
-            (displayln "Mutant not identified"))))
+            (displayln "Mutant not identified")))
     ;; ))
     ; get the original module back
     (delete-file (build-path test-env mod))
