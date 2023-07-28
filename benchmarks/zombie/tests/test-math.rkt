@@ -1,9 +1,9 @@
 #lang racket
 
-(require rackunit
+(require "../../../utilities/macro-for-tests.rkt"
          rackunit/text-ui
-         "../untyped/math.rkt"
-         ;; "math.rkt"
+         ;; "../untyped/math.rkt"
+         "math.rkt"
          )
 
 ;; tests for min

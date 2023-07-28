@@ -1,11 +1,11 @@
 #lang racket
 
-(require rackunit
+(require "../../../utilities/macro-for-tests.rkt"
          rackunit/text-ui
-         (submod "../untyped/zombie.rkt" test)
-         ;; (submod "zombie.rkt" test)
-         "../untyped/image.rkt"
-         ;; "image.rkt"
+         ;; (submod "../untyped/zombie.rkt" test)
+         (submod "zombie.rkt" test)
+         ;; "../untyped/image.rkt"
+         "image.rkt"
          "test-image.rkt"
          )
 

@@ -1,13 +1,13 @@
 #lang racket
-(require rackunit
+(require "../../../utilities/macro-for-tests.rkt"
          rackunit/text-ui
-         ; "../untyped/main.rkt"
+         ;; "../untyped/main.rkt"
          "main.rkt"
-         ; "../untyped/zombie.rkt"
-         ; "zombie.rkt"
-         ; (submod "../untyped/zombie.rkt" test)
+         ;; "../untyped/zombie.rkt"
+         "zombie.rkt"
+         ;; (submod "../untyped/zombie.rkt" test)
          (submod "zombie.rkt" test)
-         ; (submod "../untyped/main.rkt" test)
+         ;; (submod "../untyped/main.rkt" test)
          (submod "main.rkt" test)
          )
 

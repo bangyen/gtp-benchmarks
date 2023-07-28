@@ -1,9 +1,8 @@
 #lang racket
-(require rackunit
+(require "../../../utilities/macro-for-tests.rkt"
          rackunit/text-ui
-         
-         ;; "image.rkt"
-         "../untyped/image.rkt"
+         "image.rkt"
+         ;; "../untyped/image.rkt"
          )
 
 (provide place-image-check
