@@ -98,8 +98,7 @@
         [(exn:fail? e)
          (log-error (exn-check-info e) "type error")]
         [else
-         (log-error (current-check-info) "not sure")])
-  (collect-garbage))
+         (log-error (current-check-info) "not sure")]))
 
 ;; pass-handler (-> Exn void)
 (define (pass-handler e)
@@ -114,8 +113,7 @@
                           (test-id)
                           ""
                           (start-time)
-                          (current-seconds)))
-  (collect-garbage))
+                          (current-seconds))))
 
 
 (define-syntax-parse-rule (define-wrapped-rackunit-checks rackunit-check-name:id ...)
@@ -148,10 +146,11 @@
                                (chk-thk)
                                (raise (exn:test:pass "test passed" (current-continuation-marks))))))]
                         ;; track start-time
-                        [start-time (begin (collect-garbage)
-                                           (collect-garbage)
-                                           (collect-garbage)
-                                           (current-inexact-milliseconds))])
+                        [start-time (begin
+                                      (collect-garbage)
+                                      (collect-garbage)
+                                      (collect-garbage)
+                                      (current-inexact-milliseconds))])
           (prefixed-check-name args (... ...)))))                      
     ...))
 

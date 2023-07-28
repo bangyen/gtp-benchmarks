@@ -3,441 +3,2141 @@ MUTANT: 0
 
 passed: yes
 identifier: test-image.rkt:26;
-start-time: 1690577252341.878
-finish-time: 1690577252
+start-time: 1690578427710.0012
+finish-time: 1690578427
 
 passed: yes
 identifier: test-image.rkt:27;
-start-time: 1690577252572.6587
-finish-time: 1690577252
+start-time: 1690578427886.2014
+finish-time: 1690578427
 
 passed: yes
 identifier: test-image.rkt:28;
-start-time: 1690577252801.6694
-finish-time: 1690577252
+start-time: 1690578428051.8738
+finish-time: 1690578428
 
 passed: yes
 identifier: test-image.rkt:32;
-start-time: 1690577253040.4897
-finish-time: 1690577253
+start-time: 1690578428219.922
+finish-time: 1690578428
 
 passed: yes
 identifier: test-image.rkt:33;
-start-time: 1690577253277.2534
-finish-time: 1690577253
+start-time: 1690578428389.5168
+finish-time: 1690578428
 
 passed: yes
 identifier: test-image.rkt:34;
-start-time: 1690577253515.1099
-finish-time: 1690577253
+start-time: 1690578428558.803
+finish-time: 1690578428
 
 passed: yes
 identifier: test-image.rkt:35;
-start-time: 1690577253758.1848
-finish-time: 1690577253
+start-time: 1690578428782.0674
+finish-time: 1690578428
 
 passed: yes
 identifier: test-image.rkt:36;
-start-time: 1690577253991.0996
-finish-time: 1690577253
+start-time: 1690578429016.2305
+finish-time: 1690578429
 
 passed: yes
 identifier: test-image.rkt:37;
-start-time: 1690577254237.9543
-finish-time: 1690577254
+start-time: 1690578429249.7256
+finish-time: 1690578429
 
 passed: yes
 identifier: test-image.rkt:38;
-start-time: 1690577254481.5747
-finish-time: 1690577254
+start-time: 1690578429480.0728
+finish-time: 1690578429
 
 passed: yes
 identifier: test-image.rkt:39;
-start-time: 1690577254712.9019
-finish-time: 1690577254
+start-time: 1690578429711.3245
+finish-time: 1690578429
 
 passed: yes
 identifier: test-image.rkt:45;
-start-time: 1690577254947.2087
-finish-time: 1690577254
+start-time: 1690578429946.6587
+finish-time: 1690578429
 
 passed: yes
 identifier: test-image.rkt:46;
-start-time: 1690577255197.4868
-finish-time: 1690577255
+start-time: 1690578430198.1526
+finish-time: 1690578430
 
 passed: yes
 identifier: test-image.rkt:47;
-start-time: 1690577255449.8667
-finish-time: 1690577255
+start-time: 1690578430437.4639
+finish-time: 1690578430
 
 passed: yes
 identifier: test-image.rkt:48;
-start-time: 1690577255677.3845
-finish-time: 1690577255
+start-time: 1690578430666.7644
+finish-time: 1690578430
 
 passed: yes
 identifier: test-image.rkt:52;
-start-time: 1690577255924.4624
-finish-time: 1690577255
+start-time: 1690578430902.73
+finish-time: 1690578430
 
 passed: yes
 identifier: test-image.rkt:53;
-start-time: 1690577256185.566
-finish-time: 1690577256
+start-time: 1690578431139.4854
+finish-time: 1690578431
 
 passed: yes
 identifier: test-image.rkt:54;
-start-time: 1690577256428.5176
-finish-time: 1690577256
+start-time: 1690578431371.9011
+finish-time: 1690578431
 
 passed: yes
 identifier: test-image.rkt:55;
-start-time: 1690577256663.5415
-finish-time: 1690577256
+start-time: 1690578431603.5454
+finish-time: 1690578431
 
 passed: yes
 identifier: test-image.rkt:89;
-start-time: 1690577256905.2153
-finish-time: 1690577256
+start-time: 1690578431836.7437
+finish-time: 1690578431
 
 passed: yes
 identifier: test-image.rkt:90;
-start-time: 1690577257150.4905
-finish-time: 1690577257
+start-time: 1690578432069.7773
+finish-time: 1690578432
 
 passed: yes
 identifier: test-image.rkt:91;
-start-time: 1690577257390.58
-finish-time: 1690577257
+start-time: 1690578432300.3508
+finish-time: 1690578432
 
 passed: yes
 identifier: test-image.rkt:92;
-start-time: 1690577257627.7576
-finish-time: 1690577257
+start-time: 1690578432533.3933
+finish-time: 1690578432
 
 passed: yes
 identifier: test-image.rkt:96;
-start-time: 1690577257853.3586
-finish-time: 1690577257
+start-time: 1690578432764.1763
+finish-time: 1690578432
 
 passed: yes
 identifier: test-image.rkt:99;
-start-time: 1690577258089.47
-finish-time: 1690577258
+start-time: 1690578432952.3225
+finish-time: 1690578432
 
 passed: yes
 identifier: test-image.rkt:102;
-start-time: 1690577258330.8862
-finish-time: 1690577258
+start-time: 1690578433120.1873
+finish-time: 1690578433
 
 passed: yes
 identifier: test-image.rkt:105;
-start-time: 1690577258568.4485
-finish-time: 1690577258
+start-time: 1690578433289.4915
+finish-time: 1690578433
 
 passed: yes
 identifier: test-image.rkt:108;
-start-time: 1690577258801.7915
-finish-time: 1690577258
+start-time: 1690578433462.4207
+finish-time: 1690578433
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:67;
-start-time: 1690577259041.549
-finish-time: 1690577259
+start-time: 1690578433630.1519
+finish-time: 1690578433
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:68;
-start-time: 1690577259283.9182
-finish-time: 1690577259
+start-time: 1690578433803.3967
+finish-time: 1690578433
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:69;
-start-time: 1690577259519.662
-finish-time: 1690577259
+start-time: 1690578433977.1272
+finish-time: 1690578433
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:71;
-start-time: 1690577259744.4731
-finish-time: 1690577259
+start-time: 1690578434147.0776
+finish-time: 1690578434
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:72;test-image.rkt:224;
-start-time: 1690577259983.192
-finish-time: 1690577259
+start-time: 1690578434318.291
+finish-time: 1690578434
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:72;test-image.rkt:224;
-start-time: 1690577260225.093
-finish-time: 1690577260
+start-time: 1690578434495.827
+finish-time: 1690578434
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:72;test-image.rkt:224;
-start-time: 1690577260463.84
-finish-time: 1690577260
+start-time: 1690578434666.7114
+finish-time: 1690578434
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:74;
-start-time: 1690577260693.6545
-finish-time: 1690577260
+start-time: 1690578434837.7349
+finish-time: 1690578434
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:75;
-start-time: 1690577260936.075
-finish-time: 1690577260
+start-time: 1690578435013.9016
+finish-time: 1690578435
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:77;
-start-time: 1690577261173.4475
-finish-time: 1690577261
+start-time: 1690578435181.9153
+finish-time: 1690578435
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:78;
-start-time: 1690577261421.9824
-finish-time: 1690577261
+start-time: 1690578435351.906
+finish-time: 1690578435
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:80;
-start-time: 1690577261657.3494
-finish-time: 1690577261
+start-time: 1690578435525.6943
+finish-time: 1690578435
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:81;test-image.rkt:238;
-start-time: 1690577261890.0745
-finish-time: 1690577261
+start-time: 1690578435695.6575
+finish-time: 1690578435
 
 passed: yes
 identifier: test-image.rkt:114;test-image.rkt:81;test-image.rkt:240;
-start-time: 1690577262134.6458
-finish-time: 1690577262
+start-time: 1690578435868.9438
+finish-time: 1690578435
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:67;
-start-time: 1690577262378.0999
-finish-time: 1690577262
+start-time: 1690578436046.4404
+finish-time: 1690578436
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:68;
-start-time: 1690577262613.5227
-finish-time: 1690577262
+start-time: 1690578436216.267
+finish-time: 1690578436
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:69;
-start-time: 1690577262841.6226
-finish-time: 1690577262
+start-time: 1690578436388.8975
+finish-time: 1690578436
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:71;
-start-time: 1690577263085.6267
-finish-time: 1690577263
+start-time: 1690578436567.376
+finish-time: 1690578436
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:72;test-image.rkt:224;
-start-time: 1690577263326.6743
-finish-time: 1690577263
+start-time: 1690578436738.2703
+finish-time: 1690578436
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:72;test-image.rkt:224;
-start-time: 1690577263607.6804
-finish-time: 1690577263
+start-time: 1690578436918.2598
+finish-time: 1690578436
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:72;test-image.rkt:224;
-start-time: 1690577263843.2493
-finish-time: 1690577263
+start-time: 1690578437087.0166
+finish-time: 1690578437
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:74;
-start-time: 1690577264084.5757
-finish-time: 1690577264
+start-time: 1690578437254.6738
+finish-time: 1690578437
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:75;
-start-time: 1690577264332.7463
-finish-time: 1690577264
+start-time: 1690578437430.8467
+finish-time: 1690578437
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:77;
-start-time: 1690577264583.1763
-finish-time: 1690577264
+start-time: 1690578437596.111
+finish-time: 1690578437
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:78;
-start-time: 1690577264823.6433
-finish-time: 1690577264
+start-time: 1690578437767.5842
+finish-time: 1690578437
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:80;
-start-time: 1690577265078.7786
-finish-time: 1690577265
+start-time: 1690578437942.578
+finish-time: 1690578437
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:81;test-image.rkt:238;
-start-time: 1690577265340.281
-finish-time: 1690577265
+start-time: 1690578438111.5984
+finish-time: 1690578438
 
 passed: yes
 identifier: test-image.rkt:117;test-image.rkt:81;test-image.rkt:240;
-start-time: 1690577265622.0713
-finish-time: 1690577265
+start-time: 1690578438280.0586
+finish-time: 1690578438
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:67;
-start-time: 1690577265869.8008
-finish-time: 1690577265
+start-time: 1690578438453.368
+finish-time: 1690578438
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:68;
-start-time: 1690577266118.1707
-finish-time: 1690577266
+start-time: 1690578438626.6277
+finish-time: 1690578438
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:69;
-start-time: 1690577266376.7922
-finish-time: 1690577266
+start-time: 1690578438797.1433
+finish-time: 1690578438
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:71;
-start-time: 1690577266623.4832
-finish-time: 1690577266
+start-time: 1690578438974.6763
+finish-time: 1690578438
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:72;test-image.rkt:238;
-start-time: 1690577266869.4954
-finish-time: 1690577266
+start-time: 1690578439142.0962
+finish-time: 1690578439
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:72;test-image.rkt:240;
-start-time: 1690577267192.0103
-finish-time: 1690577267
+start-time: 1690578439313.5261
+finish-time: 1690578439
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:74;
-start-time: 1690577267556.0657
-finish-time: 1690577267
+start-time: 1690578439485.9282
+finish-time: 1690578439
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:75;
-start-time: 1690577267876.243
-finish-time: 1690577267
+start-time: 1690578439657.166
+finish-time: 1690578439
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:77;
-start-time: 1690577268209.2747
-finish-time: 1690577268
+start-time: 1690578439830.6804
+finish-time: 1690578439
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:78;
-start-time: 1690577268530.426
-finish-time: 1690577268
+start-time: 1690578440011.6506
+finish-time: 1690578440
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:80;
-start-time: 1690577268842.0474
-finish-time: 1690577268
+start-time: 1690578440179.7961
+finish-time: 1690578440
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:81;test-image.rkt:238;
-start-time: 1690577269215.6887
-finish-time: 1690577269
+start-time: 1690578440348.6326
+finish-time: 1690578440
 
 passed: yes
 identifier: test-image.rkt:120;test-image.rkt:81;test-image.rkt:240;
-start-time: 1690577269549.0808
-finish-time: 1690577269
+start-time: 1690578440523.1536
+finish-time: 1690578440
 
 passed: yes
 identifier: test-image.rkt:126;test-image.rkt:224;
-start-time: 1690577269861.6987
-finish-time: 1690577269
+start-time: 1690578440694.4053
+finish-time: 1690578440
 
 passed: yes
 identifier: test-image.rkt:126;test-image.rkt:224;
-start-time: 1690577270185.1863
-finish-time: 1690577270
+start-time: 1690578440865.9995
+finish-time: 1690578440
 
 passed: yes
 identifier: test-image.rkt:126;test-image.rkt:224;
-start-time: 1690577270506.9956
-finish-time: 1690577270
+start-time: 1690578441044.8147
+finish-time: 1690578441
 
 passed: yes
 identifier: test-image.rkt:128;test-image.rkt:238;
-start-time: 1690577270825.826
-finish-time: 1690577270
+start-time: 1690578441217.2131
+finish-time: 1690578441
 
 passed: yes
 identifier: test-image.rkt:128;test-image.rkt:240;
-start-time: 1690577271129.389
-finish-time: 1690577271
+start-time: 1690578441442.1887
+finish-time: 1690578441
 
 passed: yes
 identifier: test-image.rkt:174;
-start-time: 1690577271381.329
-finish-time: 1690577271
+start-time: 1690578441679.3286
+finish-time: 1690578441
 
 passed: yes
 identifier: test-image.rkt:175;
-start-time: 1690577271624.985
-finish-time: 1690577271
+start-time: 1690578441914.5232
+finish-time: 1690578441
 
 passed: yes
 identifier: test-image.rkt:176;
-start-time: 1690577271875.2139
-finish-time: 1690577271
-
-passed: yes
-identifier: test-image.rkt:177;
-start-time: 1690577272129.813
-finish-time: 1690577272
+start-time: 1690578442146.829
+finish-time: 1690578442
 
 passed: yes
 identifier: test-main.rkt:60;
-start-time: 1690577274466.7803
-finish-time: 1690577274
+start-time: 1690578445303.8235
+finish-time: 1690578445
 
 passed: yes
 identifier: test-main.rkt:61;
-start-time: 1690577274715.3533
-finish-time: 1690577274
+start-time: 1690578445521.2537
+finish-time: 1690578445
 
 passed: yes
 identifier: test-main.rkt:62;
-start-time: 1690577274954.8513
-finish-time: 1690577274
+start-time: 1690578445687.919
+finish-time: 1690578445
 
 passed: yes
 identifier: test-main.rkt:64;
-start-time: 1690577275214.37
-finish-time: 1690577275
+start-time: 1690578445855.689
+finish-time: 1690578445
 
 passed: yes
 identifier: test-main.rkt:66;
-start-time: 1690577275547.7454
-finish-time: 1690577275
+start-time: 1690578446029.3718
+finish-time: 1690578446
 
 passed: yes
 identifier: test-main.rkt:67;
-start-time: 1690577275879.0498
-finish-time: 1690577275
+start-time: 1690578446203.0044
+finish-time: 1690578446
 
 passed: yes
 identifier: test-main.rkt:68;
-start-time: 1690577276227.3943
-finish-time: 1690577276
+start-time: 1690578446376.56
+finish-time: 1690578446
 
 passed: yes
 identifier: test-main.rkt:70;
-start-time: 1690577276555.6572
-finish-time: 1690577276
+start-time: 1690578446551.3262
+finish-time: 1690578446
 
 passed: yes
 identifier: test-main.rkt:71;
-start-time: 1690577276921.3381
-finish-time: 1690577276
+start-time: 1690578446716.6096
+finish-time: 1690578446
 
 passed: yes
 identifier: test-main.rkt:72;
-start-time: 1690577277271.8467
-finish-time: 1690577277
+start-time: 1690578446890.7544
+finish-time: 1690578446
+
+passed: yes
+identifier: test-main.rkt:20;
+start-time: 1690578447073.0435
+finish-time: 1690578447
+
+passed: yes
+identifier: test-main.rkt:21;
+start-time: 1690578447242.8403
+finish-time: 1690578447
+
+passed: yes
+identifier: test-main.rkt:23;
+start-time: 1690578447414.946
+finish-time: 1690578447
+
+passed: yes
+identifier: test-main.rkt:24;
+start-time: 1690578447592.3362
+finish-time: 1690578447
+
+passed: yes
+identifier: test-main.rkt:25;
+start-time: 1690578447761.3645
+finish-time: 1690578447
+
+passed: yes
+identifier: test-main.rkt:26;
+start-time: 1690578447937.2979
+finish-time: 1690578447
+
+passed: yes
+identifier: test-main.rkt:28;
+start-time: 1690578448117.5347
+finish-time: 1690578448
+
+passed: yes
+identifier: test-main.rkt:29;
+start-time: 1690578448292.5974
+finish-time: 1690578448
+
+passed: yes
+identifier: test-main.rkt:30;
+start-time: 1690578448465.737
+finish-time: 1690578448
+
+passed: yes
+identifier: test-main.rkt:31;
+start-time: 1690578448644.8037
+finish-time: 1690578448
+
+passed: yes
+identifier: test-main.rkt:33;
+start-time: 1690578448825.4478
+finish-time: 1690578448
+
+passed: yes
+identifier: test-main.rkt:34;
+start-time: 1690578448999.3289
+finish-time: 1690578448
+
+passed: yes
+identifier: test-main.rkt:35;
+start-time: 1690578449169.6995
+finish-time: 1690578449
+
+passed: yes
+identifier: test-main.rkt:36;
+start-time: 1690578449340.6287
+finish-time: 1690578449
+
+passed: yes
+identifier: test-main.rkt:37;
+start-time: 1690578449519.03
+finish-time: 1690578449
+
+passed: yes
+identifier: test-main.rkt:39;
+start-time: 1690578449693.3013
+finish-time: 1690578449
+
+passed: yes
+identifier: test-main.rkt:40;
+start-time: 1690578449866.4436
+finish-time: 1690578449
+
+passed: yes
+identifier: test-main.rkt:41;
+start-time: 1690578450064.2292
+finish-time: 1690578450
+
+passed: yes
+identifier: test-main.rkt:42;
+start-time: 1690578450256.9016
+finish-time: 1690578450
+
+passed: yes
+identifier: test-main.rkt:44;
+start-time: 1690578450455.2356
+finish-time: 1690578450
+
+passed: yes
+identifier: test-main.rkt:45;
+start-time: 1690578450637.6453
+finish-time: 1690578450
+
+passed: yes
+identifier: test-main.rkt:46;
+start-time: 1690578450827.4343
+finish-time: 1690578450
+
+passed: yes
+identifier: test-main.rkt:47;
+start-time: 1690578451032.9358
+finish-time: 1690578451
+
+passed: yes
+identifier: test-main.rkt:48;
+start-time: 1690578451230.2727
+finish-time: 1690578451
+
+passed: yes
+identifier: test-main.rkt:50;
+start-time: 1690578451428.9116
+finish-time: 1690578451
+
+passed: yes
+identifier: test-main.rkt:51;
+start-time: 1690578451613.1865
+finish-time: 1690578451
+
+passed: yes
+identifier: test-main.rkt:79;
+start-time: 1690578451785.0935
+finish-time: 1690578451
+
+passed: yes
+identifier: test-main.rkt:80;
+start-time: 1690578451960.5762
+finish-time: 1690578451
+
+passed: yes
+identifier: test-main.rkt:82;
+start-time: 1690578452139.0798
+finish-time: 1690578452
+
+passed: yes
+identifier: test-main.rkt:83;
+start-time: 1690578452310.9758
+finish-time: 1690578452
+
+passed: yes
+identifier: test-main.rkt:84;
+start-time: 1690578452495.1943
+finish-time: 1690578452
+
+passed: yes
+identifier: test-main.rkt:86;
+start-time: 1690578452674.6326
+finish-time: 1690578452
+
+passed: yes
+identifier: test-math.rkt:15;
+start-time: 1690578454651.6858
+finish-time: 1690578454
+
+passed: yes
+identifier: test-math.rkt:16;
+start-time: 1690578454816.0222
+finish-time: 1690578454
+
+passed: yes
+identifier: test-math.rkt:17;
+start-time: 1690578454985.6382
+finish-time: 1690578454
+
+passed: yes
+identifier: test-math.rkt:19;
+start-time: 1690578455152.2092
+finish-time: 1690578455
+
+passed: yes
+identifier: test-math.rkt:20;
+start-time: 1690578455318.497
+finish-time: 1690578455
+
+passed: yes
+identifier: test-math.rkt:21;
+start-time: 1690578455491.2114
+finish-time: 1690578455
+
+passed: yes
+identifier: test-math.rkt:25;
+start-time: 1690578455658.506
+finish-time: 1690578455
+
+passed: yes
+identifier: test-math.rkt:26;
+start-time: 1690578455826.2488
+finish-time: 1690578455
+
+passed: yes
+identifier: test-math.rkt:27;
+start-time: 1690578455990.8008
+finish-time: 1690578455
+
+passed: yes
+identifier: test-math.rkt:36;
+start-time: 1690578456161.655
+finish-time: 1690578456
+
+passed: yes
+identifier: test-math.rkt:37;
+start-time: 1690578456334.7273
+finish-time: 1690578456
+
+passed: yes
+identifier: test-math.rkt:38;
+start-time: 1690578456501.0645
+finish-time: 1690578456
+
+passed: yes
+identifier: test-math.rkt:40;
+start-time: 1690578456675.7285
+finish-time: 1690578456
+
+passed: yes
+identifier: test-math.rkt:41;
+start-time: 1690578456847.8162
+finish-time: 1690578456
+
+passed: yes
+identifier: test-math.rkt:42;
+start-time: 1690578457016.2969
+finish-time: 1690578457
+
+passed: yes
+identifier: test-math.rkt:46;
+start-time: 1690578457182.2104
+finish-time: 1690578457
+
+passed: yes
+identifier: test-math.rkt:47;
+start-time: 1690578457359.556
+finish-time: 1690578457
+
+passed: yes
+identifier: test-math.rkt:48;
+start-time: 1690578457535.012
+finish-time: 1690578457
+
+passed: yes
+identifier: test-math.rkt:57;
+start-time: 1690578457706.3054
+finish-time: 1690578457
+
+passed: yes
+identifier: test-math.rkt:58;
+start-time: 1690578457886.996
+finish-time: 1690578457
+
+passed: yes
+identifier: test-math.rkt:59;
+start-time: 1690578458062.8655
+finish-time: 1690578458
+
+passed: yes
+identifier: test-math.rkt:61;
+start-time: 1690578458295.2083
+finish-time: 1690578458
+
+passed: yes
+identifier: test-math.rkt:62;
+start-time: 1690578458523.7522
+finish-time: 1690578458
+
+passed: yes
+identifier: test-math.rkt:63;
+start-time: 1690578458749.2537
+finish-time: 1690578458
+
+passed: yes
+identifier: test-math.rkt:64;
+start-time: 1690578458979.764
+finish-time: 1690578458
+
+passed: yes
+identifier: test-math.rkt:65;
+start-time: 1690578459206.5813
+finish-time: 1690578459
+
+passed: yes
+identifier: test-math.rkt:66;
+start-time: 1690578459428.7646
+finish-time: 1690578459
+
+passed: yes
+identifier: test-math.rkt:68;
+start-time: 1690578459649.8193
+finish-time: 1690578459
+
+passed: yes
+identifier: test-math.rkt:77;
+start-time: 1690578459873.6326
+finish-time: 1690578459
+
+passed: yes
+identifier: test-math.rkt:78;
+start-time: 1690578460103.9832
+finish-time: 1690578460
+
+passed: yes
+identifier: test-math.rkt:79;
+start-time: 1690578460330.2585
+finish-time: 1690578460
+
+passed: yes
+identifier: test-math.rkt:80;
+start-time: 1690578460556.1543
+finish-time: 1690578460
+
+passed: yes
+identifier: test-math.rkt:82;
+start-time: 1690578460782.0054
+finish-time: 1690578460
+
+passed: yes
+identifier: test-math.rkt:91;
+start-time: 1690578461008.9067
+finish-time: 1690578461
+
+passed: yes
+identifier: test-math.rkt:92;
+start-time: 1690578461233.1057
+finish-time: 1690578461
+
+passed: yes
+identifier: test-math.rkt:93;
+start-time: 1690578461471.126
+finish-time: 1690578461
+
+passed: yes
+identifier: test-math.rkt:94;
+start-time: 1690578461699.7156
+finish-time: 1690578461
+
+passed: yes
+identifier: test-math.rkt:95;
+start-time: 1690578461927.4216
+finish-time: 1690578461
+
+passed: yes
+identifier: test-math.rkt:96;
+start-time: 1690578462148.9329
+finish-time: 1690578462
+
+passed: yes
+identifier: test-image.rkt:26;
+start-time: 1690578464931.4404
+finish-time: 1690578464
+
+passed: yes
+identifier: test-image.rkt:27;
+start-time: 1690578465105.5845
+finish-time: 1690578465
+
+passed: yes
+identifier: test-image.rkt:28;
+start-time: 1690578465280.9827
+finish-time: 1690578465
+
+passed: yes
+identifier: test-image.rkt:32;
+start-time: 1690578465491.4966
+finish-time: 1690578465
+
+passed: yes
+identifier: test-image.rkt:33;
+start-time: 1690578465666.2588
+finish-time: 1690578465
+
+passed: yes
+identifier: test-image.rkt:34;
+start-time: 1690578465834.049
+finish-time: 1690578465
+
+passed: yes
+identifier: test-image.rkt:35;
+start-time: 1690578466007.0789
+finish-time: 1690578466
+
+passed: yes
+identifier: test-image.rkt:36;
+start-time: 1690578466183.3865
+finish-time: 1690578466
+
+passed: yes
+identifier: test-image.rkt:37;
+start-time: 1690578466356.936
+finish-time: 1690578466
+
+passed: yes
+identifier: test-image.rkt:38;
+start-time: 1690578466554.0015
+finish-time: 1690578466
+
+passed: yes
+identifier: test-image.rkt:39;
+start-time: 1690578466791.9824
+finish-time: 1690578466
+
+passed: yes
+identifier: test-image.rkt:45;
+start-time: 1690578467029.6057
+finish-time: 1690578467
+
+passed: yes
+identifier: test-image.rkt:46;
+start-time: 1690578467269.6467
+finish-time: 1690578467
+
+passed: yes
+identifier: test-image.rkt:47;
+start-time: 1690578467506.331
+finish-time: 1690578467
+
+passed: yes
+identifier: test-image.rkt:48;
+start-time: 1690578467743.6113
+finish-time: 1690578467
+
+passed: yes
+identifier: test-image.rkt:52;
+start-time: 1690578467974.6921
+finish-time: 1690578467
+
+passed: yes
+identifier: test-image.rkt:53;
+start-time: 1690578468215.164
+finish-time: 1690578468
+
+passed: yes
+identifier: test-image.rkt:54;
+start-time: 1690578468446.099
+finish-time: 1690578468
+
+passed: yes
+identifier: test-image.rkt:55;
+start-time: 1690578468680.063
+finish-time: 1690578468
+
+passed: yes
+identifier: test-image.rkt:89;
+start-time: 1690578468910.944
+finish-time: 1690578468
+
+passed: yes
+identifier: test-image.rkt:90;
+start-time: 1690578469148.848
+finish-time: 1690578469
+
+passed: yes
+identifier: test-image.rkt:91;
+start-time: 1690578469380.2227
+finish-time: 1690578469
+
+passed: yes
+identifier: test-image.rkt:92;
+start-time: 1690578469617.4868
+finish-time: 1690578469
+
+passed: yes
+identifier: test-image.rkt:96;
+start-time: 1690578469853.6755
+finish-time: 1690578469
+
+passed: yes
+identifier: test-image.rkt:99;
+start-time: 1690578470087.8447
+finish-time: 1690578470
+
+passed: yes
+identifier: test-image.rkt:102;
+start-time: 1690578470324.1274
+finish-time: 1690578470
+
+passed: yes
+identifier: test-image.rkt:105;
+start-time: 1690578470560.8625
+finish-time: 1690578470
+
+passed: yes
+identifier: test-image.rkt:108;
+start-time: 1690578470758.4927
+finish-time: 1690578470
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:67;
+start-time: 1690578470925.5276
+finish-time: 1690578470
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:68;
+start-time: 1690578471095.0
+finish-time: 1690578471
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:69;
+start-time: 1690578471274.7646
+finish-time: 1690578471
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:71;
+start-time: 1690578471448.6772
+finish-time: 1690578471
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578471622.8386
+finish-time: 1690578471
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578471812.2622
+finish-time: 1690578471
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578471984.0413
+finish-time: 1690578471
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:74;
+start-time: 1690578472166.271
+finish-time: 1690578472
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:75;
+start-time: 1690578472335.6636
+finish-time: 1690578472
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:77;
+start-time: 1690578472507.2249
+finish-time: 1690578472
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:78;
+start-time: 1690578472686.4075
+finish-time: 1690578472
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:80;
+start-time: 1690578472856.7744
+finish-time: 1690578472
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:81;test-image.rkt:238;
+start-time: 1690578473028.6052
+finish-time: 1690578473
+
+passed: yes
+identifier: test-image.rkt:114;test-image.rkt:81;test-image.rkt:240;
+start-time: 1690578473203.186
+finish-time: 1690578473
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:67;
+start-time: 1690578473374.2734
+finish-time: 1690578473
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:68;
+start-time: 1690578473542.674
+finish-time: 1690578473
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:69;
+start-time: 1690578473718.9465
+finish-time: 1690578473
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:71;
+start-time: 1690578473886.8728
+finish-time: 1690578473
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578474056.9272
+finish-time: 1690578474
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578474231.033
+finish-time: 1690578474
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578474400.636
+finish-time: 1690578474
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:74;
+start-time: 1690578474569.2883
+finish-time: 1690578474
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:75;
+start-time: 1690578474742.8816
+finish-time: 1690578474
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:77;
+start-time: 1690578474914.0508
+finish-time: 1690578474
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:78;
+start-time: 1690578475086.8145
+finish-time: 1690578475
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:80;
+start-time: 1690578475261.9106
+finish-time: 1690578475
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:81;test-image.rkt:238;
+start-time: 1690578475433.06
+finish-time: 1690578475
+
+passed: yes
+identifier: test-image.rkt:117;test-image.rkt:81;test-image.rkt:240;
+start-time: 1690578475605.27
+finish-time: 1690578475
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:67;
+start-time: 1690578475782.9045
+finish-time: 1690578475
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:68;
+start-time: 1690578475951.4685
+finish-time: 1690578475
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:69;
+start-time: 1690578476123.551
+finish-time: 1690578476
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:71;
+start-time: 1690578476299.4119
+finish-time: 1690578476
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:72;test-image.rkt:238;
+start-time: 1690578476468.7212
+finish-time: 1690578476
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:72;test-image.rkt:240;
+start-time: 1690578476640.5708
+finish-time: 1690578476
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:74;
+start-time: 1690578476816.9165
+finish-time: 1690578476
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:75;
+start-time: 1690578476996.9517
+finish-time: 1690578476
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:77;
+start-time: 1690578477165.7686
+finish-time: 1690578477
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:78;
+start-time: 1690578477338.9846
+finish-time: 1690578477
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:80;
+start-time: 1690578477510.024
+finish-time: 1690578477
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:81;test-image.rkt:238;
+start-time: 1690578477683.1934
+finish-time: 1690578477
+
+passed: yes
+identifier: test-image.rkt:120;test-image.rkt:81;test-image.rkt:240;
+start-time: 1690578477859.1418
+finish-time: 1690578477
+
+passed: yes
+identifier: test-image.rkt:126;test-image.rkt:224;
+start-time: 1690578478030.2505
+finish-time: 1690578478
+
+passed: yes
+identifier: test-image.rkt:126;test-image.rkt:224;
+start-time: 1690578478209.9048
+finish-time: 1690578478
+
+passed: yes
+identifier: test-image.rkt:126;test-image.rkt:224;
+start-time: 1690578478383.7017
+finish-time: 1690578478
+
+passed: yes
+identifier: test-image.rkt:128;test-image.rkt:238;
+start-time: 1690578478556.3376
+finish-time: 1690578478
+
+passed: yes
+identifier: test-image.rkt:128;test-image.rkt:240;
+start-time: 1690578478724.072
+finish-time: 1690578478
+
+passed: yes
+identifier: test-image.rkt:174;
+start-time: 1690578478899.7183
+finish-time: 1690578478
+
+passed: yes
+identifier: test-image.rkt:175;
+start-time: 1690578479088.5093
+finish-time: 1690578479
+
+passed: yes
+identifier: test-image.rkt:176;
+start-time: 1690578479326.441
+finish-time: 1690578479
+
+passed: yes
+identifier: test-image.rkt:177;
+start-time: 1690578479561.7222
+finish-time: 1690578479
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:91;
+start-time: 1690578479800.9954
+finish-time: 1690578479
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:93;
+start-time: 1690578480046.8086
+finish-time: 1690578480
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:95;
+start-time: 1690578480291.7698
+finish-time: 1690578480
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:96;
+start-time: 1690578480540.8845
+finish-time: 1690578480
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:98;
+start-time: 1690578480791.688
+finish-time: 1690578480
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:102;
+start-time: 1690578481037.9329
+finish-time: 1690578481
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:106;
+start-time: 1690578481272.3381
+finish-time: 1690578481
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:110;
+start-time: 1690578481512.1072
+finish-time: 1690578481
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:115;
+start-time: 1690578481752.646
+finish-time: 1690578481
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:117;
+start-time: 1690578481992.3142
+finish-time: 1690578481
+
+passed: yes
+identifier: test-new-posn.rkt:142;test-new-posn.rkt:120;
+start-time: 1690578482227.1
+finish-time: 1690578482
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:91;
+start-time: 1690578482459.7756
+finish-time: 1690578482
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:93;
+start-time: 1690578482691.5999
+finish-time: 1690578482
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:95;
+start-time: 1690578482923.97
+finish-time: 1690578482
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:96;
+start-time: 1690578483155.3687
+finish-time: 1690578483
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:98;
+start-time: 1690578483336.6272
+finish-time: 1690578483
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:102;
+start-time: 1690578483509.9807
+finish-time: 1690578483
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:106;
+start-time: 1690578483681.9878
+finish-time: 1690578483
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:110;
+start-time: 1690578483850.1426
+finish-time: 1690578483
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:115;
+start-time: 1690578484024.7905
+finish-time: 1690578484
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:117;
+start-time: 1690578484194.8604
+finish-time: 1690578484
+
+passed: yes
+identifier: test-new-posn.rkt:144;test-new-posn.rkt:120;
+start-time: 1690578484365.0256
+finish-time: 1690578484
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:91;
+start-time: 1690578484546.3696
+finish-time: 1690578484
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:93;
+start-time: 1690578484724.2737
+finish-time: 1690578484
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:95;
+start-time: 1690578484898.319
+finish-time: 1690578484
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:96;
+start-time: 1690578485078.7725
+finish-time: 1690578485
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:98;
+start-time: 1690578485245.7603
+finish-time: 1690578485
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:102;
+start-time: 1690578485423.0815
+finish-time: 1690578485
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:106;
+start-time: 1690578485597.1514
+finish-time: 1690578485
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:110;
+start-time: 1690578485767.802
+finish-time: 1690578485
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:115;
+start-time: 1690578485945.7737
+finish-time: 1690578485
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:117;
+start-time: 1690578486121.095
+finish-time: 1690578486
+
+passed: yes
+identifier: test-new-posn.rkt:146;test-new-posn.rkt:120;
+start-time: 1690578486293.4993
+finish-time: 1690578486
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:91;
+start-time: 1690578486470.337
+finish-time: 1690578486
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:93;
+start-time: 1690578486644.6946
+finish-time: 1690578486
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:95;
+start-time: 1690578486821.496
+finish-time: 1690578486
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:96;
+start-time: 1690578486999.289
+finish-time: 1690578486
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:98;
+start-time: 1690578487170.3838
+finish-time: 1690578487
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:102;
+start-time: 1690578487342.6382
+finish-time: 1690578487
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:106;
+start-time: 1690578487565.587
+finish-time: 1690578487
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:110;
+start-time: 1690578487802.6272
+finish-time: 1690578487
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:115;
+start-time: 1690578488037.117
+finish-time: 1690578488
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:117;
+start-time: 1690578488272.884
+finish-time: 1690578488
+
+passed: yes
+identifier: test-new-posn.rkt:148;test-new-posn.rkt:120;
+start-time: 1690578488508.0334
+finish-time: 1690578488
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:91;
+start-time: 1690578488742.3567
+finish-time: 1690578488
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:93;
+start-time: 1690578488976.0442
+finish-time: 1690578488
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:95;
+start-time: 1690578489205.7627
+finish-time: 1690578489
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:96;
+start-time: 1690578489437.2068
+finish-time: 1690578489
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:98;
+start-time: 1690578489671.4768
+finish-time: 1690578489
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:102;
+start-time: 1690578489902.391
+finish-time: 1690578489
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:106;
+start-time: 1690578490143.4487
+finish-time: 1690578490
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:110;
+start-time: 1690578490379.414
+finish-time: 1690578490
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:115;
+start-time: 1690578490612.8738
+finish-time: 1690578490
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:117;
+start-time: 1690578490847.344
+finish-time: 1690578490
+
+passed: yes
+identifier: test-new-posn.rkt:150;test-new-posn.rkt:120;
+start-time: 1690578491085.8354
+finish-time: 1690578491
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:91;
+start-time: 1690578491322.5286
+finish-time: 1690578491
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:93;
+start-time: 1690578491556.741
+finish-time: 1690578491
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:95;
+start-time: 1690578491730.424
+finish-time: 1690578491
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:96;
+start-time: 1690578491903.588
+finish-time: 1690578491
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:98;
+start-time: 1690578492086.9802
+finish-time: 1690578492
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:102;
+start-time: 1690578492260.5615
+finish-time: 1690578492
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:106;
+start-time: 1690578492428.4724
+finish-time: 1690578492
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:110;
+start-time: 1690578492608.587
+finish-time: 1690578492
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:115;
+start-time: 1690578492781.7722
+finish-time: 1690578492
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:117;
+start-time: 1690578492960.2427
+finish-time: 1690578492
+
+passed: yes
+identifier: test-new-posn.rkt:152;test-new-posn.rkt:120;
+start-time: 1690578493141.134
+finish-time: 1690578493
+
+passed: yes
+identifier: test-new-posn.rkt:155;
+start-time: 1690578493328.668
+finish-time: 1690578493
+
+passed: yes
+identifier: test-new-posn.rkt:157;
+start-time: 1690578493512.0256
+finish-time: 1690578493
+
+passed: yes
+identifier: test-new-posn.rkt:162;
+start-time: 1690578493704.4082
+finish-time: 1690578493
+
+passed: yes
+identifier: test-new-posn.rkt:167;
+start-time: 1690578493924.3308
+finish-time: 1690578493
+
+passed: yes
+identifier: test-new-player.rkt:112;
+start-time: 1690578494121.0261
+finish-time: 1690578494
+
+passed: yes
+identifier: test-new-player.rkt:113;
+start-time: 1690578494298.6973
+finish-time: 1690578494
+
+passed: yes
+identifier: test-new-player.rkt:114;
+start-time: 1690578494468.8347
+finish-time: 1690578494
+
+passed: yes
+identifier: test-new-player.rkt:115;
+start-time: 1690578494660.6384
+finish-time: 1690578494
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:59;
+start-time: 1690578494836.1548
+finish-time: 1690578494
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:60;
+start-time: 1690578495009.8518
+finish-time: 1690578495
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:91;
+start-time: 1690578495190.2458
+finish-time: 1690578495
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:93;
+start-time: 1690578495361.1504
+finish-time: 1690578495
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:95;
+start-time: 1690578495534.722
+finish-time: 1690578495
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:96;
+start-time: 1690578495712.6458
+finish-time: 1690578495
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:98;
+start-time: 1690578495937.4587
+finish-time: 1690578495
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:102;
+start-time: 1690578496174.1575
+finish-time: 1690578496
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:106;
+start-time: 1690578496405.787
+finish-time: 1690578496
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:110;
+start-time: 1690578496636.463
+finish-time: 1690578496
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:115;
+start-time: 1690578496869.057
+finish-time: 1690578496
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:117;
+start-time: 1690578497102.7908
+finish-time: 1690578497
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:61;test-new-posn.rkt:120;
+start-time: 1690578497333.5017
+finish-time: 1690578497
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:66;
+start-time: 1690578497571.8977
+finish-time: 1690578497
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:67;
+start-time: 1690578497810.7944
+finish-time: 1690578497
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:69;
+start-time: 1690578498047.27
+finish-time: 1690578498
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:74;
+start-time: 1690578498284.5103
+finish-time: 1690578498
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:76;
+start-time: 1690578498521.0625
+finish-time: 1690578498
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:78;
+start-time: 1690578498761.3286
+finish-time: 1690578498
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:80;
+start-time: 1690578498998.583
+finish-time: 1690578498
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:82;
+start-time: 1690578499235.4434
+finish-time: 1690578499
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:87;
+start-time: 1690578499463.81
+finish-time: 1690578499
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:88;
+start-time: 1690578499699.7708
+finish-time: 1690578499
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:67;
+start-time: 1690578499930.875
+finish-time: 1690578499
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:68;
+start-time: 1690578500103.142
+finish-time: 1690578500
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:69;
+start-time: 1690578500272.5266
+finish-time: 1690578500
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:71;
+start-time: 1690578500440.624
+finish-time: 1690578500
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578500611.8926
+finish-time: 1690578500
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578500787.8567
+finish-time: 1690578500
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578500955.1333
+finish-time: 1690578500
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:74;
+start-time: 1690578501127.5686
+finish-time: 1690578501
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:75;
+start-time: 1690578501297.2644
+finish-time: 1690578501
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:77;
+start-time: 1690578501477.138
+finish-time: 1690578501
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:78;
+start-time: 1690578501651.726
+finish-time: 1690578501
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:80;
+start-time: 1690578501823.3057
+finish-time: 1690578501
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:238;
+start-time: 1690578501992.403
+finish-time: 1690578501
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:240;
+start-time: 1690578502176.6235
+finish-time: 1690578502
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:67;
+start-time: 1690578502351.241
+finish-time: 1690578502
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:68;
+start-time: 1690578502523.0178
+finish-time: 1690578502
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:69;
+start-time: 1690578502695.5405
+finish-time: 1690578502
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:71;
+start-time: 1690578502870.865
+finish-time: 1690578502
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578503044.21
+finish-time: 1690578503
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578503223.676
+finish-time: 1690578503
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578503398.128
+finish-time: 1690578503
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:74;
+start-time: 1690578503570.284
+finish-time: 1690578503
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:75;
+start-time: 1690578503744.8164
+finish-time: 1690578503
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:77;
+start-time: 1690578503917.262
+finish-time: 1690578503
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:78;
+start-time: 1690578504088.7004
+finish-time: 1690578504
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:80;
+start-time: 1690578504319.8066
+finish-time: 1690578504
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:224;
+start-time: 1690578504553.6636
+finish-time: 1690578504
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:224;
+start-time: 1690578504789.2217
+finish-time: 1690578504
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:224;
+start-time: 1690578505023.301
+finish-time: 1690578505
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:67;
+start-time: 1690578505263.5308
+finish-time: 1690578505
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:68;
+start-time: 1690578505500.3083
+finish-time: 1690578505
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:69;
+start-time: 1690578505736.6072
+finish-time: 1690578505
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:71;
+start-time: 1690578505970.357
+finish-time: 1690578505
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578506206.0117
+finish-time: 1690578506
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578506444.2727
+finish-time: 1690578506
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578506684.987
+finish-time: 1690578506
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:74;
+start-time: 1690578506933.5896
+finish-time: 1690578506
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:75;
+start-time: 1690578507180.4224
+finish-time: 1690578507
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:77;
+start-time: 1690578507425.6328
+finish-time: 1690578507
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:78;
+start-time: 1690578507665.3562
+finish-time: 1690578507
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:80;
+start-time: 1690578507904.6592
+finish-time: 1690578507
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:221;test-image.rkt:224;
+start-time: 1690578508140.1797
+finish-time: 1690578508
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:221;test-image.rkt:224;
+start-time: 1690578508357.0286
+finish-time: 1690578508
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:221;test-image.rkt:224;
+start-time: 1690578508523.3481
+finish-time: 1690578508
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:224;
+start-time: 1690578508696.5815
+finish-time: 1690578508
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:224;
+start-time: 1690578508872.3584
+finish-time: 1690578508
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:221;test-image.rkt:238;
+start-time: 1690578509048.6465
+finish-time: 1690578509
+
+passed: yes
+identifier: test-new-player.rkt:127;test-new-player.rkt:94;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:221;test-image.rkt:240;
+start-time: 1690578509261.7717
+finish-time: 1690578509
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:59;
+start-time: 1690578509445.3157
+finish-time: 1690578509
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:60;
+start-time: 1690578509621.6443
+finish-time: 1690578509
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:91;
+start-time: 1690578509809.5403
+finish-time: 1690578509
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:93;
+start-time: 1690578509994.5908
+finish-time: 1690578509
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:95;
+start-time: 1690578510170.284
+finish-time: 1690578510
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:96;
+start-time: 1690578510348.7336
+finish-time: 1690578510
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:98;
+start-time: 1690578510517.8638
+finish-time: 1690578510
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:102;
+start-time: 1690578510693.573
+finish-time: 1690578510
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:106;
+start-time: 1690578510869.2869
+finish-time: 1690578510
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:110;
+start-time: 1690578511045.8455
+finish-time: 1690578511
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:115;
+start-time: 1690578511226.0593
+finish-time: 1690578511
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:117;
+start-time: 1690578511400.1006
+finish-time: 1690578511
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:61;test-new-posn.rkt:120;
+start-time: 1690578511570.7131
+finish-time: 1690578511
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:66;
+start-time: 1690578511745.279
+finish-time: 1690578511
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:67;
+start-time: 1690578511918.5674
+finish-time: 1690578511
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:69;
+start-time: 1690578512092.076
+finish-time: 1690578512
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:74;
+start-time: 1690578512279.014
+finish-time: 1690578512
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:76;
+start-time: 1690578512451.6035
+finish-time: 1690578512
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:78;
+start-time: 1690578512671.1262
+finish-time: 1690578512
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:80;
+start-time: 1690578512905.8408
+finish-time: 1690578512
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:82;
+start-time: 1690578513140.893
+finish-time: 1690578513
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:87;
+start-time: 1690578513377.2283
+finish-time: 1690578513
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:88;
+start-time: 1690578513611.6526
+finish-time: 1690578513
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:67;
+start-time: 1690578513849.6965
+finish-time: 1690578513
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:68;
+start-time: 1690578514086.1238
+finish-time: 1690578514
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:69;
+start-time: 1690578514324.4624
+finish-time: 1690578514
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:71;
+start-time: 1690578514564.3787
+finish-time: 1690578514
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578514800.8186
+finish-time: 1690578514
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578515033.2666
+finish-time: 1690578515
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578515268.8525
+finish-time: 1690578515
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:74;
+start-time: 1690578515504.3552
+finish-time: 1690578515
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:75;
+start-time: 1690578515736.3884
+finish-time: 1690578515
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:77;
+start-time: 1690578515972.863
+finish-time: 1690578515
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:78;
+start-time: 1690578516207.7327
+finish-time: 1690578516
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:80;
+start-time: 1690578516453.5935
+finish-time: 1690578516
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:238;
+start-time: 1690578516683.1265
+finish-time: 1690578516
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:89;test-new-player.rkt:32;test-image.rkt:81;test-image.rkt:240;
+start-time: 1690578516857.855
+finish-time: 1690578516
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:67;
+start-time: 1690578517037.826
+finish-time: 1690578517
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:68;
+start-time: 1690578517219.4092
+finish-time: 1690578517
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:69;
+start-time: 1690578517405.8403
+finish-time: 1690578517
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:71;
+start-time: 1690578517600.1191
+finish-time: 1690578517
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578517783.219
+finish-time: 1690578517
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578517961.1821
+finish-time: 1690578517
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:72;test-image.rkt:224;
+start-time: 1690578518133.9011
+finish-time: 1690578518
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:74;
+start-time: 1690578518312.3455
+finish-time: 1690578518
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:75;
+start-time: 1690578518494.5674
+finish-time: 1690578518
+
+passed: yes
+identifier: test-new-player.rkt:130;test-new-player.rkt:93;test-new-player.rkt:32;test-image.rkt:77;
+start-time: 1690578518665.0557
+finish-time: 1690578518
 
