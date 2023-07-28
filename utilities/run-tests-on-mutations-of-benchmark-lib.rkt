@@ -35,9 +35,7 @@
          "logger-utility.rkt")
 
 (module+ for-macro
-  (provide parameter-for-current-mutant
-           parameter-for-current-module
-           (struct-out test-info)
+  (provide (struct-out test-info)
            test-data-logger))
 
 (module+ main

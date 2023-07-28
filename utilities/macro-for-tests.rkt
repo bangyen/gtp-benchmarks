@@ -25,6 +25,7 @@
 ;; test-id will contain a string in the following format, 
 ;; "filename:linenumber; ..." that will serve as its identifier
 (define test-id (make-parameter ""))
+(define start-time (make-parameter 0))
 
 ;; RACKUNIT TESTS
 #|
@@ -58,8 +59,6 @@ quote-source-file
 
 ;; process-check-infos: (-> check-info test-info)
 (define (process-check-infos check-infos fail-reason)
-  (define mtnt (parameter-for-current-mutant))
-  (define mod (parameter-for-current-module))
   (define test-expr "")
   (define test-location "")
   (define test-identifier (test-id))
@@ -71,11 +70,11 @@ quote-source-file
                       [(equal? name 'location)
                        (set! test-location val)])))
             check-infos)
-  (test-info mtnt mod test-expr test-location test-identifier fail-reason))
+  (test-info "" "" test-expr test-location test-identifier fail-reason))
 
 ;; print-error: (-> check-info string -> void)
 (define (log-error chk-info fail-reason)
-  (define tst-info (process-check-infos chk-info fail-reason))
+  (define tst-info (process-check-infos chk-info fail-reason (start-time) (current-seconds)))
   (log-message test-data-logger
                'debug
                'test-data
@@ -90,7 +89,8 @@ quote-source-file
         [(exn:fail? e)
          (log-error (exn-check-info e) "type error")]
         [else
-         (log-error (current-check-info) "not sure")]))
+         (log-error (current-check-info) "not sure")])
+  (collect-garbage))
 
 ;; pass-handler (-> Exn void)
 (define (pass-handler e)
@@ -98,12 +98,17 @@ quote-source-file
                'debug
                'test-data
                "PASS"
-               (test-info (parameter-for-current-mutant)
-                          (parameter-for-current-module)
+               (test-info ""
+                          ""
                           ""
                           ""
                           (test-id)
-                          "")))
+                          ""
+                          (start-time)
+                          (current-seconds)))
+  (collect-garbage))
+
+
 
 (define-syntax-parse-rule (define-wrapped-rackunit-checks rackunit-check-name:id ...)
   #:with [prefixed-check-name ...] (map (lambda (unprefixed-name)
@@ -117,7 +122,9 @@ quote-source-file
       #:with dummy-that-gets-the-right-loc (datum->syntax this-syntax '(quote-source-file) this-syntax this-syntax)
       (let-values ([(_0 filename _1) (split-path dummy-that-gets-the-right-loc)]
                    [(linenumber) dummy-that-gets-the-right-line])
-        (parameterize* ([test-id (string-append (test-id) (path->string filename) ":" (number->string linenumber) ";")]
+        (parameterize* (;; track test-id
+                        [test-id (string-append (test-id) (path->string filename) ":" (number->string linenumber) ";")]
+                        ;; print out in our format
                         [rackunit:current-check-handler error-handler]
                         [rackunit:current-check-around
                          (lambda (chk-thk)
@@ -125,15 +132,22 @@ quote-source-file
                            (define (log-and-handle-error! e) (test-log! #f) (err-handler e))
                            (define (log-and-handle-pass! e) (test-log! #t) (pass-handler e))
                            (define (plain-check-around chk-thk) (chk-thk))
-                           ;; Nested checks should be evaluated as normal functions, to avoid double
-                           ;; counting test results.
                            (parameterize ([rackunit:current-check-around plain-check-around])
+                             ;; print something out even when the test passes by
+                             ;; raising an exn:test:pass error
                              (with-handlers ([(lambda (e) (exn:test:pass? e)) log-and-handle-pass!]
                                              [(λ (_) #t) log-and-handle-error!])
                                (chk-thk)
-                               (raise (exn:test:pass "test passed" (current-continuation-marks))))))])
+                               (raise (exn:test:pass "test passed" (current-continuation-marks))))))]
+                        ;; track start-time
+                        [start-time (begin (collect-garbage)
+                                           (collect-garbage)
+                                           (collect-garbage)
+                                           (current-inexact-milliseconds))])
           (prefixed-check-name args (... ...)))))                      
     ...))
+
+    
 
 (define-wrapped-rackunit-checks
   check-exn
