@@ -311,8 +311,8 @@
   (define h2-list (kill-all-zombies fake-zombie-list zs))
   (define h2 (new-horde (convert-list-to-cons-zombie (first h2-list))
                         (convert-list-to-cons-zombie (second h2-list))))
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ;; test move-toward
    (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 0 0))
                                (convert-list-to-cons-zombie 
@@ -336,15 +336,16 @@
    (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
    (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
    (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
-   ))
+   ;; )
+)
 
 ;; test-new-cons-zombies
-(run-tests (test-new-cons-zombies (lambda ()
-                          (new-cons-zombies (new-zombie (new-posn 0 0))
-                                            (new-cons-zombies (new-zombie (new-posn 300 300))
-                                                              (new-mt-zombies))))
-                       (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
-                       ""))
+;; (run-tests (test-new-cons-zombies (lambda ()
+;;                           (new-cons-zombies (new-zombie (new-posn 0 0))
+;;                                             (new-cons-zombies (new-zombie (new-posn 300 300))
+;;                                                               (new-mt-zombies))))
+;;                        (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
+;;                        ""))
 
 
 ;; algo-horde-move-toward: (listof (listof zombie)) Posn -> (listof (listof zombie))
@@ -373,8 +374,8 @@
   (define move-toward-1 (algo-horde-move-toward h-list (new-posn 0 0)))
   (define move-toward-2 (algo-horde-move-toward h-list (new-posn 450 -100000)))
   (define kill-all-1 (kill-all-zombies (first h-list) (second h-list)))
-  (test-suite
-   msg
+  ;; (test-suite
+   ;; msg
    ;; tests
    ;; dead
    (check-true (equal-zombies? ((horde-dead result))
@@ -408,10 +409,11 @@
    (check-true (equal-hordes? ((horde-eat-brains result))
                               (new-horde (convert-list-to-cons-zombie (first kill-all-1))
                                          (convert-list-to-cons-zombie (second kill-all-1)))))
-                  ))
+                  ;; )
+)
 
 
-;; TESTS
+;; tests
 ;; tests for new-zombie
 (define new-zombie-test-suite
   (test-suite

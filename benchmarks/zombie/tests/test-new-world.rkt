@@ -2,12 +2,10 @@
 
 (require rackunit
          rackunit/text-ui
-         
          ;; (submod "zombie.rkt" test)
          (submod "../untyped/zombie.rkt" test)
          ;; "image.rkt"
-         "../untyped/image.rkt"
-         
+         "../untyped/image.rkt"        
          "test-new-posn.rkt"
          "test-new-player.rkt"
          "test-image.rkt"
@@ -40,18 +38,18 @@
 ;; horde-ticks: Horde Player Number -> Horde
 ;    - horde is the original horde that we are moving
 ;    - player is the Player the horde is moving towards
+;    - mouse is the posn of the location that the player is moving towards
 ;    - num-ticks is the number of ticks to simulate (number of times to move the horde)
 ; returns a new Horde that's been moved based on player and num-ticks.
-(define (horde-ticks horde player num-ticks)
+(define (horde-ticks horde player mouse num-ticks)
   (cond
-    ;base case: no ticks left, return horde
     [(= num-ticks 0) horde]
-    ;recursive case: call with moved horde and decremented ticks
     [else
-     (horde-ticks ((horde-move-toward ((horde-eat-brains horde))) ((player-posn player)))
-                   player
-                   (- num-ticks 1))]
-    ))
+     (horde-ticks ((horde-move-toward ((horde-eat-brains horde)))
+                   ((player-posn player)))
+                  (player-ticks player mouse 1)
+                  mouse
+                  (- num-ticks 1))]))
 
 ;; world-ticks: World Number -> World
 ;    - world is the original World that we are changing
@@ -74,27 +72,52 @@
 ; assumes world's on-tick fxn has correct arity and param types
 (define (test-world-on-tick world player horde mouse msg)
   ;; (test-suite
-   ;; msg
-   ; world looks right
-   (test-image-equal ((world-to-draw world))
-                     ((player-draw-on player) ((horde-draw-on horde) MT-SCENE)))
-   ; world after 1 tick looks right
-   (test-image-equal ((world-to-draw (world-ticks world 1)))
-                     ((player-draw-on (player-ticks player mouse 1))
-                      ((horde-draw-on (horde-ticks horde player 1)) MT-SCENE)))
-   ; world after 2 tick looks right
-   (test-image-equal ((world-to-draw (world-ticks world 2)))
-                     ((player-draw-on (player-ticks player mouse 2))
-                      ((horde-draw-on (horde-ticks horde player 2)) MT-SCENE)))
-   ; world after 3 tick looks right
-   (test-image-equal ((world-to-draw (world-ticks world 3)))
-                     ((player-draw-on (player-ticks player mouse 3))
-                      ((horde-draw-on (horde-ticks horde player 3)) MT-SCENE)))
-   ; world after 10 tick looks right
-   (test-image-equal ((world-to-draw (world-ticks world 10)))
-                     ((player-draw-on (player-ticks player mouse 10))
-                      ((horde-draw-on (horde-ticks horde player 10)) MT-SCENE)))
-   )
+  ;; msg
+  ; world looks right
+  (test-image-equal ((world-to-draw world))
+                    ((player-draw-on player) ((horde-draw-on horde) MT-SCENE)))
+  ; world after 1 tick looks right
+  (test-image-equal ((world-to-draw (world-ticks world 1)))
+                    ((player-draw-on (player-ticks player mouse 1))
+                     ((horde-draw-on (horde-ticks horde player mouse 1)) MT-SCENE)))
+  ; world after 2 tick looks right
+  (test-image-equal ((world-to-draw (world-ticks world 2)))
+                    ((player-draw-on (player-ticks player mouse 2))
+                     ((horde-draw-on (horde-ticks horde player mouse 2)) MT-SCENE)))
+  ; world after 3 tick looks right
+  (test-image-equal ((world-to-draw (world-ticks world 3)))
+                    ((player-draw-on (player-ticks player mouse 3))
+                     ((horde-draw-on (horde-ticks horde player mouse 3)) MT-SCENE)))
+  ; world after 10 tick looks right
+  (test-image-equal ((world-to-draw (world-ticks world 10)))
+                    ((player-draw-on (player-ticks player mouse 10))
+                     ((horde-draw-on (horde-ticks horde player mouse 10)) MT-SCENE)))
+  )
+
+
+(define (print-image img)
+  (print-image-helper img)
+  (newline))
+
+(define (print-image-helper img)
+  (if (not (image? img))
+      (if (string? img)
+          (display img)
+          (display (number->string img)))
+      (begin (display "image: [")
+             (if (not (list? (image-impl img)))
+                 (begin
+                   (print-image-helper (car (image-impl img)))
+                   (display ", ")
+                   (print-image-helper (cdr (image-impl img)))
+                   (display ", "))
+                 (for ([i (in-range (length (image-impl img)))])
+                   (print-image-helper (list-ref (image-impl img) i))
+                   (display ", ")))
+             (display "]")
+             )))
+
+
 ;; )
 
 ;; test-world-on-mouse: World Player Horde Number Number String String -> test-suite
@@ -140,14 +163,14 @@
     (check-true (procedure? (world-to-draw world)))
     (check-equal? (procedure-arity (world-to-draw world)) 0)
     (check-true (image? ((world-to-draw world))))
-    (test-image-equal ((world-to-draw world));actual
+  (test-image-equal ((world-to-draw world));actual
                       ((player-draw-on player) ((horde-draw-on horde) MT-SCENE)));expected
-    ;; )
+  ;; )
    ;; (test-suite
     ;; "world-on-tick"
     (check-true (procedure? (world-on-tick world)))
     (check-equal? (procedure-arity (world-on-tick world)) 0)
-    (test-world-on-tick world player horde mouse "test-world/args testing on-tick")
+  (test-world-on-tick world player horde mouse "test-world/args testing on-tick")
     ;; )
    ;; (test-suite
     ;; "world-on-mouse" ; Real Real String -> World
@@ -215,7 +238,9 @@
   (define (test-n-ticks n)
     (define player-n (player-ticks player mouse n))
     (define world-n (world-ticks wom n))
+
     (test-image-equal PLAYER-IMG (first (image-impl ((world-to-draw world-n)))))
+
     (check-equal? ((posn-x ((player-posn player-n))))
                   (second (image-impl ((world-to-draw world-n)))))
     (check-equal? ((posn-y ((player-posn player-n))))
@@ -415,7 +440,7 @@
                                                                                                                      (new-mt-zombies)))))))
                        "world 2 no arg test")
    ))
-   
+
 (run-tests new-world-tests)
 (run-tests w0-tests)
 (run-tests world/no-args-tests)

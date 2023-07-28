@@ -195,6 +195,7 @@
 ;; checks equality of images
 ;; image-impl is a cons (a list is a cons)
 ;; returns a test suite or fail
+
 (define (test-image-equal img1 img2)
   (unless (image? img1)
     (fail "img1 not an image"))
@@ -213,8 +214,8 @@
         ;;          "img1: ~a ~n img2: ~a ~n~n"
         ;;          (image-impl img1)
         ;;          (image-impl img2))
-        (test-suite
-         ""
+        ;; (test-suite
+         ;; ""
          (for ([a (in-list (image-impl img1))]
                [b (in-list (image-impl img2))])
            (if (and (image? a) (image? b))
@@ -223,7 +224,7 @@
                         (not (image? b)))
                    (check-equal? a b)
                    (fail "not both images"))))
-         )
+         ;; )
        ]
        ; unequal length
        [else (fail "lists are not equal length")]
