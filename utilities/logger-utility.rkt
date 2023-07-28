@@ -21,13 +21,7 @@
 (define-runtime-path logging-test-data-file "./logging-test-data/test-data.txt")
 
 ;; print-error: (-> check-info string -> void)
-(define (print-error tst-inf out)
-  ;; (fprintf out "mutant: ")
-  ;; (fprintf out "~a~n" (test-info-mtnt tst-inf))
-
-  ;; (fprintf out "module: ")
-  ;; (fprintf out "~a~n" (test-info-mod tst-inf))
-  
+(define (print-error tst-inf out)  
   (fprintf out "passed: no~n")
   ;; test-message
   (fprintf out "identifier: ")
@@ -47,13 +41,7 @@
   )
 
 ;; pass-handler (-> Exn void)
-(define (print-pass tst-inf out)
-  ;; (fprintf out "mutant: ")
-  ;; (fprintf out "~a~n" (test-info-mtnt tst-inf))
-
-  ;; (fprintf out "module: ")
-  ;; (fprintf out "~a~n" (test-info-mod tst-inf))
-  
+(define (print-pass tst-inf out)  
   (fprintf out "passed: yes~n")
   (fprintf out "identifier: ~a~n" (test-info-test-id tst-inf))
   (fprintf out "start-time: ~a~n" (test-info-start-time tst-inf))
@@ -68,7 +56,6 @@
     (let loop ()
       (define v (sync test-data-receiver))
       (define test-out (open-output-file logging-test-data-file #:exists 'append))
-      ;; (display (format "~a~n" (test-info-test-id (vector-ref v 2))) test-out)
       (define tst-inf (vector-ref v 2))
       (if (equal? (test-info-fail-reason tst-inf) "")
           (print-pass tst-inf test-out)

@@ -17,9 +17,6 @@
 ;; - "bex" - it's a directory inside blame-evaluation-gt
 ;; - "whereis" - a package that tells you where things are
 ;; 
-;; POTENTIAL CHANGES:
-;; 1. Refine our set of mutators (include mutators from 2020, ICFP 2021, ICFP 2023)
-;; 2. Calculate a mutation score for the test suite for a benchmark, or compute other data
 
 (require syntax/parse
          bex/configurations/config
@@ -190,7 +187,6 @@
     ; backup the module
     (copy-file (build-path test-env mod) (build-path test-env (string-join (list "--" mod))))
     ; current module
-    ;; (parameterize ([parameter-for-current-module mod])
     ; generate the mutants of mod, and run the tests on them
     (for ([i (in-range (length (hash-ref mutants mod)))])
         ; mutate the module
@@ -204,7 +200,6 @@
         (writeln-to-test-out (string-append "MUTANT: " (number->string i)))
         (writeln-to-test-out "")
         ; run tests
-        ;; (parameterize ([parameter-for-current-mutant i])
         (define identified? #f)
         (for ([test-env-file (directory-list test-env)]
               #:when (and (file-exists? (build-path test-env test-env-file))
@@ -220,7 +215,6 @@
             (begin (set! mutants-killed (+ mutants-killed 1))
                    (displayln "Mutant identified"))
             (displayln "Mutant not identified")))
-    ;; ))
     ; get the original module back
     (delete-file (build-path test-env mod))
     (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))

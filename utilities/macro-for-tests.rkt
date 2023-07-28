@@ -10,6 +10,21 @@
          (for-syntax racket/syntax)
          (submod "run-tests-on-mutations-of-benchmark-lib.rkt" for-macro))
 
+(provide (all-defined-out)
+         (rename-out [define-parameterizing-test-id define])
+         (filtered-out
+          (lambda (name)
+            (substring name 9))
+          (except-out (all-from-out rackunit)
+                      rackunit:check-exn
+                      rackunit:check-true
+                      rackunit:check-false
+                      rackunit:check-equal?
+                      rackunit:check-eq?))
+         (all-from-out syntax/location)
+         (all-from-out rackunit/private/check-info)
+         (all-from-out rackunit/log))
+
 ;; HOW TO USE
 ;; Merely replace your requirement of rackunit with "macro-for-tests.rkt" in a file, 
 ;; and bang, you now have a bunch of tests that log raw data. 
@@ -19,24 +34,18 @@
 ;; expression:
 ;; location:
 ;; fail-reason: ["N/A" "test" "type-checker"]
+;; start-time
+;; finish-time
 
 ;; Creates a parameter that initializes to ""
 ;; This parameter changes for when a test is run in this program
 ;; test-id will contain a string in the following format, 
 ;; "filename:linenumber; ..." that will serve as its identifier
 (define test-id (make-parameter ""))
+;; Parameter to keep track of start-time per test
 (define start-time (make-parameter 0))
 
 ;; RACKUNIT TESTS
-#|
-(check-equal? ...)
--> (parameterize* ([test-id (string-append (test-id)
-quote-source-file
-)]
-[current-check-handler ...]
-[current-check-around ...(referencing test-id)])
-(rackunit:check-equal? ...))
-|#
 
 (define-struct (exn:test:pass rackunit:exn:test) ())
 ;; continuation-mark-set-parameter-value : Continuation-Mark-Set (Parameterof X) -> X
@@ -109,7 +118,6 @@ quote-source-file
   (collect-garbage))
 
 
-
 (define-syntax-parse-rule (define-wrapped-rackunit-checks rackunit-check-name:id ...)
   #:with [prefixed-check-name ...] (map (lambda (unprefixed-name)
                                           (format-id this-syntax
@@ -157,11 +165,6 @@ quote-source-file
   check-eq?)
 
 ;; OTHERS
-#|
-(test-posn ...)
--> (parameterize ([test-id ...])
-(test-posn ...))
-|#
 
 (define-syntax (define-parameterizing-test-id stx)
   (syntax-parse stx
@@ -179,17 +182,3 @@ quote-source-file
     [(_ id expr)
      #'(define id expr)]))
 
-(provide (all-defined-out)
-         (rename-out [define-parameterizing-test-id define])
-         (filtered-out
-          (lambda (name)
-            (substring name 9))
-          (except-out (all-from-out rackunit)
-                      rackunit:check-exn
-                      rackunit:check-true
-                      rackunit:check-false
-                      rackunit:check-equal?
-                      rackunit:check-eq?))
-         (all-from-out syntax/location)
-         (all-from-out rackunit/private/check-info)
-         (all-from-out rackunit/log))
