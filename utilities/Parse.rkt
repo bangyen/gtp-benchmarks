@@ -19,6 +19,8 @@
 (define first #t)
 (define pass 0)
 (define fail 0)
+(define total-pass 0)
+(define total-fail 0)
 
 (define module-list '())
 
@@ -26,9 +28,11 @@
   (if (not (eq? cur-module "init"))
       (begin (if result
                  (begin (set! mutants-p (cons cur-mutant mutants-p))
-                        (set! pass (+ pass 1)))
+                        (set! pass (+ pass 1))
+                        (set! total-pass (+ total-pass 1)))
                  (begin (set! mutants-f (cons cur-mutant mutants-f))
-                        (set! fail (+ fail 1))))
+                        (set! fail (+ fail 1))
+                        (set! total-fail (+ total-fail 1))))
              (set! result #t)
              (cond [(not (equal? cur-module module))
                     (begin (set! module-list (cons (module-record cur-module mutants-p mutants-f (+ pass fail) (/ pass (+ pass fail)) start-time finish-time) module-list))
@@ -57,6 +61,9 @@
 
 (new-module "Finish")
 
+(newline)
+(displayln "Information:")
+
 (for ([i module-list])
   (displayln (format "Module: ~a" (module-record-module i)))
   (displayln (format "Mutants that passed: ~a" (module-record-mutants-pass i)))
@@ -66,6 +73,10 @@
   (displayln (format "Time Module Started: ~a" (module-record-stime i)))
   (displayln (format "Time Module Finished: ~a" (module-record-ftime i)))
   (newline))
+
+(displayln (format "Benchmark Mutant Number: ~a" (+ total-pass total-fail)))
+(displayln (format "Benchmark Mutation Score: ~a" (/ total-pass (+ total-pass total-fail))))
+
 
 
 
