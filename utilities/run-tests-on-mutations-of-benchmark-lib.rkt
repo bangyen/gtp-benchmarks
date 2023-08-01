@@ -133,6 +133,16 @@
   (fprintf test-out (string-append str "~n"))
   (close-output-port test-out))
 
+
+;;; config -> dir
+(define (copy-modules-into-a-directory bench-config target-dir)
+  (copy-file (benchmark-configuration-main bench-config) (build-path target-dir "main.rkt"))
+  ;; copy others
+  (for ([src-file (benchmark-configuration-others bench-config)])
+    (copy-file src-file
+               (build-path target-dir (file-name-from-path src-file)))))
+
+
 ;;; RUN TESTS
 ;; run-tests-on-mutations: string string -> void
 (define (run-tests-on-mutations bench-string config-string)
@@ -150,11 +160,14 @@
   ;; get strings of mutatable-modules
   (define mutatable-modules (benchmark->mutatable-modules bench))
   ;; copy all the modules into a new directory
-  (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
+  ;; (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
   ;; copy others
-  (for ([src-file (benchmark-configuration-others bench-config)])
-    (copy-file src-file
-               (build-path test-env (file-name-from-path src-file))))
+  ;; (for ([src-file (benchmark-configuration-others bench-config)])
+  ;;   (copy-file src-file
+  ;;              (build-path test-env (file-name-from-path src-file))))
+
+  (copy-modules-into-a-directory bench-config test-env)
+
   ; Generate program mutations: use get-mutant-hash
   (define mutants (get-mutant-hash mutatable-modules))
   ;; get the number of mutants to compute mutation score later
@@ -171,11 +184,13 @@
                (build-path test-env test-file))
     (set! test-file-names (cons test-file test-file-names)))
   ;; copy the module files again
-  (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
-  (for ([src-file (benchmark-configuration-others bench-config)])
-    (copy-file src-file
-               (build-path test-env (file-name-from-path src-file))))
+  ;; (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
+  ;; (for ([src-file (benchmark-configuration-others bench-config)])
+  ;;   (copy-file src-file
+  ;;              (build-path test-
+                           ;; env (file-name-from-path src-file))))
   ;; number of mutants the test suite successfully kills
+  (copy-modules-into-a-directory bench-config test-env)
   (define mutants-killed 0)
 
   ;; create a directory where results (and mutant files are dumped)
