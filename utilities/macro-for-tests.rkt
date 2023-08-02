@@ -8,7 +8,8 @@
          syntax/parse
          syntax/location
          (for-syntax racket/syntax)
-         (submod "run-tests-on-mutations-of-benchmark-lib.rkt" for-macro))
+         (submod "run-tests-on-mutations-of-benchmark-lib.rkt" for-macro)
+         racket/logging)
 
 (provide (all-defined-out)
          (rename-out [define-parameterizing-test-id define])
@@ -67,7 +68,7 @@
   (displayln "------------------"))
 
 ;; process-check-infos: (-> check-info test-info)
-(define (process-check-infos check-infos fail-reason)
+(define (process-check-infos check-infos fail-reason start-time end-time)
   (define test-expr "")
   (define test-location "")
   (define test-identifier (test-id))
@@ -79,7 +80,7 @@
                       [(equal? name 'location)
                        (set! test-location val)])))
             check-infos)
-  (test-info "" "" test-expr test-location test-identifier fail-reason))
+  (test-info "" "" test-expr test-location test-identifier fail-reason start-time end-time))
 
 ;; print-error: (-> check-info string -> void)
 (define (log-error chk-info fail-reason)
@@ -88,7 +89,8 @@
                'debug
                'test-data
                "FAILURE OR ERROR"
-               tst-info))
+               tst-info)
+  (print "error"))
 
 (define (error-handler e)
   (cond [(rackunit:exn:test:check? e)
@@ -113,8 +115,24 @@
                           (test-id)
                           ""
                           (start-time)
-                          (current-seconds))))
+                          (current-seconds)))
+  (print "pass"))
 
+(define (execute-test-thk-with-gc chk-thk)
+  (with-intercepted-logging
+    (lambda (l)
+      (collect-garbage)
+      (with-intercepted-logging
+        (lambda (l)
+          (void))
+        chk-thk
+        'debug
+        'GC:major
+        ))
+    chk-thk
+    'debug
+    'GC:major
+    ))
 
 (define-syntax-parse-rule (define-wrapped-rackunit-checks rackunit-check-name:id ...)
   #:with [prefixed-check-name ...] (map (lambda (unprefixed-name)
@@ -146,13 +164,9 @@
                                (chk-thk)
                                (raise (exn:test:pass "test passed" (current-continuation-marks))))))]
                         ;; track start-time
-                        [start-time (begin
-                                      (collect-garbage)
-                                      (collect-garbage)
-                                      (collect-garbage)
-                                      (current-inexact-milliseconds))])
-          (prefixed-check-name args (... ...)))))                      
-    ...))
+                        [start-time (current-inexact-milliseconds)])
+        (prefixed-check-name args (... ...)))))                     
+  ...))
 
     
 

@@ -136,6 +136,7 @@
 
 ;;; config -> dir
 (define (copy-modules-into-a-directory bench-config target-dir)
+  ;; copy main
   (copy-file (benchmark-configuration-main bench-config) (build-path target-dir "main.rkt"))
   ;; copy others
   (for ([src-file (benchmark-configuration-others bench-config)])
