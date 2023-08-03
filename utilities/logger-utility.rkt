@@ -9,7 +9,9 @@
          ;; parameter-for-current-mutant
          log-test-data-debug
          (struct-out test-info)
-         logging-test-data-file)
+         logging-test-data-file
+         print-error
+         print-pass)
 
 (struct test-info (mtnt mod test-expr test-loc test-id fail-reason start-time finish-time))
 
@@ -21,7 +23,7 @@
 (define-runtime-path logging-test-data-file "./logging-test-data/test-data.txt")
 
 ;; print-error: (-> check-info string -> void)
-(define (print-error tst-inf out)  
+(define (print-error tst-inf out)
   (fprintf out "passed: no~n")
   ;; test-message
   (fprintf out "identifier: ")

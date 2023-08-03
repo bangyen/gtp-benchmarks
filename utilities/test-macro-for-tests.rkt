@@ -2,5 +2,4 @@
 
 (require "macro-for-tests.rkt")
 
-
-(check-equal? 5 5)
+(check-equal? 5 6)

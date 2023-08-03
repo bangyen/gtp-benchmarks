@@ -33,7 +33,9 @@
 
 (module+ for-macro
   (provide (struct-out test-info)
-           test-data-logger))
+           test-data-logger
+           print-error
+           print-pass))
 
 (module+ main
   (provide run-tests-on-mutations))

@@ -90,7 +90,7 @@
                'test-data
                "FAILURE OR ERROR"
                tst-info)
-  (print "error"))
+  (print-error tst-info (current-output-port)))
 
 (define (error-handler e)
   (cond [(rackunit:exn:test:check? e)
@@ -104,11 +104,7 @@
 
 ;; pass-handler (-> Exn void)
 (define (pass-handler e)
-  (log-message test-data-logger
-               'debug
-               'test-data
-               "PASS"
-               (test-info ""
+  (define tst-info (test-info ""
                           ""
                           ""
                           ""
@@ -116,7 +112,12 @@
                           ""
                           (start-time)
                           (current-seconds)))
-  (print "pass"))
+  (log-message test-data-logger
+               'debug
+               'test-data
+               "PASS"
+               tst-info)
+  (print-pass tst-info (current-output-port)))
 
 (define (execute-test-thk-with-gc chk-thk)
   (with-intercepted-logging
@@ -134,6 +135,37 @@
     'GC:major
     ))
 
+(define (set-parameters-for-a-test check-thunk filename linenumber)
+  (parameterize* (;; track test-id
+                  [test-id (string-append (test-id)
+                                          (path->string filename)
+                                          ":"
+                                          (number->string linenumber)
+                                          ";")]
+                  ;; print out in our format
+                  [rackunit:current-check-handler error-handler]
+                  [rackunit:current-check-around
+                   (lambda (chk-thk)
+                     (define err-handler (rackunit:current-check-handler))
+                     (define (log-and-handle-error! e)
+                       (test-log! #f)
+                       (err-handler e))
+                     (define (log-and-handle-pass! e)
+                       (test-log! #t)
+                       (pass-handler e))
+                     (define (plain-check-around chk-thk) (chk-thk))
+                     (parameterize ([rackunit:current-check-around plain-check-around])
+                       ;; print something out even when the test passes by
+                       ;; raising an exn:test:pass error
+                       (with-handlers ([(lambda (e) (exn:test:pass? e)) log-and-handle-pass!]
+                                       [(λ (_) #t) log-and-handle-error!])
+                         (chk-thk)
+                         (raise (exn:test:pass "test passed" (current-continuation-marks))))))]
+                  ;; track start-time
+                  [start-time (current-inexact-milliseconds)])
+    (check-thunk)
+    ))
+
 (define-syntax-parse-rule (define-wrapped-rackunit-checks rackunit-check-name:id ...)
   #:with [prefixed-check-name ...] (map (lambda (unprefixed-name)
                                           (format-id this-syntax
@@ -146,29 +178,11 @@
       #:with dummy-that-gets-the-right-loc (datum->syntax this-syntax '(quote-source-file) this-syntax this-syntax)
       (let-values ([(_0 filename _1) (split-path dummy-that-gets-the-right-loc)]
                    [(linenumber) dummy-that-gets-the-right-line])
-        (parameterize* (;; track test-id
-                        [test-id (string-append (test-id) (path->string filename) ":" (number->string linenumber) ";")]
-                        ;; print out in our format
-                        [rackunit:current-check-handler error-handler]
-                        [rackunit:current-check-around
-                         (lambda (chk-thk)
-                           (define err-handler (rackunit:current-check-handler))
-                           (define (log-and-handle-error! e) (test-log! #f) (err-handler e))
-                           (define (log-and-handle-pass! e) (test-log! #t) (pass-handler e))
-                           (define (plain-check-around chk-thk) (chk-thk))
-                           (parameterize ([rackunit:current-check-around plain-check-around])
-                             ;; print something out even when the test passes by
-                             ;; raising an exn:test:pass error
-                             (with-handlers ([(lambda (e) (exn:test:pass? e)) log-and-handle-pass!]
-                                             [(λ (_) #t) log-and-handle-error!])
-                               (chk-thk)
-                               (raise (exn:test:pass "test passed" (current-continuation-marks))))))]
-                        ;; track start-time
-                        [start-time (current-inexact-milliseconds)])
-        (prefixed-check-name args (... ...)))))                     
-  ...))
-
-    
+        (set-parameters-for-a-test (lambda () (prefixed-check-name args (... ...)))
+                                   filename
+                                   linenumber)
+        ))
+    ...))
 
 (define-wrapped-rackunit-checks
   check-exn
