@@ -1,13 +1,13 @@
 #lang at-exp racket
 
-;; INSTRUCTIONS: 
+;; INSTRUCTIONS:
 ;; In command line: "racket run-tests-on-mutations-of-benchark <benchmark-name> <bench-config>"
 ;; <benchmark-name>: what it sounds like ("zombie", "dungeon", etc.)
 ;; <bench-config>: a binary integer that represents the configuration of typed and untyped modules.
 ;; - Imagine the modules in a benchmark are sorted lexicographically. Take Zombie for instance.
 ;; - The first module is "image.rkt." The second is "main.rkt." The third is "math.rkt". The fourth,
 ;; "zombie.rkt."
-;; - <bench-config> is a representation of whether you want to leave each module typed, or untyped. 
+;; - <bench-config> is a representation of whether you want to leave each module typed, or untyped.
 ;; In binary, 0 is untyped. 1 is typed. If you wanted to leave every module untyped except for zombie,
 ;; the number 0001 would generate that configuration.
 ;;
@@ -16,7 +16,6 @@
 ;; 2. Install...
 ;; - "bex" - it's a directory inside blame-evaluation-gt
 ;; - "whereis" - a package that tells you where things are
-;; 
 
 (require syntax/parse
          bex/configurations/config
@@ -39,6 +38,7 @@
 
 (module+ main
   (provide run-tests-on-mutations))
+
 
 ;;; SETUP RUNTIME PATHS
 ;; benchmarks-path: path of the benchmarks directory in gtp-benchmarks
@@ -101,23 +101,22 @@
    ; negate-conditionals
    ; force-cond
    ; force-conditionals
-   
    #:top-level-selector
    selector
    #:syntax-only
    #:streaming
    #:module-mutator))
 
-;; get-mutant-hash: (listof string?) -> hash (string -> (listof syntax-object)) 
+;; get-mutant-hash: (listof string?) -> hash (string -> (listof syntax-object))
 (define (get-mutant-hash program-path-strings)
-  (define programs-to-mutate 
+  (define programs-to-mutate
     (map read-module program-path-strings))
   ;; create mutants
   (define mutants (make-hash))
   (for ([p programs-to-mutate]
         [program-name program-path-strings])
     (hash-set! mutants
-               program-name 
+               program-name
                (map syntax->datum (stream->list (program-mutations p)))))
   mutants)
 
@@ -145,6 +144,12 @@
     (copy-file src-file
                (build-path target-dir (file-name-from-path src-file)))))
 
+;; log-mutant-data
+(define (log-mutant-data mod i killed?)
+  (log-message mutant-data-logger
+               'debug
+               ""
+               (mutant-info i mod killed?)))
 
 ;;; RUN TESTS
 ;; run-tests-on-mutations: string string -> void
@@ -163,16 +168,14 @@
   ;; get strings of mutatable-modules
   (define mutatable-modules (benchmark->mutatable-modules bench))
   ;; copy all the modules into a new directory
-  ;; (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
-  ;; copy others
-  ;; (for ([src-file (benchmark-configuration-others bench-config)])
-  ;;   (copy-file src-file
-  ;;              (build-path test-env (file-name-from-path src-file))))
-
   (copy-modules-into-a-directory bench-config test-env)
-
   ; Generate program mutations: use get-mutant-hash
   (define mutants (get-mutant-hash mutatable-modules))
+  ;; put hash on disk
+  (define hash-out (open-output-file (build-path bench-path
+                                                 "../../utilities/logging-test-data/mutant-hash")))
+  (write mutants hash-out)
+  (close-output-port hash-out)
   ;; get the number of mutants to compute mutation score later
   (define number-of-mutants 0)
   ;; delete all the files
@@ -183,63 +186,41 @@
   (define test-file-names '())
   (for ([test-file (directory-list test-dir)]
         #:when (file-exists? (build-path test-dir test-file)))
-    (copy-file (build-path test-dir test-file) 
+    (copy-file (build-path test-dir test-file)
                (build-path test-env test-file))
     (set! test-file-names (cons test-file test-file-names)))
   ;; copy the module files again
-  ;; (copy-file (benchmark-configuration-main bench-config) (build-path test-env "main.rkt"))
-  ;; (for ([src-file (benchmark-configuration-others bench-config)])
-  ;;   (copy-file src-file
-  ;;              (build-path test-
-                           ;; env (file-name-from-path src-file))))
-  ;; number of mutants the test suite successfully kills
   (copy-modules-into-a-directory bench-config test-env)
-  (define mutants-killed 0)
-
-  ;; create a directory where results (and mutant files are dumped)
-  (define results-path (build-path bench-path "experiment-results"))
-  (make-directory results-path)
-
   ;; the loop loads a mutant in test-env, runs the tests, deletes the mutants, and repeats.
   (for ([mod mutatable-modules])
+    (when (equal? mod "math.rkt")
+    (putenv "MODULE" mod)
     ; backup the module
     (copy-file (build-path test-env mod) (build-path test-env (string-join (list "--" mod))))
     ; current module
     ; generate the mutants of mod, and run the tests on them
     (for ([i (in-range (length (hash-ref mutants mod)))])
-        ; mutate the module
-        (define module-path (build-path test-env mod))
-        (delete-file module-path)
-        (write-mutant-to-disk mutants mod i module-path)
-        ; put it in results folder
-        (write-mutant-to-disk mutants mod i (build-path results-path (string-append "mutant-" mod "-" (number->string i) ".rkt")))
-        ; print module and mutant
-        (writeln-to-test-out (string-append "MODULE: " mod))
-        (writeln-to-test-out (string-append "MUTANT: " (number->string i)))
-        (writeln-to-test-out "")
-        ; run tests
-        (define identified? #f)
-        (for ([test-env-file (directory-list test-env)]
-              #:when (and (file-exists? (build-path test-env test-env-file))
-                          (path-has-extension? (build-path test-env test-env-file) ".rkt")
-                          (member test-env-file test-file-names)))
-          (current-directory test-env)
-
-          (when (parameterize ([current-output-port (open-output-nowhere)])
-                  (system* (whereis-system 'exec-file) (whereis-raco "test") (build-path test-env test-env-file)))
-            (set! identified? #t)))
-        (set! number-of-mutants (+ number-of-mutants 1))
-        (if identified?
-            (begin (set! mutants-killed (+ mutants-killed 1))
-                   (displayln "Mutant identified"))
-            (displayln "Mutant not identified")))
+      (putenv "MUTANT" (number->string i))
+      ; mutate the module
+      (define module-path (build-path test-env mod))
+      (delete-file module-path)
+      (write-mutant-to-disk mutants mod i module-path)
+      ; run tests
+      (define identified? #f)
+      (for ([test-env-file (directory-list test-env)]
+            #:when (and (file-exists? (build-path test-env test-env-file))
+                        (path-has-extension? (build-path test-env test-env-file) ".rkt")
+                        (member test-env-file test-file-names)))
+        (current-directory test-env)
+        (when (parameterize ([current-output-port (open-output-nowhere)])
+                (system* (whereis-system 'exec-file)
+                         (whereis-raco "test")
+                         (build-path test-env test-env-file)))
+          (set! identified? #t)))
+      (log-mutant-data mod i identified?))
     ; get the original module back
     (delete-file (build-path test-env mod))
     (copy-file (build-path test-env (string-join (list "--" mod))) (build-path test-env mod))
-    (delete-file (build-path test-env (string-join (list "--" mod)))))
+    (delete-file (build-path test-env (string-join (list "--" mod))))))
   ;; clean up directory
-  (delete-directory/files test-env)
-  ;; display mutation score
-  (define res (exact->inexact (/ mutants-killed number-of-mutants)))
-  (displayln (string-append (number->string mutants-killed) " mutants identified out of " (number->string number-of-mutants) ", mutation score of " (number->string res))))
-
+  (delete-directory/files test-env))

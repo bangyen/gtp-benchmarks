@@ -80,7 +80,14 @@
                       [(equal? name 'location)
                        (set! test-location val)])))
             check-infos)
-  (test-info "" "" test-expr test-location test-identifier fail-reason start-time end-time))
+  (test-info (getenv "MUTANT")
+             (getenv "MODULE")
+             test-expr
+             test-location
+             test-identifier
+             fail-reason
+             start-time
+             end-time))
 
 ;; print-error: (-> check-info string -> void)
 (define (log-error chk-info fail-reason)
@@ -104,8 +111,9 @@
 
 ;; pass-handler (-> Exn void)
 (define (pass-handler e)
-  (define tst-info (test-info ""
-                          ""
+  (define tst-info (test-info
+                    (getenv "MUTANT")
+                    (getenv "MODULE")
                           ""
                           ""
                           (test-id)
@@ -163,7 +171,7 @@
                          (raise (exn:test:pass "test passed" (current-continuation-marks))))))]
                   ;; track start-time
                   [start-time (current-inexact-milliseconds)])
-    (check-thunk)
+    (execute-test-thk-with-gc check-thunk)
     ))
 
 (define-syntax-parse-rule (define-wrapped-rackunit-checks rackunit-check-name:id ...)
