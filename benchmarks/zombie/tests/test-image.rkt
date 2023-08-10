@@ -37,6 +37,7 @@
     (check-exn exn:fail? (lambda () (empty-scene 1 -1)))
     (check-exn exn:fail? (lambda () (empty-scene -1 -1)))
     (check-exn exn:fail? (lambda () (empty-scene -1 1)))
+    (check-exn exn:fail? (lambda () (empty-scene 1 1+i)))
     )
    (test-suite
     "correct results"
@@ -46,14 +47,14 @@
      (check-true (cons? (image-impl (empty-scene 1 3))))
      (check-equal? 1 (car (image-impl (empty-scene 1 3))))
      (check-equal? 3 (cdr (image-impl (empty-scene 1 3))))
-    )
+     )
     (test-suite
      "(empty-scene 1111 999)"
      (check-true (image? (empty-scene 1111 999)))
      (check-true (cons? (image-impl (empty-scene 1111 999))))
      (check-equal? 1111 (car (image-impl (empty-scene 1111 999))))
      (check-equal? 999 (cdr (image-impl (empty-scene 1111 999))))
-    ))
+     ))
    ))
 
 ;; (place-image-check fxn i1 i2 i3 i4 msg)
@@ -79,6 +80,7 @@
   ; fourth: iamge
   (check-true (image? (fourth (image-impl result))))
   (test-image-equal i4 (fourth (image-impl result))))
+
 (define place-image-tests
   (test-suite
    "place-image-tests"
@@ -111,23 +113,23 @@
     )
    (test-suite
     "expected results"
-    (place-image-check (lambda () (place-image (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)))
-                       (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)
-                       "place-image 1")
-    (place-image-check (lambda () (place-image (circle -10 "solid" "pink") -1 0 (empty-scene 300 500)))
-                       (circle -10 "solid" "pink") -1 0 (empty-scene 300 500)
-                       "place-image neg nums")
-    (place-image-check (lambda () (place-image (empty-scene 50 50) -4 -100 (empty-scene 20 30)))
-                       (empty-scene 50 50) -4 -100 (empty-scene 20 30)
-                       "place-image two empty scenes, both negative coords")
+   (place-image-check (lambda () (place-image (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)))
+                      (circle 5 "solid" "pink") 300 500 (empty-scene 300 500)
+                      "place-image 1")
+   (place-image-check (lambda () (place-image (circle -10 "solid" "pink") -1 0 (empty-scene 300 500)))
+                      (circle -10 "solid" "pink") -1 0 (empty-scene 300 500)
+                      "place-image neg nums")
+   (place-image-check (lambda () (place-image (empty-scene 50 50) -4 -100 (empty-scene 20 30)))
+                      (empty-scene 50 50) -4 -100 (empty-scene 20 30)
+                      "place-image two empty scenes, both negative coords")
    )
-   (test-suite
-    "test-image-equal"
-    (test-image-equal (circle 4 "solid" "red")
-                      (circle 4 "solid" "red"))
-    (test-image-equal (empty-scene 4 10)
-                      (empty-scene 4 10))
-    #|(test-image-equal (image '(20 "transparent" 30))
+  (test-suite
+   "test-image-equal"
+   (test-image-equal (circle 4 "solid" "red")
+                     (circle 4 "solid" "red"))
+   (test-image-equal (empty-scene 4 10)
+                     (empty-scene 4 10))
+   #|(test-image-equal (image '(20 "transparent" 30))
                       (image '(20 "transparent" 30)))
     (test-image-equal (image '((circle 4 "solid" "pink")
                                100
@@ -157,12 +159,12 @@
 |#
 (define (check-circle fxn i1 i2 i3 msg)
   (define result (fxn))
-   (check-true (image? result))
-   (check-true (list? (image-impl result)))
-   (check-equal? (length (image-impl result)) 3)
-   (check-equal? (first (image-impl result)) i1)
-   (check-equal? (second (image-impl result)) i2)
-   (check-equal? (third (image-impl result)) i3)
+  (check-true (image? result))
+  (check-true (list? (image-impl result)))
+  (check-equal? (length (image-impl result)) 3)
+  (check-equal? (first (image-impl result)) i1)
+  (check-equal? (second (image-impl result)) i2)
+  (check-equal? (third (image-impl result)) i3)
   )
 (define circle-tests
   (test-suite
@@ -188,7 +190,7 @@
                   '(90 10 11) -1000 "boo"
                   "funky input types")|#
     )
-))
+   ))
 
 ;; (test-image-equal img1 img2)
 ;; checks equality of images
@@ -214,17 +216,17 @@
         ;;          (image-impl img1)
         ;;          (image-impl img2))
         ;; (test-suite
-         ;; ""
-         (for ([a (in-list (image-impl img1))]
-               [b (in-list (image-impl img2))])
-           (if (and (image? a) (image? b))
-               (test-image-equal a b)
-               (if (and (not (image? a))
-                        (not (image? b)))
-                   (check-equal? a b)
-                   (fail "not both images"))))
-         ;; )
-       ]
+        ;; ""
+        (for ([a (in-list (image-impl img1))]
+              [b (in-list (image-impl img2))])
+          (if (and (image? a) (image? b))
+              (test-image-equal a b)
+              (if (and (not (image? a))
+                       (not (image? b)))
+                  (check-equal? a b)
+                  (fail "not both images"))))
+        ;; )
+        ]
        ; unequal length
        [else (fail "lists are not equal length")]
        )]
@@ -235,14 +237,14 @@
           (not (list? (image-impl img2))))
 
 
-      (check-equal? (car (image-impl img1))
-                    (car (image-impl img2)))
-      (check-equal? (cdr (image-impl img1))
-                    (cdr (image-impl img2)))
-      ]
+     (check-equal? (car (image-impl img1))
+                   (car (image-impl img2)))
+     (check-equal? (cdr (image-impl img1))
+                   (cdr (image-impl img2)))
+     ]
     ; not both cons or both lists
     [else (fail "image-impl not both cons or not both lists")]
-  ))
+    ))
 
 
 (run-tests empty-scene-tests)

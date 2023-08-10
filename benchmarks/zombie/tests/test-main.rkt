@@ -69,6 +69,7 @@
    ;;right length, elements wrong type
    (check-false (real-real-string-list? '("text" 1 "hi")))
    (check-false (real-real-string-list? '(1 2 3)))
+   (check-false (real-real-string-list? '(3+i -2 "Hi")))
    (check-false (real-real-string-list? '(1 "hello" 3)))
    ))
 
