@@ -148,11 +148,12 @@
    (test-posn (lambda () (new-posn -500 400)) -500 400 "")
    ;; (500, -400)
    (test-posn (lambda () (new-posn 500 -400)) 500 -400 "")
-   ;; (-1, -1)
+   ;; (-100, -300)
    (test-posn (lambda () (new-posn -100 -300)) -100 -300 "")
    ;; wrong inputs
    ;; -> error when doing move/toward
    (check-exn exn:fail? (lambda () ((posn-move (new-posn "" "") 50 50))))
+   (check-exn exn:fail? (lambda () ((posn-move (new-posn 200 100+i) 50 50))))
    ;; -> error when doing move
    (check-exn exn:fail?
               (lambda ()
