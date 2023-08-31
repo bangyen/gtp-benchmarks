@@ -61,11 +61,11 @@
 (define (place-zombie-image-check z c s)
   (define z-posn ((zombie-posn z)))
   (place-image-check (lambda () ((zombie-draw-on/color z) c s))
-                      (circle ZOMBIE-RADIUS "solid" c)
-                      ((posn-x z-posn))
-                      ((posn-y z-posn))
-                      s
-                      ""))
+                     (circle ZOMBIE-RADIUS "solid" c)
+                     ((posn-x z-posn))
+                     ((posn-y z-posn))
+                     s
+                     ""))
 
 ;; test-zombie: (-> Zombie) Real Real String -> Void
 ;; generates and runs a test suite with message msg, 
@@ -76,28 +76,19 @@
   (define posn-touching-z ((posn-move ((zombie-posn result))) ZOMBIE-RADIUS 0))
   (define posn-not-touching-z ((posn-move ((zombie-posn result))) ZOMBIE-RADIUS ZOMBIE-RADIUS))
   ;; (test-suite
-   ;; msg
-   ;; tests
-   ;; posn
-   (posn-equal? ((zombie-posn result))
-                (new-posn x y))
-   ;; draw-on/color
-   (place-zombie-image-check result "red" MT-SCENE)
+  ;; msg
+  ;; tests
+  ;; posn
+  (posn-equal? ((zombie-posn result))
+               (new-posn x y))
+  ;; draw-on/color
+  (place-zombie-image-check result "red" MT-SCENE)
 
-   ;; touching?
-   (check-eq? (is-zombie-really-touching? result posn-touching-z)
-              ((zombie-touching? result) posn-touching-z))
-   (check-eq? (is-zombie-really-touching? result posn-not-touching-z)
-              ((zombie-touching? result) posn-not-touching-z))           
-   ;; move-toward
-   (check-true (zombie-equal? (algo-move-toward-for-zombie result (new-posn 0 0))
-                              ((zombie-move-toward result) (new-posn 0 0))))
-   (check-true (zombie-equal? (algo-move-toward-for-zombie result (new-posn -300000 -40000))
-                              ((zombie-move-toward result) (new-posn -300000 -40000))))
-   (check-true (zombie-equal? (algo-move-toward-for-zombie result (new-posn 30000 30000))
-                              ((zombie-move-toward result) (new-posn 30000 30000))))
-   ;; )
-)
+  ;; touching?
+           
+  ;; move-toward
+  ;; )
+  )
 
 
 ;; place-images-recursively: List (Any -> Image) string? Image -> Image
@@ -107,25 +98,25 @@
       s
       (local [(define obj (first l))]
         (place-image (i-fxn obj)
-                    (x-fxn obj)
-                    (y-fxn obj)
-                    (place-images-recursively (rest l)
-                                              i-fxn
-                                              x-fxn
-                                              y-fxn
-                                              s)))))
+                     (x-fxn obj)
+                     (y-fxn obj)
+                     (place-images-recursively (rest l)
+                                               i-fxn
+                                               x-fxn
+                                               y-fxn
+                                               s)))))
 
 ;; place-zombies-image-check: Zombies (listof zombie) string image -> void
 ;; checks whether a list of zombies zs (should incl. mt-zombie) 
 ;; draws properly with color c and scene s
 (define (place-zombies-image-check actual-zs zs c s)
   (define img (place-images-recursively zs (lambda (z)
-                                              (circle ZOMBIE-RADIUS "solid" c))
-                                           (lambda (z)
-                                              ((posn-x ((zombie-posn z)))))
-                                           (lambda (z)
-                                              ((posn-y ((zombie-posn z)))))
-                                           s))
+                                             (circle ZOMBIE-RADIUS "solid" c))
+                                        (lambda (z)
+                                          ((posn-x ((zombie-posn z)))))
+                                        (lambda (z)
+                                          ((posn-y ((zombie-posn z)))))
+                                        s))
   (test-image-equal ((zombies-draw-on/color actual-zs) c s)
                     img))
 
@@ -147,7 +138,7 @@
       (new-mt-zombies)
       (begin
         (new-cons-zombies (first list-zs)
-                (convert-list-to-cons-zombie (rest list-zs))))))
+                          (convert-list-to-cons-zombie (rest list-zs))))))
 
 
 ;; equal-images: Image Image -> Boolean
@@ -169,12 +160,12 @@
         (for ([a (in-list (image-impl img1))]
               [b (in-list (image-impl img2))])
           (cond [(and (image? a) (image? b))
-                (unless (equal-images? a b)
-                  (set! bool #f))]
+                 (unless (equal-images? a b)
+                   (set! bool #f))]
                 [(and (not (image? a))
                       (not (image? b)))
-                (unless (equal? a b)
-                  (set! bool #f))]
+                 (unless (equal? a b)
+                   (set! bool #f))]
                 [else (set! bool #f)]))
         bool]
        ; unequal length
@@ -187,12 +178,12 @@
           (not (list? (image-impl img2))))   
      (and 
       (equal? (car (image-impl img1))
-                    (car (image-impl img2)))
+              (car (image-impl img2)))
       (equal? (cdr (image-impl img1))
-                    (cdr (image-impl img2))))]
+              (cdr (image-impl img2))))]
     ; not both cons or both lists
     [else (fail "image-impl not both cons or not both lists")]
-  ))
+    ))
 
 ; (check-false (equal-images? (place-image (circle ZOMBIE-RADIUS "solid" "red")
 ;                                         100
@@ -244,7 +235,7 @@
 ;; on an empty scene are equal
 (define (equal-hordes? h1 h2)
   (equal-images? ((horde-draw-on h1) MT-SCENE)
-          ((horde-draw-on h2) MT-SCENE)))
+                 ((horde-draw-on h2) MT-SCENE)))
 ;; test for equality
 ; (check-true (equal-hordes? (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
 ;                                                         (new-mt-zombies))
@@ -257,33 +248,33 @@
 (define (test-new-mt-zombies z-fxn msg)
   (define result (z-fxn))
   (define real-zombie-list 
-          (new-cons-zombies (new-zombie (new-posn 0 0))
-                            (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-                                              (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
-                                                                (new-mt-zombies)))))
+    (new-cons-zombies (new-zombie (new-posn 0 0))
+                      (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
+                                        (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
+                                                          (new-mt-zombies)))))
   (define fake-zombie-list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-                             (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
+                                 (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
   (define h-list (kill-all-zombies '() fake-zombie-list))
   (define h (new-horde (convert-list-to-cons-zombie (first h-list))
-                      (convert-list-to-cons-zombie (second h-list))))
+                       (convert-list-to-cons-zombie (second h-list))))
   (define h2-list (kill-all-zombies fake-zombie-list '()))
   (define h2 (new-horde (convert-list-to-cons-zombie (first h2-list))
                         (convert-list-to-cons-zombie (second h2-list))))
   ;; (test-suite
-   ;; msg
-   ;; move-toward check
-   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 0 0)) (new-mt-zombies)))
-   ;; draw-on/color check
-   (place-zombies-image-check result '() "red" MT-SCENE)
-   ;; touching?
-   (check-equal? (zombies-really-touching? '() (new-posn 0 0))
-                   ((zombies-touching? result) (new-posn 0 0)))
-   ;; kill-all
-   (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
-   (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
-   (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
-   ;; )
-)
+  ;; msg
+  ;; move-toward check
+  (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 0 0)) (new-mt-zombies)))
+  ;; draw-on/color check
+  (place-zombies-image-check result '() "red" MT-SCENE)
+  ;; touching?
+  (check-equal? (zombies-really-touching? '() (new-posn 0 0))
+                ((zombies-touching? result) (new-posn 0 0)))
+  ;; kill-all
+  (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
+  (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
+  (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
+  ;; )
+  )
 
 ;; algo-move-toward-for-zombies: (listof zombie) -> (listof zombie)
 (define (algo-move-toward-for-zombies zs p)
@@ -299,45 +290,30 @@
   ;; define important local variables
   ;; test suite
   (define real-zombie-list 
-          (new-cons-zombies (new-zombie (new-posn 0 0))
-                            (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-                                              (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
-                                                                (new-mt-zombies)))))
+    (new-cons-zombies (new-zombie (new-posn 0 0))
+                      (new-cons-zombies (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
+                                        (new-cons-zombies (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))
+                                                          (new-mt-zombies)))))
   (define fake-zombie-list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn ZOMBIE-RADIUS ZOMBIE-RADIUS))
-                             (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
+                                 (new-zombie (new-posn (- 0 ZOMBIE-RADIUS) (- 0 ZOMBIE-RADIUS)))))
   (define h-list (kill-all-zombies zs fake-zombie-list))
   (define h (new-horde (convert-list-to-cons-zombie (first h-list))
-                      (convert-list-to-cons-zombie (second h-list))))
+                       (convert-list-to-cons-zombie (second h-list))))
   (define h2-list (kill-all-zombies fake-zombie-list zs))
   (define h2 (new-horde (convert-list-to-cons-zombie (first h2-list))
                         (convert-list-to-cons-zombie (second h2-list))))
   ;; (test-suite
-   ;; msg
-   ;; test move-toward
-   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 0 0))
-                               (convert-list-to-cons-zombie 
-                                (algo-move-toward-for-zombies zs (new-posn 0 0)))))
-   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn -500 -500))
-                               (convert-list-to-cons-zombie 
-                                (algo-move-toward-for-zombies zs (new-posn -500 -500)))))
-   (check-true (equal-zombies? ((zombies-move-toward result) (new-posn 100 1400))
-                               (convert-list-to-cons-zombie 
-                                (algo-move-toward-for-zombies zs (new-posn 100 1400)))))
-   ;; test draw-on-color
-   (place-zombies-image-check result zs "red" MT-SCENE)
-   ;; test touching?
-   (check-equal? (zombies-really-touching? zs (new-posn 0 0))
-                 ((zombies-touching? result) (new-posn 0 0)))
-   (check-equal? (zombies-really-touching? zs (new-posn -500 -500))
-                 ((zombies-touching? result) (new-posn -500 -500)))
-   (check-equal? (zombies-really-touching? zs (new-posn 300 300))
-                 ((zombies-touching? result) (new-posn 300 300)))
-   ;; test kill-all
-   (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
-   (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
-   (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
-   ;; )
-)
+  ;; msg
+  ;; test move-toward
+  ;; test draw-on-color
+  (place-zombies-image-check result zs "red" MT-SCENE)
+  ;; test touching?
+  ;; test kill-all
+  (check-true (equal-hordes? h ((zombies-kill-all result) real-zombie-list)))
+  (check-false (equal-hordes? h ((zombies-kill-all real-zombie-list) result)))
+  (check-true (equal-hordes? h2 ((zombies-kill-all real-zombie-list) result)))
+  ;; )
+  )
 
 ;; test-new-cons-zombies
 ;; (run-tests (test-new-cons-zombies (lambda ()
@@ -375,112 +351,307 @@
   (define move-toward-2 (algo-horde-move-toward h-list (new-posn 450 -100000)))
   (define kill-all-1 (kill-all-zombies (first h-list) (second h-list)))
   ;; (test-suite
-   ;; msg
-   ;; tests
-   ;; dead
-   (check-true (equal-zombies? ((horde-dead result))
-                               (convert-list-to-cons-zombie (second h-list))))
-   ;; undead
-   (check-true (equal-zombies? ((horde-undead result))
-                               (convert-list-to-cons-zombie (first h-list))))
-   ;; draw-on
-   (check-true (equal-images? 
-          ;; result image
-          ((horde-draw-on result) MT-SCENE)
-          ;; h-list image
-          (place-images-recursively (first h-list)
-                                    (lambda (z)
-                                      (circle ZOMBIE-RADIUS "solid" "yellow"))
-                                    (lambda (z)
-                                      ((posn-x ((zombie-posn z)))))
-                                    (lambda (z)
-                                      ((posn-y ((zombie-posn z)))))
-                                    expected-dead-scene)
-          ))
-   ;; move-toward
-   (check-true (equal-hordes? ((horde-move-toward result) (new-posn 0 0))
-                              (new-horde (convert-list-to-cons-zombie (first move-toward-1))
-                                          (convert-list-to-cons-zombie (second move-toward-1)))))
-                  
-   (check-true (equal-hordes? ((horde-move-toward result) (new-posn 450 -100000))
-                 (new-horde (convert-list-to-cons-zombie (first move-toward-2))
-                            (convert-list-to-cons-zombie (second move-toward-2)))))
-   ;; kill-all
-   (check-true (equal-hordes? ((horde-eat-brains result))
-                              (new-horde (convert-list-to-cons-zombie (first kill-all-1))
-                                         (convert-list-to-cons-zombie (second kill-all-1)))))
-                  ;; )
-)
+  ;; msg
+  ;; tests
+  ;; dead
+  (check-true (equal-zombies? ((horde-dead result))
+                              (convert-list-to-cons-zombie (second h-list))))
+  ;; undead
+  (check-true (equal-zombies? ((horde-undead result))
+                              (convert-list-to-cons-zombie (first h-list))))
+  ;; draw-on
+  (check-true (equal-images? 
+               ;; result image
+               ((horde-draw-on result) MT-SCENE)
+               ;; h-list image
+               (place-images-recursively (first h-list)
+                                         (lambda (z)
+                                           (circle ZOMBIE-RADIUS "solid" "yellow"))
+                                         (lambda (z)
+                                           ((posn-x ((zombie-posn z)))))
+                                         (lambda (z)
+                                           ((posn-y ((zombie-posn z)))))
+                                         expected-dead-scene)
+               ))
+  ;; move-toward
+  ;; kill-all
+  (check-true (equal-hordes? ((horde-eat-brains result))
+                             (new-horde (convert-list-to-cons-zombie (first kill-all-1))
+                                        (convert-list-to-cons-zombie (second kill-all-1)))))
+  ;; )
+  )
 
 
 ;; tests
 ;; tests for new-zombie
+(define zombie1 (new-zombie (new-posn 5 0)))
+(define zombie2 (new-zombie (new-posn 0 0)))
+(define zombie3 (new-zombie (new-posn 10 10)))
+(define zombie4 (new-zombie (new-posn -10 10)))
+(define zombie5 (new-zombie (new-posn -20 -20)))
 (define new-zombie-test-suite
   (test-suite
-    "test for new-zombie"
-    ;; tests using test-zombie
-    (test-zombie (lambda () (new-zombie (new-posn 0 0))) 0 0 "")
-    (test-zombie (lambda () (new-zombie (new-posn 500 300))) 500 300 "")
-    (test-zombie (lambda () (new-zombie (new-posn -100 100))) -100 100 "")
-    (test-zombie (lambda () (new-zombie (new-posn -30000 -500))) -30000 -500 "")
-    (test-zombie (lambda () (new-zombie (new-posn 500 -500))) 500 -500 "")
-    ;; test for wrong inputs
-    (check-exn exn:fail? (lambda () ((new-zombie ""))))
-    ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
-    (check-exn exn:fail? (lambda () ((zombie-draw-on/color 5) 5 MT-SCENE)))
-    (check-exn exn:fail? (lambda () ((zombie-draw-on/color 5) 5 MT-SCENE)))
-    (check-exn exn:fail? (lambda () ((zombie-draw-on/color "red") "red" 5)))
-    (check-exn exn:fail? (lambda () ((zombie-touching? (new-posn 5 5)))))
-    (check-exn exn:fail? (lambda () ((zombie-move-toward (new-zombie (new-posn 0 0))))))
-    ))
+   "test for new-zombie"
+   ;; tests using test-zombie
+   (test-zombie (lambda () (new-zombie (new-posn 0 0))) 0 0 "")
+   (test-zombie (lambda () (new-zombie (new-posn 500 300))) 500 300 "")
+   (test-zombie (lambda () (new-zombie (new-posn -100 100))) -100 100 "")
+   (test-zombie (lambda () (new-zombie (new-posn -30000 -500))) -30000 -500 "")
+   (test-zombie (lambda () (new-zombie (new-posn 500 -500))) 500 -500 "")
+   ;; test for wrong inputs
+   (check-exn exn:fail? (lambda () ((new-zombie ""))))
+   ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
+   (check-exn exn:fail? (lambda () ((zombie-draw-on/color 5) 5 MT-SCENE)))
+   (check-exn exn:fail? (lambda () ((zombie-draw-on/color 5) 5 MT-SCENE)))
+   (check-exn exn:fail? (lambda () ((zombie-draw-on/color "red") "red" 5)))
+   (check-exn exn:fail? (lambda () ((zombie-touching? (new-posn 5 5)))))
+   (check-exn exn:fail? (lambda () ((zombie-move-toward (new-zombie (new-posn 0 0))))))
+    
+   (check-true (posn-equal? ((zombie-posn zombie1)) (new-posn 5 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 0 0))))
+                            (new-posn 3 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 10 0))))
+                            (new-posn 7 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 0 10))))
+                            (new-posn 5 2)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 5 0))))
+                            (new-posn 5 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 5 1))))
+                            (new-posn 5 1)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 6 2))))
+                            (new-posn 5 2)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 6 1))))
+                            (new-posn 6 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 5 -10))))
+                            (new-posn 5 -2)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn -1 -2))))
+                            (new-posn 3 0)))
+   (check-true (posn-equal? ((zombie-posn zombie2)) (new-posn 0 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie2) (new-posn 0 0))))
+                            (new-posn 0 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie2) (new-posn 10 0))))
+                            (new-posn 2 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie2) (new-posn 0 10))))
+                            (new-posn 0 2)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie2) (new-posn 5 1))))
+                            (new-posn 2 0)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie2) (new-posn 1 2))))
+                            (new-posn 0 2)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie2) (new-posn -1 -2))))
+                            (new-posn 0 -2)))
+   (check-true (posn-equal? ((zombie-posn zombie3)) (new-posn 10 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie3) (new-posn 1 2))))
+                            (new-posn 8 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie3) (new-posn -1 -2))))
+                            (new-posn 10 8)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie3) (new-posn 10 10))))
+                            (new-posn 10 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie3) (new-posn 0 10))))
+                            (new-posn 8 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie3) (new-posn 9 10))))
+                            (new-posn 9 10)))
+   (check-true (posn-equal? ((zombie-posn zombie4)) (new-posn -10 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn 1 2))))
+                            (new-posn -8 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn -20 -20))))
+                            (new-posn -10 8)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn 10 0))))
+                            (new-posn -8 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn 0 10))))
+                            (new-posn -8 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn -20 2))))
+                            (new-posn -12 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn 0 0))))
+                            (new-posn -8 10)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn -10 0))))
+                            (new-posn -10 8)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn 2 30))))
+                            (new-posn -10 12)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn -10 40))))
+                            (new-posn -10 12)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie4) (new-posn -8 10))))
+                            (new-posn -8 10)))
+   (check-true (posn-equal? ((zombie-posn zombie5)) (new-posn -20 -20)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn 1 0))))
+                            (new-posn -18 -20)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn -10 0))))
+                            (new-posn -20 -18)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn 0 -20))))
+                            (new-posn -18 -20)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn -50 1))))
+                            (new-posn -22 -20)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn 0 -41))))
+                            (new-posn -20 -22)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn -20 -19))))
+                            (new-posn -20 -19)))
+   (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn -18 -19))))
+                            (new-posn -18 -20)))
+   (check-true ((zombie-touching? zombie1)
+                (new-posn 0 0)))
+   (check-true ((zombie-touching? zombie1)
+                (new-posn 25 0)))
+   (check-true ((zombie-touching? zombie1)
+                (new-posn 5 20)))
+   (check-false ((zombie-touching? zombie1)
+                 (new-posn 0 20)))
+   (check-false ((zombie-touching? zombie1)
+                 (new-posn 100 100)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn 0 0)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn -20 0)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn 0 -20)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn -10 -10)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn -10 -11)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn -10 -11)))
+   (check-true ((zombie-touching? zombie2)
+                (new-posn 14 14)))
+   (check-false ((zombie-touching? zombie2)
+                 (new-posn 14 15)))
+   ))
 
 (define new-cons-zombies-test-suite
   (test-suite "test for new-cons-zombies"
-   ;; tests using test-new-cons-zombies
-   (test-new-cons-zombies (lambda ()
-                          (new-cons-zombies (new-zombie (new-posn 0 0))
-                                            (new-cons-zombies (new-zombie (new-posn 300 300))
-                                                              (new-mt-zombies))))
-                       (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
-                       "")
+              ;; tests using test-new-cons-zombies
+              
+              (test-new-cons-zombies (lambda ()
+                                       (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                         (new-cons-zombies (new-zombie (new-posn 300 300))
+                                                                           (new-mt-zombies))))
+                                     (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 300 300)))
+                                     "")
                        
-    (test-new-cons-zombies (lambda ()
-                          (new-cons-zombies (new-zombie (new-posn -1000 -100))
-                                            (new-cons-zombies (new-zombie (new-posn 300 300))
-                                                              (new-mt-zombies))))
-                       (list (new-zombie (new-posn -1000 -100)) (new-zombie (new-posn 300 300)))
-                       "")
-    (test-new-cons-zombies (lambda ()
-                          (new-cons-zombies (new-zombie (new-posn -1000 -100))
-                                            (new-mt-zombies)))
-                       (list (new-zombie (new-posn -1000 -100)))
-                       "")
-    (test-new-cons-zombies (lambda ()
-                              (new-cons-zombies (new-zombie (new-posn -1000 -100))
-                                            (new-mt-zombies)))
-                             (list (new-zombie (new-posn -1000 -100)))
-                       "")
-    (test-new-cons-zombies (lambda ()
-                              (new-cons-zombies (new-zombie (new-posn 0 0))
-                                            (new-mt-zombies)))
-                             (list (new-zombie (new-posn 0 0)))
-                       "")
-    (test-new-cons-zombies (lambda ()
-                              (new-cons-zombies (new-zombie (new-posn 0 0))
-                                            (new-cons-zombies (new-zombie (new-posn 3000 -300))
-                                                              (new-cons-zombies (new-zombie (new-posn 3000 -300))
-                                                                                (new-mt-zombies)))))
-                             (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 3000 -300)) (new-zombie (new-posn 3000 -300)))
-                       "")
-    ;; test for wrong inputs
-    (check-exn exn:fail? (lambda () ((new-cons-zombies ""))))
-    ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
-    (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
-    (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
-    (check-exn exn:fail? (lambda () ((zombies-draw-on/color "red") "red" 5)))
-    (check-exn exn:fail? (lambda () ((zombies-touching? (new-posn 5 5)))))
-    (check-exn exn:fail? (lambda () ((zombies-move-toward (new-zombie (new-posn 0 0))))))
-    ))
+              (test-new-cons-zombies (lambda ()
+                                       (new-cons-zombies (new-zombie (new-posn -1000 -100))
+                                                         (new-cons-zombies (new-zombie (new-posn 300 300))
+                                                                           (new-mt-zombies))))
+                                     (list (new-zombie (new-posn -1000 -100)) (new-zombie (new-posn 300 300)))
+                                     "")
+              (test-new-cons-zombies (lambda ()
+                                       (new-cons-zombies (new-zombie (new-posn -1000 -100))
+                                                         (new-mt-zombies)))
+                                     (list (new-zombie (new-posn -1000 -100)))
+                                     "")
+              (test-new-cons-zombies (lambda ()
+                                       (new-cons-zombies (new-zombie (new-posn -1000 -100))
+                                                         (new-mt-zombies)))
+                                     (list (new-zombie (new-posn -1000 -100)))
+                                     "")
+              (test-new-cons-zombies (lambda ()
+                                       (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                         (new-mt-zombies)))
+                                     (list (new-zombie (new-posn 0 0)))
+                                     "")
+              (test-new-cons-zombies (lambda ()
+                                       (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                         (new-cons-zombies (new-zombie (new-posn 3000 -300))
+                                                                           (new-cons-zombies (new-zombie (new-posn 3000 -300))
+                                                                                             (new-mt-zombies)))))
+                                     (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 3000 -300)) (new-zombie (new-posn 3000 -300)))
+                                     "")
+              ;; test for wrong inputs
+              (check-exn exn:fail? (lambda () ((new-cons-zombies ""))))
+              ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
+              (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
+              (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
+              (check-exn exn:fail? (lambda () ((zombies-draw-on/color "red") "red" 5)))
+              (check-exn exn:fail? (lambda () ((zombies-touching? (new-posn 5 5)))))
+              (check-exn exn:fail? (lambda () ((zombies-move-toward (new-zombie (new-posn 0 0))))))
+              (check-true (equal-zombies? ((zombies-move-toward (new-cons-zombies zombie2
+                                                                                  (new-mt-zombies)))
+                                           (new-posn 0 0))
+                                          (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                            (new-mt-zombies))))
+              (check-true (equal-zombies? ((zombies-move-toward (new-cons-zombies zombie1
+                                                                                  (new-mt-zombies)))
+                                           (new-posn 0 0))
+                                          (new-cons-zombies (new-zombie (new-posn 3 0))
+                                                            (new-mt-zombies))))
+              (check-true (equal-zombies? ((zombies-move-toward (new-cons-zombies zombie3
+                                                                                  (new-mt-zombies)))
+                                           (new-posn -10 0))
+                                          (new-cons-zombies (new-zombie (new-posn 8 10))
+                                                            (new-mt-zombies))))
+              (check-true (equal-zombies? ((zombies-move-toward (new-cons-zombies zombie1
+                                                                                  (new-cons-zombies zombie2
+                                                                                                    (new-cons-zombies zombie3
+                                                                                                                      (new-cons-zombies zombie4
+                                                                                                                                        (new-cons-zombies zombie5
+                                                                                                                                                          (new-mt-zombies)))))))
+                                           (new-posn 0 0))
+                                          (new-cons-zombies (new-zombie (new-posn 3 0))
+                                                            (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                              (new-cons-zombies (new-zombie (new-posn 8 10))
+                                                                                                (new-cons-zombies (new-zombie (new-posn -8 10))
+                                                                                                                  (new-cons-zombies (new-zombie (new-posn -18 -20))
+                                                                                                                                    (new-mt-zombies))))))))
+              (check-true (equal-zombies? ((zombies-move-toward (new-cons-zombies zombie1
+                                                                                  (new-cons-zombies zombie2
+                                                                                                    (new-cons-zombies zombie3
+                                                                                                                      (new-cons-zombies zombie4
+                                                                                                                                        (new-cons-zombies zombie5
+                                                                                                                                                          (new-mt-zombies)))))))
+                                           (new-posn 100 100))
+                                          (new-cons-zombies (new-zombie (new-posn 5 2))
+                                                            (new-cons-zombies (new-zombie (new-posn 2 0))
+                                                                              (new-cons-zombies (new-zombie (new-posn 12 10))
+                                                                                                (new-cons-zombies (new-zombie (new-posn -8 10))
+                                                                                                                  (new-cons-zombies (new-zombie (new-posn -18 -20))
+                                                                                                                                    (new-mt-zombies))))))))
+              (check-true ((zombies-touching? (new-cons-zombies zombie1
+                                                                (new-cons-zombies zombie2
+                                                                                  (new-cons-zombies zombie3
+                                                                                                    (new-cons-zombies zombie4
+                                                                                                                      (new-cons-zombies zombie5
+                                                                                                                                        (new-mt-zombies)))))))
+                           (new-posn 0 0)))
+              (check-true ((zombies-touching? (new-cons-zombies zombie1
+                                                                (new-cons-zombies zombie2
+                                                                                  (new-cons-zombies zombie3
+                                                                                                    (new-cons-zombies zombie4
+                                                                                                                      (new-cons-zombies zombie5
+                                                                                                                                        (new-mt-zombies)))))))
+                           (new-posn -30 -30)))
+              (check-true ((zombies-touching? (new-cons-zombies zombie1
+                                                                (new-cons-zombies zombie2
+                                                                                  (new-cons-zombies zombie3
+                                                                                                    (new-cons-zombies zombie4
+                                                                                                                      (new-cons-zombies zombie5
+                                                                                                                                        (new-mt-zombies)))))))
+                           (new-posn -20 10)))
+              (check-true ((zombies-touching? (new-cons-zombies zombie1
+                                                                (new-cons-zombies zombie2
+                                                                                  (new-cons-zombies zombie3
+                                                                                                    (new-cons-zombies zombie4
+                                                                                                                      (new-cons-zombies zombie5
+                                                                                                                                        (new-mt-zombies)))))))
+                           (new-posn -34 -34)))
+              (check-true ((zombies-touching? (new-cons-zombies zombie1
+                                                                (new-cons-zombies zombie2
+                                                                                  (new-cons-zombies zombie3
+                                                                                                    (new-cons-zombies zombie4
+                                                                                                                      (new-cons-zombies zombie5
+                                                                                                                                        (new-mt-zombies)))))))
+                           (new-posn 14 14)))
+              (check-false ((zombies-touching? (new-cons-zombies zombie1
+                                                                 (new-cons-zombies zombie2
+                                                                                   (new-cons-zombies zombie3
+                                                                                                     (new-cons-zombies zombie4
+                                                                                                                       (new-cons-zombies zombie5
+                                                                                                                                         (new-mt-zombies)))))))
+                            (new-posn -30 20)))
+              (check-false ((zombies-touching? (new-cons-zombies zombie1
+                                                                 (new-cons-zombies zombie2
+                                                                                   (new-cons-zombies zombie3
+                                                                                                     (new-cons-zombies zombie4
+                                                                                                                       (new-cons-zombies zombie5
+                                                                                                                                         (new-mt-zombies)))))))
+                            (new-posn 20 -30)))
+              ))
 
 (define new-horde-test-suite
   (test-suite
@@ -488,58 +659,118 @@
    ;; tests
    ;; horde with empty undead, filled dead
    (test-new-horde (lambda ()
-                 (new-horde (new-mt-zombies)
-                            (new-cons-zombies (new-zombie (new-posn 0 0))
-                                              (new-cons-zombies (new-zombie (new-posn 100 5000))
-                                                                (new-mt-zombies)))))
-               (list (list)
-                     (list (new-zombie (new-posn 0 0))
-                           (new-zombie (new-posn 100 5000))))
-               "")
+                     (new-horde (new-mt-zombies)
+                                (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                  (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                    (new-mt-zombies)))))
+                   (list (list)
+                         (list (new-zombie (new-posn 0 0))
+                               (new-zombie (new-posn 100 5000))))
+                   "")
    
    ;; horde with filled undead, empty dead
    (test-new-horde (lambda ()
-                    (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                     (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
                                                   (new-cons-zombies (new-zombie (new-posn 100 5000))
                                                                     (new-mt-zombies)))
                                 (new-mt-zombies)))
-                  (list (list (new-zombie (new-posn 0 0))
-                              (new-zombie (new-posn 100 5000)))
-                        (list))
-               "")
+                   (list (list (new-zombie (new-posn 0 0))
+                               (new-zombie (new-posn 100 5000)))
+                         (list))
+                   "")
    ;; horde with empty, empty
    (test-new-horde (lambda ()
-                    (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                     (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
                                                   (new-cons-zombies (new-zombie (new-posn 100 5000))
                                                                     (new-mt-zombies)))
                                 (new-mt-zombies)))
-                  (list (list (new-zombie (new-posn 0 0))
-                              (new-zombie (new-posn 100 5000)))
-                        (list))
-               "")
+                   (list (list (new-zombie (new-posn 0 0))
+                               (new-zombie (new-posn 100 5000)))
+                         (list))
+                   "")
    ;; horde with dead overlapping
    (test-new-horde (lambda ()
-                      (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
-                                                    (new-cons-zombies (new-zombie (new-posn 100 5000))
-                                                                      (new-mt-zombies)))
-                                 (new-cons-zombies (new-zombie (new-posn -1000 -1000))
-                                                   (new-cons-zombies (new-zombie (new-posn -1000 -1000))
-                                                                     (new-mt-zombies)))))
+                     (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                  (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                    (new-mt-zombies)))
+                                (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                  (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                                    (new-mt-zombies)))))
                    (list (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 100 5000)))
                          (list (new-zombie (new-posn -1000 -1000)) (new-zombie (new-posn -1000 -1000))))
                    "")
-  ;  ;; horde with undead overlapping
-  (test-new-horde (lambda ()
-                      (new-horde (new-cons-zombies (new-zombie (new-posn -1000 -1000))
-                                                   (new-cons-zombies (new-zombie (new-posn -1000 -1000))
-                                                                     (new-mt-zombies)))
-                                 (new-cons-zombies (new-zombie (new-posn 0 0))
-                                                    (new-cons-zombies (new-zombie (new-posn 100 5000))
-                                                                      (new-mt-zombies)))))
+   ;  ;; horde with undead overlapping
+   (test-new-horde (lambda ()
+                     (new-horde (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                  (new-cons-zombies (new-zombie (new-posn -1000 -1000))
+                                                                    (new-mt-zombies)))
+                                (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                  (new-cons-zombies (new-zombie (new-posn 100 5000))
+                                                                    (new-mt-zombies)))))
                    (list (list (new-zombie (new-posn -1000 -1000)) (new-zombie (new-posn -1000 -1000)))
                          (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 100 5000))))
                    "")
+   ;     (check-true (equal-hordes? ((horde-move-toward result) (new-posn 0 0))
+   ;                             (new-horde (convert-list-to-cons-zombie (first move-toward-1))
+   ;                                        (convert-list-to-cons-zombie (second move-toward-1)))))
+   ;                  
+   ;  (check-true (equal-hordes? ((horde-move-toward result) (new-posn 450 -100000))
+   ;                             (new-horde (convert-list-to-cons-zombie (first move-toward-2))
+   ;                                        (convert-list-to-cons-zombie (second move-toward-2)))))
+   (check-true (equal-hordes? ((horde-move-toward (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                               (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                                                 (new-mt-zombies)))
+                                                             (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                               (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                                                 (new-mt-zombies)))))
+                               (new-posn 100 100))
+                              (new-horde (new-cons-zombies (new-zombie (new-posn 2 0))
+                                                           (new-cons-zombies (new-zombie (new-posn 2 0))
+                                                                             (new-mt-zombies)))
+                                         (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                           (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                             (new-mt-zombies))))))
+   (check-true (equal-hordes? ((horde-move-toward (new-horde (new-cons-zombies zombie1
+                                                                               (new-cons-zombies zombie2
+                                                                                                 (new-mt-zombies)))
+                                                             (new-cons-zombies zombie3
+                                                                               (new-cons-zombies zombie4
+                                                                                                 (new-mt-zombies)))))
+                               (new-posn 200 100))
+                              (new-horde (new-cons-zombies (new-zombie (new-posn 7 0))
+                                                           (new-cons-zombies (new-zombie (new-posn 2 0))
+                                                                             (new-mt-zombies)))
+                                         (new-cons-zombies zombie3
+                                                           (new-cons-zombies zombie4
+                                                                             (new-mt-zombies))))))
+   (check-true (equal-hordes? ((horde-move-toward (new-horde (new-cons-zombies zombie1
+                                                                               (new-cons-zombies zombie2
+                                                                                                 (new-mt-zombies)))
+                                                             (new-cons-zombies zombie3
+                                                                               (new-cons-zombies zombie4
+                                                                                                 (new-mt-zombies)))))
+                               (new-posn 0 0))
+                              (new-horde (new-cons-zombies (new-zombie (new-posn 3 0))
+                                                           (new-cons-zombies (new-zombie (new-posn 0 0))
+                                                                             (new-mt-zombies)))
+                                         (new-cons-zombies zombie3
+                                                           (new-cons-zombies zombie4
+                                                                             (new-mt-zombies))))))
+   (check-true (equal-hordes? ((horde-move-toward (new-horde (new-cons-zombies zombie3
+                                                                               (new-cons-zombies zombie4
+                                                                                                 (new-mt-zombies)))
+                                                             (new-cons-zombies zombie1
+                                                                               (new-cons-zombies zombie2
+                                                                                                 (new-mt-zombies)))))
+                               (new-posn 0 0))
+                              (new-horde (new-cons-zombies (new-zombie (new-posn 8 10))
+                                                           (new-cons-zombies (new-zombie (new-posn -8 10))
+                                                                             (new-mt-zombies)))
+                                         (new-cons-zombies zombie1
+                                                           (new-cons-zombies zombie2
+                                                                             (new-mt-zombies))))))
    ))
+
 
 (define new-mt-zombies-test-suite
   (test-suite
