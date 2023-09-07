@@ -389,6 +389,7 @@
 (define zombie3 (new-zombie (new-posn 10 10)))
 (define zombie4 (new-zombie (new-posn -10 10)))
 (define zombie5 (new-zombie (new-posn -20 -20)))
+
 (define new-zombie-test-suite
   (test-suite
    "test for new-zombie"
@@ -397,7 +398,10 @@
    (test-zombie (lambda () (new-zombie (new-posn 500 300))) 500 300 "")
    (test-zombie (lambda () (new-zombie (new-posn -100 100))) -100 100 "")
    (test-zombie (lambda () (new-zombie (new-posn -30000 -500))) -30000 -500 "")
-   (test-zombie (lambda () (new-zombie (new-posn 500 -500))) 500 -500 "")
+   (test-zombie (lambda () (new-zombie (new-posn 500 -500))) 500 -500 "")))
+(define wrong-imput-test-suite
+  (test-suite
+   "test for wrong inputs"
    ;; test for wrong inputs
    (check-exn exn:fail? (lambda () ((new-zombie ""))))
    ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
@@ -405,8 +409,10 @@
    (check-exn exn:fail? (lambda () ((zombie-draw-on/color 5) 5 MT-SCENE)))
    (check-exn exn:fail? (lambda () ((zombie-draw-on/color "red") "red" 5)))
    (check-exn exn:fail? (lambda () ((zombie-touching? (new-posn 5 5)))))
-   (check-exn exn:fail? (lambda () ((zombie-move-toward (new-zombie (new-posn 0 0))))))
-    
+   (check-exn exn:fail? (lambda () ((zombie-move-toward (new-zombie (new-posn 0 0))))))))
+(define move-toward-test-suite
+  (test-suite
+    "test for move-toward"
    (check-true (posn-equal? ((zombie-posn zombie1)) (new-posn 5 0)))
    (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie1) (new-posn 0 0))))
                             (new-posn 3 0)))
@@ -485,7 +491,10 @@
    (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn -20 -19))))
                             (new-posn -20 -19)))
    (check-true (posn-equal? ((zombie-posn ((zombie-move-toward zombie5) (new-posn -18 -19))))
-                            (new-posn -18 -20)))
+                            (new-posn -18 -20)))))
+(define zombie-touching-test-suite
+  (test-suite
+   "zombie-touching?"
    (check-true ((zombie-touching? zombie1)
                 (new-posn 0 0)))
    (check-true ((zombie-touching? zombie1)
@@ -554,13 +563,17 @@
                                      (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 3000 -300)) (new-zombie (new-posn 3000 -300)))
                                      "")
               ;; test for wrong inputs
-              (check-exn exn:fail? (lambda () ((new-cons-zombies ""))))
+              (check-exn exn:fail? (lambda () ((new-cons-zombies ""))))))
+(define zombies-fails-test-suite
+  (test-suite "test for wrong input"
               ;; (check-exn exn:fail? (lambda () ((zombie-posn (new-posn 0 0)))))
               (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
               (check-exn exn:fail? (lambda () ((zombies-draw-on/color 5) 5 MT-SCENE)))
               (check-exn exn:fail? (lambda () ((zombies-draw-on/color "red") "red" 5)))
               (check-exn exn:fail? (lambda () ((zombies-touching? (new-posn 5 5)))))
-              (check-exn exn:fail? (lambda () ((zombies-move-toward (new-zombie (new-posn 0 0))))))
+              (check-exn exn:fail? (lambda () ((zombies-move-toward (new-zombie (new-posn 0 0))))))))
+(define zombies-move-toward-test-suite
+  (test-suite "test for zombies-move-toward"
               (check-true (equal-zombies? ((zombies-move-toward (new-cons-zombies zombie2
                                                                                   (new-mt-zombies)))
                                            (new-posn 0 0))
@@ -601,7 +614,9 @@
                                                                               (new-cons-zombies (new-zombie (new-posn 12 10))
                                                                                                 (new-cons-zombies (new-zombie (new-posn -8 10))
                                                                                                                   (new-cons-zombies (new-zombie (new-posn -18 -20))
-                                                                                                                                    (new-mt-zombies))))))))
+                                                                                                                                    (new-mt-zombies))))))))))
+(define zombies-touching-test-suite
+  (test-suite "test for zombies-touching?"
               (check-true ((zombies-touching? (new-cons-zombies zombie1
                                                                 (new-cons-zombies zombie2
                                                                                   (new-cons-zombies zombie3
@@ -709,7 +724,7 @@
                                                                     (new-mt-zombies)))))
                    (list (list (new-zombie (new-posn -1000 -1000)) (new-zombie (new-posn -1000 -1000)))
                          (list (new-zombie (new-posn 0 0)) (new-zombie (new-posn 100 5000))))
-                   "")
+                   "")))
    ;     (check-true (equal-hordes? ((horde-move-toward result) (new-posn 0 0))
    ;                             (new-horde (convert-list-to-cons-zombie (first move-toward-1))
    ;                                        (convert-list-to-cons-zombie (second move-toward-1)))))
@@ -717,6 +732,9 @@
    ;  (check-true (equal-hordes? ((horde-move-toward result) (new-posn 450 -100000))
    ;                             (new-horde (convert-list-to-cons-zombie (first move-toward-2))
    ;                                        (convert-list-to-cons-zombie (second move-toward-2)))))
+(define horde-move-toward-test-suite
+  (test-suite
+   "tests for horde-move-toward"
    (check-true (equal-hordes? ((horde-move-toward (new-horde (new-cons-zombies (new-zombie (new-posn 0 0))
                                                                                (new-cons-zombies (new-zombie (new-posn 0 0))
                                                                                                  (new-mt-zombies)))
@@ -778,6 +796,14 @@
    (test-new-mt-zombies (lambda () (new-mt-zombies)) "")))
 
 (run-tests new-zombie-test-suite)
+(run-tests wrong-imput-test-suite)
+(run-tests move-toward-test-suite)
+(run-tests zombie-touching-test-suite)
 (run-tests new-mt-zombies-test-suite)
 (run-tests new-cons-zombies-test-suite)
+(run-tests zombies-fails-test-suite)
+(run-tests zombies-move-toward-test-suite)
+(run-tests zombies-touching-test-suite)
 (run-tests new-horde-test-suite)
+(run-tests horde-move-toward-test-suite)
+
